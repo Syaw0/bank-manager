@@ -1,0 +1,17 @@
+{
+  "name": "bank-manager",
+  "version": "0.0.1",
+  "description": "Simple api for employees of bank to interact with DB",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git@syaw0.github.com:Syaw0/bank-manager.git"
+  },
+  "keywords": [
+    "bank",
+    "manage",
+    "bank manager"
+  ],
+  "author": "",
+  "license": "ISC"
+}
