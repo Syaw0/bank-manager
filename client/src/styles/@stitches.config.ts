@@ -91,7 +91,7 @@ export const { styled, css, keyframes, createTheme, globalCss, theme, config } =
       },
 
       fonts: {
-        barlow: "Barlow",
+        Barlow: "Barlow",
       },
       fontSizes: {
         headline1: "60px",
