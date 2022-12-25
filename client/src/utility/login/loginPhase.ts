@@ -12,8 +12,9 @@ export default async ({
   isManager,
 }: LoginDataType): Promise<loginRequestResponse> => {
   try {
-    const result: any = useFetch({
+    const result: any = useFetch("", {
       method: "POST",
+
       headers: {
         "Content-Type": "application/json",
       },
