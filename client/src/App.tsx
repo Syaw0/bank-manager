@@ -19,7 +19,7 @@ function App() {
   globalStyles();
 
   return (
-    <Flex>
+    <Flex id="holder">
       <Routes>
         <Route path="/">
           <Route path="/dash" element={<Dashboard />}>

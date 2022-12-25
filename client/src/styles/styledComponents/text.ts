@@ -1,48 +1,80 @@
-import { styled } from '../@stitches.config';
+import { styled } from "../@stitches.config";
 
-const Text = styled('p', {
-  fontFamily: '$josef',
-  color: '$onBg',
-  cursor: 'default',
+const Text = styled("p", {
+  fontFamily: "$Barlow",
+  color: "$onBg",
+  cursor: "default",
   variants: {
     cursor: {
       click: {
-        cursor: 'pointer',
+        cursor: "pointer",
       },
     },
-    type: {
-      logo: {
-        headline1: '500',
-        fontFamily: '$yeseva',
-        width: '20%',
-        textAlign: 'center',
-        color: '$onBg',
+    italic: {
+      true: {
+        fontStyle: "italic",
       },
-      bgColorHeadSecondary: {
-        width: '100%',
-        backgroundColor: '$secondary',
-        color: '$onSecondary',
-        padding: '4px 10px',
-        headline5: '600',
-        borderRadius: '32px',
-        marginBottom: '$2',
-        '@bp4': {
-          headline6: '600',
-
-        },
+    },
+    size: {
+      h1: {
+        fontSize: "$headline1",
       },
-      bgColorHeadPrimary: {
-        width: '100%',
-        backgroundColor: '$primary',
-        color: '$onPrimary',
-        padding: '4px 10px',
-        headline5: '600',
-        borderRadius: '32px',
-        marginBottom: '$2',
-        '@bp4': {
-          headline6: '600',
+      h2: {
+        fontSize: "$headline2",
+      },
+      h3: {
+        fontSize: "$headline3",
+      },
+      h4: {
+        fontSize: "$headline4",
+      },
+      h5: {
+        fontSize: "$headline5",
+      },
+      h6: {
+        fontSize: "$headline6",
+      },
+      sHead1: {
+        fontSize: "$subhead1",
+      },
 
-        },
+      sHead2: {
+        fontSize: "$subhead2",
+      },
+      sHead3: {
+        fontSize: "$subhead3",
+      },
+      button: {
+        fontSize: "$button",
+      },
+    },
+    weight: {
+      100: {
+        fontWeight: "100",
+      },
+      200: {
+        fontWeight: "200",
+      },
+      300: {
+        fontWeight: "300",
+      },
+      400: {
+        fontWeight: "400",
+      },
+      500: {
+        fontWeight: "500",
+      },
+      600: {
+        fontWeight: "600",
+      },
+      700: {
+        fontWeight: "700",
+      },
+      800: {
+        fontWeight: "800",
+      },
+      900: {
+        fontWeight: "900",
       },
     },
   },

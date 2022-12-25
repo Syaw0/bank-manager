@@ -1,4 +1,4 @@
-import { createStitches, CreateStitches } from "@stitches/react";
+import { createStitches } from "@stitches/react";
 
 export const { styled, css, keyframes, createTheme, globalCss, theme, config } =
   createStitches({
@@ -77,6 +77,9 @@ export const { styled, css, keyframes, createTheme, globalCss, theme, config } =
         onSuccess: "rgba(14, 77, 9,1)",
         warn: "rgba(241, 228, 202,1)",
         onWarn: "rgba(77, 54, 9,1)",
+        gray: "rgba(50,50,50,1)",
+        gray100: "rgba(50,50,50,0.1)",
+        gray400: "rgba(50,50,50,0.4)",
       },
 
       shadows: {
