@@ -5,7 +5,7 @@
     "dev": " vite",
     "build": " tsc && vite build",
     "preview": "vite preview",
-    "test": "jest"
+    "test": "jest --watchAll"
   },
   "dependencies": {
     "@stitches/react": "^1.2.8",
