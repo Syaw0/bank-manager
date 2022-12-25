@@ -12,6 +12,7 @@ const TextInput = ({
   value,
   css,
   disabled,
+  dataTestid,
 }: TextInputType) => {
   return (
     <Flex dir={"column"} css={css}>
@@ -19,6 +20,7 @@ const TextInput = ({
         {label} :
       </Text>
       <StyledTextInput
+        data-testid={dataTestid}
         disabled={disabled != false}
         type={type}
         onChange={onChange}

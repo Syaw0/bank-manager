@@ -11,6 +11,7 @@ export default async ({
   password,
   isManager,
 }: LoginDataType): Promise<loginRequestResponse> => {
+  console.log("im here bitch");
   try {
     const result: any = useFetch("", {
       method: "POST",

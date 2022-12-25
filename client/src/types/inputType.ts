@@ -8,6 +8,7 @@ interface TextInputType {
   onChange<T>(...params: T[]): any;
   css?: CustomStitches;
   disabled?: boolean;
+  dataTestid?: string;
 }
 
 export { TextInputType };

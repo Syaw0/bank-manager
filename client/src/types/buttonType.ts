@@ -11,4 +11,5 @@ export interface ButtonType {
   css?: CustomStitches;
   disabled?: boolean;
   onClick?<T>(...params: T[]): any;
+  dataTestid?: string;
 }

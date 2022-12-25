@@ -77,6 +77,7 @@ const Login = () => {
         disabled={loginState.type == "waiting" || loginState.type == "success"}
         type={"text"}
         label="Username"
+        dataTestid="login-username-input"
         placeholder="enter your username..."
         value={loginData.username}
         onChange={inputChange}
@@ -86,6 +87,7 @@ const Login = () => {
         disabled={loginState.type == "waiting" || loginState.type == "success"}
         type={"password"}
         label="password"
+        dataTestid="login-password-input"
         placeholder="enter your password..."
         value={loginData.password}
         onChange={inputChange}
@@ -94,6 +96,7 @@ const Login = () => {
         onClick={startLogin}
         disabled={loginState.type == "waiting" || loginState.type == "success"}
         placeholder="Login"
+        dataTestid="login-button"
         type="primary"
       />
       <Flex justify={"start"} align="center">
