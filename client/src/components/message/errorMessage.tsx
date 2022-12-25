@@ -4,6 +4,7 @@ import Text from "../../styles/styledComponents/text";
 const ErrorMessage = ({ msg }: { msg: string }) => {
   return (
     <Text
+      data-testid="error-message"
       css={{
         backgroundColor: "$error",
         color: "$onError",

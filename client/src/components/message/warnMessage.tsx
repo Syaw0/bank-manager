@@ -4,6 +4,7 @@ import Text from "../../styles/styledComponents/text";
 const WarnMessage = ({ msg }: { msg: string }) => {
   return (
     <Text
+      data-testid="warn-message"
       css={{
         backgroundColor: "$warn",
         color: "$onWarn",

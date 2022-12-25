@@ -10,15 +10,19 @@ const Button = ({
   EndIcon,
   StartIcon,
   disabled,
+  onClick,
 }: ButtonType) => {
   return (
-    <Flex css={{ width: "100%", jc_ac: "", ...css }}>
+    <StyledButton
+      onClick={onClick}
+      css={css}
+      disabled={disabled != false}
+      type={type}
+    >
       {StartIcon != null && <StartIcon />}
-      <StyledButton disabled={disabled != null} type={type}>
-        {placeholder}
-      </StyledButton>
+      {placeholder}
       {EndIcon != null && <EndIcon />}
-    </Flex>
+    </StyledButton>
   );
 };
 

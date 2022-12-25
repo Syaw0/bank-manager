@@ -11,6 +11,7 @@ const TextInput = ({
   placeholder,
   value,
   css,
+  disabled,
 }: TextInputType) => {
   return (
     <Flex dir={"column"} css={css}>
@@ -18,6 +19,7 @@ const TextInput = ({
         {label} :
       </Text>
       <StyledTextInput
+        disabled={disabled != false}
         type={type}
         onChange={onChange}
         value={value}

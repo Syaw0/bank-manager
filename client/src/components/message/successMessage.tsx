@@ -4,6 +4,7 @@ import Text from "../../styles/styledComponents/text";
 const SuccessMessage = ({ msg }: { msg: string }) => {
   return (
     <Text
+      data-testid="success-message"
       css={{
         backgroundColor: "$success",
         color: "$onSuccess",

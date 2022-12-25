@@ -10,4 +10,5 @@ export interface ButtonType {
   EndIcon?: JSXElementConstructor<any>;
   css?: CustomStitches;
   disabled?: boolean;
+  onClick?<T>(...params: T[]): any;
 }

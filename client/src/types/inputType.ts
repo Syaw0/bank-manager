@@ -7,6 +7,7 @@ interface TextInputType {
   label: string;
   onChange<T>(...params: T[]): any;
   css?: CustomStitches;
+  disabled?: boolean;
 }
 
 export { TextInputType };
