@@ -16,7 +16,15 @@ const TextInput = ({
 }: TextInputType) => {
   return (
     <Flex dir={"column"} css={css}>
-      <Text css={{ color: "$onBg800" }} size={"sHead1"} weight={"500"}>
+      <Text
+        css={{
+          color: "$onBg800",
+          width: "100%",
+          justifyContent: "start",
+        }}
+        size={"sHead1"}
+        weight={"500"}
+      >
         {label} :
       </Text>
       <StyledTextInput

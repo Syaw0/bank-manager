@@ -4,6 +4,8 @@ const Text = styled("p", {
   fontFamily: "$Barlow",
   color: "$onBg",
   cursor: "default",
+  display: "flex",
+  jc_ac: "",
   variants: {
     cursor: {
       click: {

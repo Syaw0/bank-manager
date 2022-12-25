@@ -18,7 +18,7 @@ const StyledButton = styled("button", {
   subhead1: "600",
   color: "$onBg700",
   "& svg": {
-    marginLeft: "8px",
+    marginRight: "10px",
   },
   "&:disabled": {
     backgroundColor: "$gray400",
@@ -38,9 +38,9 @@ const StyledButton = styled("button", {
   variants: {
     type: {
       shadow: {
-        "&:hover": {
-          color: "$onBg",
-        },
+        color: "$onBg",
+        backgroundColor: "transparent",
+        border: "none",
       },
       outline: {
         "& svg": {
@@ -71,25 +71,6 @@ const StyledButton = styled("button", {
           "& svg": {
             fill: "$primary",
           },
-        },
-      },
-    },
-    floatInfo: {
-      futureFeature: {
-        position: "relative",
-        "&:hover": {
-          "&::after": {
-            display: "flex",
-          },
-        },
-        "&::after": {
-          content: "future feature! :)",
-          // borderBottom:"1px solid $primary",
-          subhead1: "600",
-          position: "absolute",
-          bottom: "-40px",
-          width: "200px",
-          display: "none",
         },
       },
     },

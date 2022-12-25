@@ -6,8 +6,8 @@ import { CustomStitches } from "./customStitchesType";
 export interface ButtonType {
   placeholder: string;
   type: typeof StyledButton[$$StyledComponentProps]["type"];
-  StartIcon?: JSXElementConstructor<any>;
-  EndIcon?: JSXElementConstructor<any>;
+  StartIcon?: any;
+  EndIcon?: any;
   css?: CustomStitches;
   disabled?: boolean;
   onClick?<T>(...params: T[]): any;

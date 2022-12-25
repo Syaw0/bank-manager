@@ -13,17 +13,18 @@ const Button = ({
   onClick,
   dataTestid,
 }: ButtonType) => {
+  console.log(disabled);
   return (
     <StyledButton
       data-testid={dataTestid}
       onClick={onClick}
       css={css}
-      disabled={disabled != false}
+      disabled={disabled == null ? false : disabled}
       type={type}
     >
-      {StartIcon != null && <StartIcon />}
+      {StartIcon != null && StartIcon}
       {placeholder}
-      {EndIcon != null && <EndIcon />}
+      {EndIcon != null && EndIcon}
     </StyledButton>
   );
 };
