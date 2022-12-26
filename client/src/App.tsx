@@ -12,12 +12,13 @@ import MakeTransaction from "./routs/dashboard/makeTransaction";
 import Managers from "./routs/dashboard/managers";
 import ManagersID from "./routs/dashboard/managers/id";
 import Login from "./routs/login";
+import mainStore from "./store/mainStore";
 import globalStyles from "./styles/global";
 import Flex from "./styles/styledComponents/flex";
 
 function App() {
   globalStyles();
-
+  mainStore((state) => state.mainAccount);
   return (
     <Flex id="holder">
       <Routes>

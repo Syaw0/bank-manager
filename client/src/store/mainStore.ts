@@ -18,7 +18,7 @@ const mainStore = create<MainStore>()((set) => ({
   mainAccount: {
     name: "siavash",
     familyName: "mohebbi",
-    id: "1234",
+    id: "#1",
     type: "manager",
     cardId: "23123214",
     tel: "0002313",

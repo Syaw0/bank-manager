@@ -1,10 +1,10 @@
 import React from "react";
 import AccountDetail from "../../../../components/dashboard/accountDetail";
-import mainStore from "../../../../store/mainStore";
+import { randomCustomer } from "../../../../sharedData/fakeUsers";
 import Flex from "../../../../styles/styledComponents/flex";
 
 const CustomersID = () => {
-  const data = mainStore.getState().mainAccount;
+  const data = randomCustomer;
   return (
     <Flex data-testid="customersID-route">
       <AccountDetail data={data} />

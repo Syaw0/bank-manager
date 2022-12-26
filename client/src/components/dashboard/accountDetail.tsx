@@ -13,7 +13,7 @@ import AccessibilitySelect from "./accountDetail/accessibilitySelect";
 // TODO type definition for data
 
 const AccountDetail = ({ data }: any) => {
-  const mainAccount = mainStore.getState().mainAccount;
+  const mainAccount = mainStore((state) => state.mainAccount);
   const [isSelecting, setIsSelecting] = useState(false);
   const [msgState, setMsgState] = useState<MessageType>({
     type: "idle",
@@ -155,7 +155,7 @@ const AccountDetail = ({ data }: any) => {
         </Flex>
 
         {data.type === "customer" && (
-          <Flex id="item-holder">
+          <Flex data-testid="dash-account-items-balance" id="item-holder">
             <Text>Balance</Text>
             <Text>{data.balance}</Text>
           </Flex>
@@ -178,19 +178,20 @@ const AccountDetail = ({ data }: any) => {
               Accessibility
               {mainAccount.accessibility.find(
                 (acc: string) => acc == "Change Accessibility"
-              ) != null && (
-                <Button
-                  dataTestid="dash-account-changeAccess-button"
-                  onClick={changeAccessibility}
-                  placeholder="change Accessibility"
-                  type="primary"
-                  css={{
-                    width: "fit-content",
-                    padding: "2px $1",
-                    subhead3: "",
-                  }}
-                />
-              )}
+              ) != null &&
+                data.id !== mainAccount.id && (
+                  <Button
+                    dataTestid="dash-account-changeAccess-button"
+                    onClick={changeAccessibility}
+                    placeholder="change Accessibility"
+                    type="primary"
+                    css={{
+                      width: "fit-content",
+                      padding: "2px $1",
+                      subhead3: "",
+                    }}
+                  />
+                )}
             </Text>
             {isSelecting ? (
               <AccessibilitySelect
@@ -204,7 +205,11 @@ const AccountDetail = ({ data }: any) => {
             ) : (
               <ul>
                 {data.accessibility.map((acc: string) => {
-                  return <li key={acc}>{acc}</li>;
+                  return (
+                    <li data-testid={`dash-account-li-${acc}`} key={acc}>
+                      {acc}
+                    </li>
+                  );
                 })}
               </ul>
             )}
