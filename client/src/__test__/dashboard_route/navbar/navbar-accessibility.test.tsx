@@ -27,13 +27,14 @@ describe("Dashboard Accessibility", () => {
   });
 
   it("user is a manger and have all access", () => {
-    mainStore.getState().setMainAccount({ accessibility: accessibility });
+    waitFor(() =>
+      mainStore.getState().setMainAccount({ accessibility: accessibility })
+    );
     waitFor(() =>
       expect(
         screen.getByTestId("dash-myAccount-manager-button")
       ).toBeInTheDocument()
     );
-
     expect(screen.getByTestId("dash-hireEmployee-button")).toBeInTheDocument();
     expect(screen.getByTestId("dash-employees-button")).toBeInTheDocument();
     expect(screen.getByTestId("dash-addManager-button")).toBeInTheDocument();

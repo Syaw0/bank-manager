@@ -40,7 +40,7 @@ describe("dashboard navigation", () => {
   });
 
   it("navigate to my Account (im employee)", () => {
-    mainStore.getState().setMainAccount({ type: "employee" });
+    waitFor(() => mainStore.getState().setMainAccount({ type: "employee" }));
     waitFor(() =>
       fireEvent.click(screen.getByTestId("dash-myAccount-employee-button"))
     );
