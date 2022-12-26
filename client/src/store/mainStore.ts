@@ -23,6 +23,7 @@ const mainStore = create<MainStore>()((set) => ({
     cardId: "23123214",
     tel: "0002313",
     block: false,
+    balance: "100$",
     accessibility: [
       "Add Customer",
       "Block Customer",

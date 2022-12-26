@@ -1,18 +1,55 @@
 import React, { useState } from "react";
+import mainStore from "../../store/mainStore";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
+import { MessageType } from "../../types/messageType";
+import blockAccount from "../../utility/dashboard/blockAccount";
+import unBlockAccount from "../../utility/dashboard/unBlockAccount";
 import capitalizeFirstLetter from "../../utility/global/capitalizeFirstLetter";
 import Button from "../button/button";
+import Message from "../message/message";
 import AccessibilitySelect from "./accountDetail/accessibilitySelect";
 
 // TODO type definition for data
 
 const AccountDetail = ({ data }: any) => {
+  const mainAccount = mainStore.getState().mainAccount;
   const [isSelecting, setIsSelecting] = useState(false);
+  const [msgState, setMsgState] = useState<MessageType>({
+    type: "idle",
+    msg: "",
+  });
+  const blocking = async () => {
+    setMsgState({ type: "waiting", msg: "waitUntil server respond" });
+    const result = await blockAccount(data);
+    if (result.status) {
+      setMsgState({ type: "success", msg: "Successfully block this account" });
+    } else {
+      setMsgState({ type: "error", msg: "error happen during operation" });
+    }
 
-  const blockAccount = () => {
-    console.log("block this acc");
+    setTimeout(() => {
+      setMsgState({ type: "idle", msg: "idle" });
+    }, 2000);
   };
+
+  const unBlocking = async () => {
+    setMsgState({ type: "waiting", msg: "waitUntil server respond" });
+    const result = await unBlockAccount(data);
+    if (result.status) {
+      setMsgState({
+        type: "success",
+        msg: "Successfully unBlock this account",
+      });
+    } else {
+      setMsgState({ type: "error", msg: "error happen during operation" });
+    }
+
+    setTimeout(() => {
+      setMsgState({ type: "idle", msg: "idle" });
+    }, 2000);
+  };
+
   const changeAccessibility = () => {
     if (!isSelecting) {
       setIsSelecting(true);
@@ -117,6 +154,13 @@ const AccountDetail = ({ data }: any) => {
           <Text>{data.id}</Text>
         </Flex>
 
+        {data.type === "customer" && (
+          <Flex id="item-holder">
+            <Text>Balance</Text>
+            <Text>{data.balance}</Text>
+          </Flex>
+        )}
+
         <Flex id="item-holder">
           <Text>Account Block Status</Text>
           <Text>
@@ -124,78 +168,80 @@ const AccountDetail = ({ data }: any) => {
           </Text>
         </Flex>
 
-        <Flex id="item-holder">
-          <Text
-            css={{
-              flexDirection: "column",
-            }}
-          >
-            Accessibility
-            <Button
-              dataTestid="dash-account-changeAccess-button"
-              onClick={changeAccessibility}
-              placeholder="change Accessibility"
-              type="primary"
-              css={{ width: "fit-content", padding: "2px $1", subhead3: "" }}
-            />
-          </Text>
-          {isSelecting ? (
-            <AccessibilitySelect
-              type={data.type}
-              accessibility={data.accessibility}
-            />
-          ) : (
-            <ul>
-              {data.accessibility.map((acc: string) => {
-                return <li key={acc}>{acc}</li>;
-              })}
-            </ul>
-          )}
-        </Flex>
+        {data.type !== "customer" && (
+          <Flex id="item-holder">
+            <Text
+              css={{
+                flexDirection: "column",
+              }}
+            >
+              Accessibility
+              {mainAccount.accessibility.find(
+                (acc: string) => acc == "Change Accessibility"
+              ) != null && (
+                <Button
+                  dataTestid="dash-account-changeAccess-button"
+                  onClick={changeAccessibility}
+                  placeholder="change Accessibility"
+                  type="primary"
+                  css={{
+                    width: "fit-content",
+                    padding: "2px $1",
+                    subhead3: "",
+                  }}
+                />
+              )}
+            </Text>
+            {isSelecting ? (
+              <AccessibilitySelect
+                setMsgState={setMsgState}
+                msgState={msgState}
+                setSelectingDisplay={setIsSelecting}
+                type={data.type}
+                accessibility={data.accessibility}
+                data={data}
+              />
+            ) : (
+              <ul>
+                {data.accessibility.map((acc: string) => {
+                  return <li key={acc}>{acc}</li>;
+                })}
+              </ul>
+            )}
+          </Flex>
+        )}
 
-        <Button
-          placeholder={data.block ? "Unblock Account" : "Block Account"}
-          type="primary"
-          dataTestid="dash-account-block-button"
-          onClick={blockAccount}
-          css={{
-            width: "fit-content",
-            padding: "2px $1",
-            alignSelf: "start",
-          }}
-          color={data.block ? "success" : "error"}
-        />
+        {/* //TODO maybe i can write these statement in a better way */}
+
+        {((data.type == "customer" &&
+          mainAccount.accessibility.find((ac) => ac === "Block Customer") !=
+            null) ||
+          (data.type == "employee" &&
+            mainAccount.accessibility.find((ac) => ac === "Block Employee") !=
+              null) ||
+          (data.type == "manager" &&
+            mainAccount.accessibility.find((ac) => ac === "Block Manager") !=
+              null)) &&
+          data.id !== mainAccount.id && (
+            <Button
+              disabled={msgState.type === "waiting"}
+              placeholder={data.block ? "Unblock Account" : "Block Account"}
+              type="primary"
+              dataTestid="dash-account-block-button"
+              onClick={data.block ? unBlocking : blocking}
+              css={{
+                width: "fit-content",
+                padding: "2px $1",
+                alignSelf: "start",
+              }}
+              color={data.block ? "success" : "error"}
+            />
+          )}
+
+        <Message msg={msgState.msg} type={msgState.type} />
       </Flex>
     </Flex>
   );
 };
 
 export default AccountDetail;
-
-// {Object.keys(data).map((v) => {
-//   let com;
-//   if (typeof data[v] === "object") {
-//     com = (
-//       <Flex css={{ border: "1px solid black", width: "50%" }}>
-//         <ul>
-//           {data[v].map((acc) => {
-//             console.log(acc);
-//             return <li>{acc}</li>;
-//           })}
-//         </ul>
-//       </Flex>
-//     );
-//   }
-//   return (
-//     <Flex justify="around">
-//       <Text css={{ border: "1px solid black", width: "50%" }}>
-//         {v}:
-//       </Text>
-//       {com != null ? (
-//         com
-//       ) : (
-//         <Text css={{ width: "50%" }}>{`${data[v]}`}</Text>
-//       )}
-//     </Flex>
-//   );
-// })}
