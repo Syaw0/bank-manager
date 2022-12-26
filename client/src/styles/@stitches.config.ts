@@ -73,6 +73,7 @@ export const { styled, css, keyframes, createTheme, globalCss, theme, config } =
         error: "rgba(241, 202, 202,1)",
         error300: "rgba(241, 202, 202,0.3)",
         onError: "rgba(77, 9, 9,1)",
+        onError300: "rgba(77, 9, 9,0.3)",
         success: "rgba(202, 241, 225,1)",
         onSuccess: "rgba(14, 77, 9,1)",
         warn: "rgba(241, 228, 202,1)",

@@ -12,4 +12,5 @@ export interface ButtonType {
   disabled?: boolean;
   onClick?<T>(...params: T[]): any;
   dataTestid?: string;
+  color?: typeof StyledButton[$$StyledComponentProps]["color"];
 }

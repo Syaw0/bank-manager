@@ -74,7 +74,43 @@ const StyledButton = styled("button", {
         },
       },
     },
+    color: {
+      error: {
+        backgroundColor: "$error",
+        color: "$onError",
+      },
+      success: {
+        backgroundColor: "$success",
+        color: "$onSuccess",
+      },
+    },
   },
+  compoundVariants: [
+    {
+      color: "error",
+      type: "primary",
+      css: {
+        border: "none",
+        "&:hover": {
+          backgroundColor: "$onError",
+          color: "$error",
+          border: "none",
+        },
+      },
+    },
+    {
+      color: "success",
+      type: "primary",
+      css: {
+        border: "none",
+        "&:hover": {
+          backgroundColor: "$onSuccess",
+          color: "$success",
+          border: "none",
+        },
+      },
+    },
+  ],
 });
 
 export default StyledButton;

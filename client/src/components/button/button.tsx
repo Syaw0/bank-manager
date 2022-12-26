@@ -12,6 +12,7 @@ const Button = ({
   disabled,
   onClick,
   dataTestid,
+  color,
 }: ButtonType) => {
   return (
     <StyledButton
@@ -20,6 +21,7 @@ const Button = ({
       css={css}
       disabled={disabled == null ? false : disabled}
       type={type}
+      color={color}
     >
       {StartIcon != null && StartIcon}
       {placeholder}
