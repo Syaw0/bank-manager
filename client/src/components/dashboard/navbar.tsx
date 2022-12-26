@@ -4,7 +4,6 @@ import IcoLogout from "../../assest/icons/IconLogout";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
 import Button from "../button/button";
-import { manager } from "../../fakedata";
 import IconAccount from "../../assest/icons/IconAccount";
 import IconAddAccount from "../../assest/icons/IconAddAccount";
 import IconAccounts from "../../assest/icons/IconAccounts";
@@ -12,12 +11,13 @@ import IconTransaction from "../../assest/icons/IconTransaction";
 import { Link } from "react-router-dom";
 import IconManager from "../../assest/icons/IconManager";
 import IconAddManager from "../../assest/icons/IconAddManager";
+import mainStore from "../../store/mainStore";
 
 // ? We are do not render whose item not access by user but i want
 // TODO  to disable and show lock icon on it
 
 const Navbar = () => {
-  const data = manager;
+  const data = mainStore.getState().mainAccount;
 
   return (
     <Flex
@@ -97,7 +97,7 @@ const Navbar = () => {
                 placeholder="My Account"
                 type="shadow"
                 disabled={data.block}
-                dataTestid="dash-logout-button"
+                dataTestid="dash-myAccount-manager-button"
                 StartIcon={<IconManager width={20} height={20} />}
                 onClick={() => {}}
               />
@@ -109,7 +109,7 @@ const Navbar = () => {
                   disabled={data.block}
                   placeholder="Hire Employee"
                   type="shadow"
-                  dataTestid="dash-logout-button"
+                  dataTestid="dash-hireEmployee-button"
                   StartIcon={<IconAddAccount width={20} height={20} />}
                 />
               </Link>
@@ -120,7 +120,7 @@ const Navbar = () => {
                 disabled={data.block}
                 placeholder="Employees"
                 type="shadow"
-                dataTestid="dash-logout-button"
+                dataTestid="dash-employees-button"
                 StartIcon={<IconAccounts width={20} height={20} />}
               />
             </Link>
@@ -130,7 +130,7 @@ const Navbar = () => {
                   disabled={data.block}
                   placeholder="Add Manager"
                   type="shadow"
-                  dataTestid="dash-logout-button"
+                  dataTestid="dash-addManager-button"
                   StartIcon={<IconAddManager width={16} height={16} />}
                 />
               </Link>
@@ -158,23 +158,25 @@ const Navbar = () => {
             Employee
           </Text>
 
-          <Link to={"/dash/employees/1"}>
-            <Button
-              disabled={data.block}
-              placeholder="My Account"
-              type="shadow"
-              dataTestid="dash-logout-button"
-              StartIcon={<IconAccount width={16} height={16} />}
-              onClick={() => {}}
-            />
-          </Link>
+          {data.type !== "manager" && (
+            <Link to={"/dash/employees/1"}>
+              <Button
+                disabled={data.block}
+                placeholder="My Account"
+                type="shadow"
+                dataTestid="dash-myAccount-employee-button"
+                StartIcon={<IconAccount width={16} height={16} />}
+                onClick={() => {}}
+              />
+            </Link>
+          )}
           {data.accessibility.find((n) => n === "Add Customer") && (
             <Link to={"/dash/addCustomer"}>
               <Button
                 disabled={data.block}
                 placeholder="Add Customer"
                 type="shadow"
-                dataTestid="dash-logout-button"
+                dataTestid="dash-addCustomer-button"
                 StartIcon={<IconAddAccount width={20} height={20} />}
               />
             </Link>
@@ -185,7 +187,7 @@ const Navbar = () => {
               disabled={data.block}
               placeholder="Customers"
               type="shadow"
-              dataTestid="dash-logout-button"
+              dataTestid="dash-customers-button"
               StartIcon={<IconAccounts width={20} height={20} />}
             />
           </Link>
@@ -196,7 +198,7 @@ const Navbar = () => {
                 disabled={data.block}
                 placeholder="Make Transaction"
                 type="shadow"
-                dataTestid="dash-logout-button"
+                dataTestid="dash-makeTransaction-button"
                 StartIcon={<IconTransaction width={20} height={20} />}
               />
             </Link>

@@ -13,7 +13,6 @@ const Button = ({
   onClick,
   dataTestid,
 }: ButtonType) => {
-  console.log(disabled);
   return (
     <StyledButton
       data-testid={dataTestid}

@@ -86,7 +86,7 @@ const Login = () => {
       <TextInput
         disabled={loginState.type == "waiting" || loginState.type == "success"}
         type={"password"}
-        label="password"
+        label="Password"
         dataTestid="login-password-input"
         placeholder="enter your password..."
         value={loginData.password}
