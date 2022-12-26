@@ -23,14 +23,10 @@ const AccountDetail = ({ data }: any) => {
     setMsgState({ type: "waiting", msg: "waitUntil server respond" });
     const result = await blockAccount(data);
     if (result.status) {
-      setMsgState({ type: "success", msg: "Successfully block this account" });
+      setMsgState({ type: "success", msg: result.msg });
     } else {
-      setMsgState({ type: "error", msg: "error happen during operation" });
+      setMsgState({ type: "error", msg: result.msg });
     }
-
-    setTimeout(() => {
-      setMsgState({ type: "idle", msg: "idle" });
-    }, 2000);
   };
 
   const unBlocking = async () => {
@@ -42,12 +38,8 @@ const AccountDetail = ({ data }: any) => {
         msg: "Successfully unBlock this account",
       });
     } else {
-      setMsgState({ type: "error", msg: "error happen during operation" });
+      setMsgState({ type: "error", msg: result.msg });
     }
-
-    setTimeout(() => {
-      setMsgState({ type: "idle", msg: "idle" });
-    }, 2000);
   };
 
   const changeAccessibility = () => {

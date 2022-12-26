@@ -39,14 +39,11 @@ const AccessibilitySelect = ({
     if (result.status) {
       setMsgState({
         type: "success",
-        msg: "Successfully Change access of this account",
+        msg: result.msg,
       });
     } else {
-      setMsgState({ type: "error", msg: "error happen during operation" });
+      setMsgState({ type: "error", msg: result.msg });
     }
-    setTimeout(() => {
-      setMsgState({ type: "idle", msg: "idle" });
-    }, 2000);
   };
   const cancelOperation = () => {
     setSelectingDisplay(false);
@@ -54,6 +51,7 @@ const AccessibilitySelect = ({
 
   return (
     <Flex
+      data-testid="dash-account-select-holder"
       css={{
         width: "70%",
         justifyContent: "end",
