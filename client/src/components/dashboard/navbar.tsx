@@ -135,6 +135,15 @@ const Navbar = () => {
                 />
               </Link>
             )}
+            <Link to={"/dash/managers"}>
+              <Button
+                disabled={data.block}
+                placeholder="Managers"
+                type="shadow"
+                dataTestid="dash-employees-button"
+                StartIcon={<IconAccounts width={20} height={20} />}
+              />
+            </Link>
           </Flex>
         )}
 

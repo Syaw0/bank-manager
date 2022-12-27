@@ -1,5 +1,6 @@
 import create from "zustand";
 
+// TODO REFACTOR THIS TYPES :///
 interface MainStore {
   setMainAccount: (s: any) => void;
   mainAccount: {
@@ -12,6 +13,10 @@ interface MainStore {
     block: boolean;
     accessibility: string[];
   };
+  listUserData: any[];
+  setListUser(s: any): void;
+  currentAccountDetail: any;
+  setCurrentAccountDetail: any;
 }
 
 const mainStore = create<MainStore>()((set) => ({
@@ -38,6 +43,16 @@ const mainStore = create<MainStore>()((set) => ({
   },
   setMainAccount: (data: any) => {
     set((s) => ({ ...s, mainAccount: { ...s.mainAccount, ...data } }));
+  },
+
+  listUserData: [],
+  setListUser: (list: any[]) => {
+    set((pre) => ({ ...pre, listUserData: list }));
+  },
+
+  currentAccountDetail: {},
+  setCurrentAccountDetail: (detail: any) => {
+    set((pre) => ({ ...pre, currentAccountDetail: detail }));
   },
 }));
 
