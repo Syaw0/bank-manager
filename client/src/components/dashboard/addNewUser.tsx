@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { employeeAccess, managerAccess } from "../../fakedata";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
@@ -21,6 +21,8 @@ type Form = {
   initValue: string;
   accessibility: string[];
 };
+
+// TODO if operation will successfully performed reset formData
 
 const AddNewUser = ({ type }: addNewUser) => {
   const [formData, setFormData] = useState<Form>({
