@@ -53,26 +53,26 @@ describe("Register Account inputs Tests", () => {
       });
     });
 
-    it("if inputs are filled when press submit inputs locked", () => {
+    it("if inputs are filled when press submit inputs locked", async () => {
       mockRegister.mockReturnValue(
         new Promise((res) => res({ status: true, msg: "ok" }))
       );
 
       fireEvent.click(screen.getByTestId("dash-add-submit"));
       expect(screen.getByTestId("wait-message")).toBeInTheDocument();
-      waitFor(() =>
+      await waitFor(() =>
         expect(screen.getByTestId("success-message")).toBeInTheDocument()
       );
     });
 
-    it("if server return false show error message", () => {
+    it("if server return false show error message", async () => {
       mockRegister.mockReturnValue(
         new Promise((res) => res({ status: false, msg: "ok" }))
       );
 
       fireEvent.click(screen.getByTestId("dash-add-submit"));
       expect(screen.getByTestId("wait-message")).toBeInTheDocument();
-      waitFor(() =>
+      await waitFor(() =>
         expect(screen.getByTestId("error-message")).toBeInTheDocument()
       );
     });
@@ -86,13 +86,13 @@ describe("Register Account inputs Tests", () => {
       expect(screen.getByTestId("dash-add-initValue")).toBeInTheDocument();
     });
 
-    it("if operation was successfully reset formData", () => {
+    it("if operation was successfully reset formData", async () => {
       mockRegister.mockReturnValue(
         new Promise((res) => res({ status: true, msg: "ok" }))
       );
       fireEvent.click(screen.getByTestId("dash-add-submit"));
       expect(screen.getByTestId("wait-message")).toBeInTheDocument();
-      waitFor(() =>
+      await waitFor(() =>
         expect(screen.getByTestId("success-message")).toBeInTheDocument()
       );
       const name: any = screen.getByTestId("dash-add-name");
@@ -101,11 +101,11 @@ describe("Register Account inputs Tests", () => {
       const cardId: any = screen.getByTestId("dash-add-cardId");
       const initValue: any = screen.getByTestId("dash-add-initValue");
 
-      waitFor(() => expect(name.value).toBe(""));
-      waitFor(() => expect(familyName.value).toBe(""));
-      waitFor(() => expect(tel.value).toBe(""));
-      waitFor(() => expect(cardId.value).toBe(""));
-      waitFor(() => expect(initValue.value).toBe(""));
+      await waitFor(() => expect(name.value).toBe(""));
+      await waitFor(() => expect(familyName.value).toBe(""));
+      await waitFor(() => expect(tel.value).toBe(""));
+      await waitFor(() => expect(cardId.value).toBe(""));
+      await waitFor(() => expect(initValue.value).toBe(""));
     });
   });
 

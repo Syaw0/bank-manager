@@ -5,7 +5,6 @@ import Flex from "../../styles/styledComponents/flex";
 
 const ListTable = ({ data, type }: { data: any[]; type: string }) => {
   const navigate = useNavigate();
-
   const openUser = (userData: any) => {
     mainStore.getState().setCurrentAccountDetail(userData);
     navigate(`/dash/${type.toLowerCase()}s/${userData.id}`, { replace: true });
@@ -65,6 +64,7 @@ const ListTable = ({ data, type }: { data: any[]; type: string }) => {
           {data.map((d, i) => {
             return (
               <tr
+                data-testid="table-row"
                 onClick={() => {
                   openUser(d);
                 }}

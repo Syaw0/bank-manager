@@ -14,18 +14,19 @@ jest.mock("../../../utility/dashboard/changeAccessibility");
 const mockGetSpecificUser = getSpecificUser as jest.Mock;
 const mockChangeAccessibility = changeAccessibility as jest.Mock;
 
+mockGetSpecificUser.mockReturnValue(
+  new Promise((res) => {
+    return res({ status: true, msg: "", data: randomEmployee });
+  })
+);
+
 const initialState = mainStore.getState();
 
 describe("Select Accessibility Component", () => {
   beforeEach(async () => {
-    mockGetSpecificUser.mockReturnValue(
-      new Promise((res) => {
-        return res({ status: true, msg: "", data: randomEmployee });
-      })
-    );
     mainStore.setState(initialState, true);
 
-    waitFor(() => {
+    await waitFor(() => {
       render(
         <MemoryRouter initialEntries={["/dash/employees/1"]}>
           <App />
@@ -34,8 +35,8 @@ describe("Select Accessibility Component", () => {
     });
   });
 
-  it("opening component", () => {
-    waitFor(() => {
+  it("opening component", async () => {
+    await waitFor(() => {
       fireEvent.click(screen.getByTestId("dash-account-changeAccess-button"));
       expect(
         screen.getByTestId("dash-account-select-holder")
@@ -43,8 +44,8 @@ describe("Select Accessibility Component", () => {
     });
   });
 
-  it("closing with cancel ", () => {
-    waitFor(() => {
+  it("closing with cancel ", async () => {
+    await waitFor(() => {
       fireEvent.click(screen.getByTestId("dash-account-changeAccess-button"));
       const selectHolder = screen.getByTestId("dash-account-select-holder");
       expect(selectHolder).toBeInTheDocument();
@@ -53,12 +54,12 @@ describe("Select Accessibility Component", () => {
     });
   });
 
-  it("save and get true result ", () => {
-    mockChangeAccessibility.mockReturnValueOnce(
+  it("save and get true result ", async () => {
+    mockChangeAccessibility.mockReturnValue(
       new Promise((res) => res({ status: true, msg: "" }))
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       fireEvent.click(screen.getByTestId("dash-account-changeAccess-button"));
       const selectHolder = screen.getByTestId("dash-account-select-holder");
       expect(selectHolder).toBeInTheDocument();
@@ -70,17 +71,19 @@ describe("Select Accessibility Component", () => {
     });
   });
 
-  it("save and get falsy result ", () => {
-    mockChangeAccessibility.mockReturnValueOnce(
+  it("save and get falsy result ", async () => {
+    mockChangeAccessibility.mockReturnValue(
       new Promise((res) => res({ status: false, msg: "" }))
     );
 
-    waitFor(() => {
-      fireEvent.click(screen.getByTestId("dash-account-changeAccess-button"));
-      const selectHolder = screen.getByTestId("dash-account-select-holder");
-      expect(selectHolder).toBeInTheDocument();
+    await waitFor(() =>
+      fireEvent.click(screen.getByTestId("dash-account-changeAccess-button"))
+    );
 
-      fireEvent.click(screen.getByTestId("dash-account-select-save-btn"));
+    const selectHolder = screen.getByTestId("dash-account-select-holder");
+    expect(selectHolder).toBeInTheDocument();
+    fireEvent.click(screen.getByTestId("dash-account-select-save-btn"));
+    await waitFor(() => {
       expect(screen.getByTestId("error-message")).toBeInTheDocument();
     });
   });

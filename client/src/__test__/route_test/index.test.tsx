@@ -44,68 +44,68 @@ describe("app route test...", () => {
     expect(screen.getByTestId("dashboard-route")).toBeInTheDocument();
   });
 
-  it("navigate to managers  route", () => {
+  it("navigate to managers  route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/managers"]}>
         <App />
       </MemoryRouter>
     );
-    waitFor(() =>
+    await waitFor(() =>
       expect(screen.getByTestId("managers-route")).toBeInTheDocument()
     );
   });
 
-  it("navigate to managersID  route", () => {
+  it("navigate to managersID  route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/managers/2"]}>
         <App />
       </MemoryRouter>
     );
-    waitFor(() =>
+    await waitFor(() =>
       expect(screen.getByTestId("managersID-route")).toBeInTheDocument()
     );
   });
 
-  it("navigate to customers  route", () => {
+  it("navigate to customers  route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/customers"]}>
         <App />
       </MemoryRouter>
     );
-    waitFor(() =>
+    await waitFor(() =>
       expect(screen.getByTestId("customers-route")).toBeInTheDocument()
     );
   });
 
-  it("navigate to customersID  route", () => {
+  it("navigate to customersID  route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/customers/2"]}>
         <App />
       </MemoryRouter>
     );
-    waitFor(() =>
+    await waitFor(() =>
       expect(screen.getByTestId("customersID-route")).toBeInTheDocument()
     );
   });
 
-  it("navigate to employees  route", () => {
+  it("navigate to employees  route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/employees"]}>
         <App />
       </MemoryRouter>
     );
-    waitFor(() =>
+    await waitFor(() =>
       expect(screen.getByTestId("employees-route")).toBeInTheDocument()
     );
   });
 
-  it("navigate to employeesID  route", () => {
+  it("navigate to employeesID  route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/employees/2"]}>
         <App />
       </MemoryRouter>
     );
-    waitFor(() =>
+    await waitFor(() =>
       expect(screen.getByTestId("employeesID-route")).toBeInTheDocument()
     );
   });

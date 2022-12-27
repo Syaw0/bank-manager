@@ -24,8 +24,8 @@ describe("login as Employee and See Account Detail", () => {
     mainStore.setState(initialState, true);
   });
 
-  it("if user see own account ", () => {
-    waitFor(() => {
+  it("if user see own account ", async () => {
+    await waitFor(() => {
       mainStore.getState().setMainAccount(randomEmployee);
       render(
         <MemoryRouter initialEntries={["/dash/employees/1"]}>
@@ -44,14 +44,14 @@ describe("login as Employee and See Account Detail", () => {
     });
   });
 
-  it("employee see an simple customer ", () => {
+  it("employee see an simple customer ", async () => {
     mockGetSpecificUser.mockReturnValue(
       new Promise((res) => {
         return res({ status: true, msg: "", data: randomCustomer });
       })
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       mainStore.getState().setMainAccount(randomEmployee);
       render(
         <MemoryRouter initialEntries={["/dash/customers/1"]}>
@@ -71,14 +71,14 @@ describe("login as Employee and See Account Detail", () => {
     });
   });
 
-  it("employee has not block access ", () => {
+  it("employee has not block access ", async () => {
     mockGetSpecificUser.mockReturnValue(
       new Promise((res) => {
         return res({ status: true, msg: "", data: randomCustomer });
       })
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       mainStore.getState().setMainAccount(randomEmployee);
       mainStore.getState().setMainAccount({ accessibility: [""] });
       render(

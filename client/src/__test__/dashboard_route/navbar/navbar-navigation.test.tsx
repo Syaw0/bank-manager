@@ -6,25 +6,41 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import mainStore from "../../../store/mainStore";
 import accessibility from "./metaData";
+import getUserListData from "../../../utility/dashboard/getUserListData";
+import getSpecificUser from "../../../utility/dashboard/getSpecificUser";
+import {
+  customerList,
+  employeeList,
+  randomEmployee,
+  randomManager,
+} from "../../../sharedData/fakeUsers";
+
+jest.mock("../../../utility/dashboard/getUserListData");
+jest.mock("../../../utility/dashboard/getSpecificUser");
+
+const mockGetUserListData = getUserListData as jest.Mock;
+const mockGetSpecificUser = getSpecificUser as jest.Mock;
 
 const initialState = mainStore.getState();
 
 describe("dashboard navigation", () => {
-  afterEach(() => {
+  beforeEach(async () => {
     mainStore.setState(initialState, true);
+    await waitFor(() => {
+      render(
+        <MemoryRouter initialEntries={["/dash"]}>
+          <App />
+        </MemoryRouter>
+      );
+    });
   });
-  beforeEach(() => {
-    render(
-      <MemoryRouter initialEntries={["/dash"]}>
-        <App />
-      </MemoryRouter>
+  it("navigate to my account page(im manager)", async () => {
+    mockGetSpecificUser.mockReturnValue(
+      new Promise((res) => res({ status: true, msg: "", data: randomManager }))
     );
-  });
-  it("navigate to my account page(im manager)", () => {
-    waitFor(() =>
-      fireEvent.click(screen.getByTestId("dash-myAccount-manager-button"))
-    );
-    waitFor(() =>
+    fireEvent.click(screen.getByTestId("dash-myAccount-manager-button"));
+
+    await waitFor(() =>
       expect(screen.getByTestId("managersID-route")).toBeInTheDocument()
     );
   });
@@ -34,9 +50,13 @@ describe("dashboard navigation", () => {
     expect(screen.getByTestId("addEmployee-route")).toBeInTheDocument();
   });
 
-  it("navigate to employees", () => {
-    waitFor(() => fireEvent.click(screen.getByTestId("dash-employees-button")));
-    waitFor(() =>
+  it("navigate to employees", async () => {
+    mockGetUserListData.mockReturnValue(
+      new Promise((res) => res({ status: true, msg: "", data: employeeList }))
+    );
+    fireEvent.click(screen.getByTestId("dash-employees-button"));
+
+    await waitFor(() =>
       expect(screen.getByTestId("employees-route")).toBeInTheDocument()
     );
   });
@@ -45,12 +65,18 @@ describe("dashboard navigation", () => {
     expect(screen.getByTestId("addManager-route")).toBeInTheDocument();
   });
 
-  it("navigate to my Account (im employee)", () => {
-    waitFor(() => mainStore.getState().setMainAccount({ type: "employee" }));
-    waitFor(() =>
-      fireEvent.click(screen.getByTestId("dash-myAccount-employee-button"))
+  it("navigate to my Account (im employee)", async () => {
+    mockGetSpecificUser.mockReturnValue(
+      new Promise((res) => res({ status: true, msg: "", data: randomEmployee }))
     );
-    waitFor(() =>
+
+    await waitFor(() =>
+      mainStore.getState().setMainAccount({ type: "employee" })
+    );
+
+    fireEvent.click(screen.getByTestId("dash-myAccount-employee-button"));
+
+    await waitFor(() =>
       expect(screen.getByTestId("employeesID-route")).toBeInTheDocument()
     );
   });
@@ -60,9 +86,13 @@ describe("dashboard navigation", () => {
     expect(screen.getByTestId("addCustomer-route")).toBeInTheDocument();
   });
 
-  it("navigate to customers", () => {
+  it("navigate to customers", async () => {
+    mockGetUserListData.mockReturnValue(
+      new Promise((res) => res({ status: true, msg: "", data: customerList }))
+    );
+
     fireEvent.click(screen.getByTestId("dash-customers-button"));
-    waitFor(() =>
+    await waitFor(() =>
       expect(screen.getByTestId("customers-route")).toBeInTheDocument()
     );
   });

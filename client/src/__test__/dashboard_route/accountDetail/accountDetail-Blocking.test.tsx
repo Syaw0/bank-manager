@@ -24,12 +24,18 @@ mockGetSpecificUser.mockReturnValue(
   })
 );
 
+mockUnBlockAccount.mockReturnValue(
+  new Promise((res) => {
+    return res({ status: true, msg: "" });
+  })
+);
+
 const initialState = mainStore.getState();
 
 describe("blocking process", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     mainStore.setState(initialState, true);
-    waitFor(() => {
+    await waitFor(() => {
       render(
         <MemoryRouter initialEntries={["/dash/employees/1"]}>
           <App />
@@ -38,8 +44,8 @@ describe("blocking process", () => {
     });
   });
 
-  it("if customer or employee was not blocked show block", () => {
-    waitFor(() =>
+  it("if customer or employee was not blocked show block", async () => {
+    await waitFor(() =>
       expect(screen.getByTestId("dash-account-block-button")).toHaveTextContent(
         "Block Account"
       )
@@ -59,22 +65,26 @@ describe("blocking process", () => {
   //   );
   // });
 
-  it("blocking or unBlocking will successfully with message ", () => {
-    mockBlockAccount.mockReturnValueOnce(
+  it("blocking or unBlocking will successfully with message ", async () => {
+    mockBlockAccount.mockReturnValue(
       new Promise((res) => res({ status: true, msg: "" }))
     );
-    waitFor(() => {
-      fireEvent.click(screen.getByTestId("dash-account-block-button"));
+    await waitFor(() =>
+      fireEvent.click(screen.getByTestId("dash-account-block-button"))
+    );
+    await waitFor(() => {
       expect(screen.getByTestId("success-message")).toBeInTheDocument();
     });
   });
 
-  it("blocking or unBlocking will throw error with message ", () => {
-    mockBlockAccount.mockReturnValueOnce(
+  it("blocking or unBlocking will throw error with message ", async () => {
+    mockBlockAccount.mockReturnValue(
       new Promise((res) => res({ status: false, msg: "" }))
     );
-    waitFor(() => {
-      fireEvent.click(screen.getByTestId("dash-account-block-button"));
+    await waitFor(() =>
+      fireEvent.click(screen.getByTestId("dash-account-block-button"))
+    );
+    await waitFor(() => {
       expect(screen.getByTestId("error-message")).toBeInTheDocument();
     });
   });

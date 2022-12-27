@@ -15,64 +15,57 @@ describe("Dashboard Accessibility", () => {
   // client just restrict showing items that are not allowed and some access
   // in another page like block account or change accessability
   // but server does not render these routs!
-  afterEach(() => {
+
+  beforeEach(async () => {
     mainStore.setState(initialState, true);
-  });
-  beforeEach(() => {
-    render(
-      <MemoryRouter initialEntries={["/dash"]}>
-        <App />
-      </MemoryRouter>
+    await waitFor(() =>
+      render(
+        <MemoryRouter initialEntries={["/dash"]}>
+          <App />
+        </MemoryRouter>
+      )
     );
   });
 
-  it("user is a manger and have all access", () => {
-    waitFor(() =>
-      mainStore.getState().setMainAccount({ accessibility: accessibility })
-    );
-    waitFor(() =>
+  it("user is a manger and have all access", async () => {
+    await waitFor(() => {
+      mainStore.getState().setMainAccount({ accessibility: accessibility });
       expect(
         screen.getByTestId("dash-myAccount-manager-button")
-      ).toBeInTheDocument()
-    );
-    expect(screen.getByTestId("dash-hireEmployee-button")).toBeInTheDocument();
-    expect(screen.getByTestId("dash-employees-button")).toBeInTheDocument();
-    expect(screen.getByTestId("dash-managers-button")).toBeInTheDocument();
-    expect(screen.getByTestId("dash-addManager-button")).toBeInTheDocument();
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId("dash-hireEmployee-button")
+      ).toBeInTheDocument();
+      expect(screen.getByTestId("dash-employees-button")).toBeInTheDocument();
+      expect(screen.getByTestId("dash-managers-button")).toBeInTheDocument();
+      expect(screen.getByTestId("dash-addManager-button")).toBeInTheDocument();
 
-    let employeeAccount;
-    try {
-      employeeAccount = screen.getByTestId("dash-myAccount-employee-button");
-      // user must be one of type : manager or employee
-    } catch (err) {}
-    expect(employeeAccount).toBeUndefined();
+      let employeeAccount;
+      try {
+        employeeAccount = screen.getByTestId("dash-myAccount-employee-button");
+        // user must be one of type : manager or employee
+      } catch (err) {}
+      expect(employeeAccount).toBeUndefined();
 
-    expect(screen.getByTestId("dash-addCustomer-button")).toBeInTheDocument();
-    expect(screen.getByTestId("dash-customers-button")).toBeInTheDocument();
-    expect(
-      screen.getByTestId("dash-makeTransaction-button")
-    ).toBeInTheDocument();
+      expect(screen.getByTestId("dash-addCustomer-button")).toBeInTheDocument();
+      expect(screen.getByTestId("dash-customers-button")).toBeInTheDocument();
+      expect(
+        screen.getByTestId("dash-makeTransaction-button")
+      ).toBeInTheDocument();
+    });
   });
 
-  it("user is a manger but can have not add manager Access", () => {
+  it("user is a employee", async () => {
     const addManagerBtn = screen.getByTestId("dash-addManager-button") as any;
     expect(addManagerBtn).toBeInTheDocument();
-
-    mainStore.getState().setMainAccount({
-      accessibility: accessibility.filter((v) => v !== "Add Manager"),
+    await waitFor(() => {
+      mainStore.getState().setMainAccount({
+        accessibility: ["Add Customer", "Make Transaction"],
+        type: "employee",
+      });
+      expect(addManagerBtn).not.toBeInTheDocument();
+      expect(screen.getByTestId("dash-addCustomer-button")).toBeInTheDocument();
+      expect(screen.getByTestId("dash-customers-button")).toBeInTheDocument();
     });
-    waitFor(() => expect(addManagerBtn).not.toBeInTheDocument());
-  });
-
-  it("user is a employee", () => {
-    const addManagerBtn = screen.getByTestId("dash-addManager-button") as any;
-    expect(addManagerBtn).toBeInTheDocument();
-    mainStore.getState().setMainAccount({
-      accessibility: ["Add Customer", "Make Transaction"],
-      type: "employee",
-    });
-    waitFor(() => expect(addManagerBtn).not.toBeInTheDocument());
-    expect(screen.getByTestId("dash-addCustomer-button")).toBeInTheDocument();
-    expect(screen.getByTestId("dash-customers-button")).toBeInTheDocument();
   });
 });

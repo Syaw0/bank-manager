@@ -25,8 +25,8 @@ describe("login as manager and See Account Detail", () => {
     mainStore.setState(initialState, true);
   });
 
-  it("if user see own account ", () => {
-    waitFor(() => {
+  it("if user see own account ", async () => {
+    await waitFor(() => {
       mainStore.getState().setMainAccount(randomManager);
       render(
         <MemoryRouter initialEntries={["/dash/managers/1"]}>
@@ -45,14 +45,14 @@ describe("login as manager and See Account Detail", () => {
     });
   });
 
-  it("manager see an simple employee ", () => {
+  it("manager see an simple employee ", async () => {
     mockGetSpecificUser.mockReturnValue(
       new Promise((res) => {
         return res({ status: true, msg: "", data: randomEmployee });
       })
     );
 
-    waitFor(() => {
+    await waitFor(() => {
       mainStore.getState().setMainAccount(randomManager);
       render(
         <MemoryRouter initialEntries={["/dash/employees/1"]}>
@@ -77,8 +77,8 @@ describe("login as manager and See Account Detail", () => {
     });
   });
 
-  it("manager has not change access and block ", () => {
-    waitFor(() => {
+  it("manager has not change access and block ", async () => {
+    await waitFor(() => {
       mainStore.getState().setMainAccount(randomManager);
       mainStore.getState().setMainAccount({ accessibility: [""] });
       render(
