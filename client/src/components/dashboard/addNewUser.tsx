@@ -7,7 +7,6 @@ import register from "../../utility/dashboard/hireOrRegister";
 import Button from "../button/button";
 import TextInput from "../input/textInput";
 import Message from "../message/message";
-import AccessibilitySelect from "./accountDetail/accessibilitySelect";
 
 interface addNewUser {
   type: "Employee" | "Customer" | "Manager";
