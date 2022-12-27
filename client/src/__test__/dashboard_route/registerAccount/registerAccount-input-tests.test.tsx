@@ -85,6 +85,28 @@ describe("Register Account inputs Tests", () => {
       expect(select).toBeUndefined();
       expect(screen.getByTestId("dash-add-initValue")).toBeInTheDocument();
     });
+
+    it("if operation was successfully reset formData", () => {
+      mockRegister.mockReturnValue(
+        new Promise((res) => res({ status: true, msg: "ok" }))
+      );
+      fireEvent.click(screen.getByTestId("dash-add-submit"));
+      expect(screen.getByTestId("wait-message")).toBeInTheDocument();
+      waitFor(() =>
+        expect(screen.getByTestId("success-message")).toBeInTheDocument()
+      );
+      const name: any = screen.getByTestId("dash-add-name");
+      const familyName: any = screen.getByTestId("dash-add-familyName");
+      const tel: any = screen.getByTestId("dash-add-telNumber");
+      const cardId: any = screen.getByTestId("dash-add-cardId");
+      const initValue: any = screen.getByTestId("dash-add-initValue");
+
+      waitFor(() => expect(name.value).toBe(""));
+      waitFor(() => expect(familyName.value).toBe(""));
+      waitFor(() => expect(tel.value).toBe(""));
+      waitFor(() => expect(cardId.value).toBe(""));
+      waitFor(() => expect(initValue.value).toBe(""));
+    });
   });
 
   it("in addManager we dont have initValue input", () => {

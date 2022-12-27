@@ -60,5 +60,22 @@ describe("lets make Transaction", () => {
         expect(screen.getByTestId("error-message")).toBeInTheDocument()
       );
     });
+
+    it("if operation was successfully show success msg and wip formData", () => {
+      mockPerformTransaction.mockReturnValue(
+        new Promise((res) => res({ status: true, msg: "bela" }))
+      );
+      fireEvent.click(screen.getByTestId("dash-makeTransaction-submit"));
+      expect(screen.getByTestId("wait-message")).toBeInTheDocument();
+      waitFor(() =>
+        expect(screen.getByTestId("success-message")).toBeInTheDocument()
+      );
+      const originAcc: any = screen.getByTestId("dash-makeTransaction-oId");
+      const distAcc: any = screen.getByTestId("dash-makeTransaction-oId");
+      const amountAcc: any = screen.getByTestId("dash-makeTransaction-oId");
+      waitFor(() => expect(originAcc.value).toBe(""));
+      waitFor(() => expect(distAcc.value).toBe(""));
+      waitFor(() => expect(amountAcc.value).toBe(""));
+    });
   });
 });

@@ -12,28 +12,18 @@ interface addNewUser {
   type: "Employee" | "Customer" | "Manager";
 }
 
-type Form = {
-  name: string;
-  familyName: string;
-  cardId: string;
-  id: string;
-  tel: string;
-  initValue: string;
-  accessibility: string[];
+const initForm = {
+  name: "",
+  familyName: "",
+  cardId: "",
+  id: "",
+  tel: "",
+  initValue: "",
+  accessibility: [""],
 };
 
-// TODO if operation will successfully performed reset formData
-
 const AddNewUser = ({ type }: addNewUser) => {
-  const [formData, setFormData] = useState<Form>({
-    name: "",
-    familyName: "",
-    cardId: "",
-    id: "",
-    tel: "",
-    initValue: "",
-    accessibility: [],
-  });
+  const [formData, setFormData] = useState(initForm);
 
   const inpHolder = useRef<any>(null);
 
@@ -68,6 +58,7 @@ const AddNewUser = ({ type }: addNewUser) => {
     const result = await register(type, formData);
     if (result.status) {
       setMsgState({ type: "success", msg: result.msg });
+      setFormData(initForm);
       return;
     }
     setMsgState({ type: "error", msg: result.msg });
