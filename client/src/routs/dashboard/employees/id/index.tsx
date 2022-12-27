@@ -37,7 +37,7 @@ const EmployeesID = () => {
   return (
     <Flex data-testid="employeesID-route" dir="column">
       {isReady && <AccountDetail data={data} />}
-      {!isReady && <Loader />}
+      {!isReady && msgState.type !== "error" && <Loader />}
       <Message type={msgState.type} msg={msgState.msg} />
     </Flex>
   );

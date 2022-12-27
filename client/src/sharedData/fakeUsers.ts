@@ -23,7 +23,7 @@ const randomEmployee = {
 const randomManager = {
   name: "Mac",
   familyName: "Instal",
-  type: "employee",
+  type: "manager",
   cardId: "31232312321",
   tel: "441232131",
   id: "41",

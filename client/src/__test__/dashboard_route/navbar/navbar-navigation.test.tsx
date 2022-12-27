@@ -21,8 +21,12 @@ describe("dashboard navigation", () => {
     );
   });
   it("navigate to my account page(im manager)", () => {
-    fireEvent.click(screen.getByTestId("dash-myAccount-manager-button"));
-    expect(screen.getByTestId("managersID-route")).toBeInTheDocument();
+    waitFor(() =>
+      fireEvent.click(screen.getByTestId("dash-myAccount-manager-button"))
+    );
+    waitFor(() =>
+      expect(screen.getByTestId("managersID-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to hire employee", () => {
@@ -31,8 +35,10 @@ describe("dashboard navigation", () => {
   });
 
   it("navigate to employees", () => {
-    fireEvent.click(screen.getByTestId("dash-employees-button"));
-    expect(screen.getByTestId("employees-route")).toBeInTheDocument();
+    waitFor(() => fireEvent.click(screen.getByTestId("dash-employees-button")));
+    waitFor(() =>
+      expect(screen.getByTestId("employees-route")).toBeInTheDocument()
+    );
   });
   it("navigate to add manager", () => {
     fireEvent.click(screen.getByTestId("dash-addManager-button"));
@@ -56,7 +62,9 @@ describe("dashboard navigation", () => {
 
   it("navigate to customers", () => {
     fireEvent.click(screen.getByTestId("dash-customers-button"));
-    expect(screen.getByTestId("customers-route")).toBeInTheDocument();
+    waitFor(() =>
+      expect(screen.getByTestId("customers-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to make Transaction", () => {

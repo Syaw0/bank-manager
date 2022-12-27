@@ -37,6 +37,7 @@ describe("Dashboard Accessibility", () => {
     );
     expect(screen.getByTestId("dash-hireEmployee-button")).toBeInTheDocument();
     expect(screen.getByTestId("dash-employees-button")).toBeInTheDocument();
+    expect(screen.getByTestId("dash-managers-button")).toBeInTheDocument();
     expect(screen.getByTestId("dash-addManager-button")).toBeInTheDocument();
 
     let employeeAccount;

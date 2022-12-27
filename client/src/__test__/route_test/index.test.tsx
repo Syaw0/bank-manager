@@ -1,8 +1,29 @@
 import React from "react";
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
 import App from "../../App";
+import getSpecificUser from "../../utility/dashboard/getSpecificUser";
+import getUserListData from "../../utility/dashboard/getUserListData";
+import { customerList, randomCustomer } from "../../sharedData/fakeUsers";
+
+jest.mock("../../utility/dashboard/getUserListData");
+jest.mock("../../utility/dashboard/getSpecificUser");
+
+const mockGetSpecificUser = getSpecificUser as jest.Mock;
+const mockGetUserListData = getUserListData as jest.Mock;
+
+mockGetSpecificUser.mockReturnValue(
+  new Promise((res) => {
+    return res({ status: true, msg: "", data: randomCustomer });
+  })
+);
+
+mockGetUserListData.mockReturnValue(
+  new Promise((res) => {
+    return res({ status: true, msg: "", data: customerList });
+  })
+);
 
 describe("app route test...", () => {
   it("navigate to login route", () => {
@@ -29,7 +50,9 @@ describe("app route test...", () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("managers-route")).toBeInTheDocument();
+    waitFor(() =>
+      expect(screen.getByTestId("managers-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to managersID  route", () => {
@@ -38,7 +61,9 @@ describe("app route test...", () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("managersID-route")).toBeInTheDocument();
+    waitFor(() =>
+      expect(screen.getByTestId("managersID-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to customers  route", () => {
@@ -47,7 +72,9 @@ describe("app route test...", () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("customers-route")).toBeInTheDocument();
+    waitFor(() =>
+      expect(screen.getByTestId("customers-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to customersID  route", () => {
@@ -56,7 +83,9 @@ describe("app route test...", () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("customersID-route")).toBeInTheDocument();
+    waitFor(() =>
+      expect(screen.getByTestId("customersID-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to employees  route", () => {
@@ -65,7 +94,9 @@ describe("app route test...", () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("employees-route")).toBeInTheDocument();
+    waitFor(() =>
+      expect(screen.getByTestId("employees-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to employeesID  route", () => {
@@ -74,7 +105,9 @@ describe("app route test...", () => {
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("employeesID-route")).toBeInTheDocument();
+    waitFor(() =>
+      expect(screen.getByTestId("employeesID-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to makeTransaction  route", () => {
