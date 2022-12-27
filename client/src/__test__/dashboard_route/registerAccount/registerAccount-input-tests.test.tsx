@@ -28,84 +28,63 @@ describe("Register Account inputs Tests", () => {
     expect(screen.getByTestId("error-message")).toBeInTheDocument();
   });
 
-  it("if inputs are filled when press submit inputs locked", () => {
-    mockRegister.mockReturnValue(
-      new Promise((res) => res({ status: true, msg: "ok" }))
-    );
+  describe("when you are in add Customer", () => {
+    beforeEach(() => {
+      render(
+        <MemoryRouter initialEntries={["/dash/addCustomer"]}>
+          <App />
+        </MemoryRouter>
+      );
 
-    render(
-      <MemoryRouter initialEntries={["/dash/addCustomer"]}>
-        <App />
-      </MemoryRouter>
-    );
+      fireEvent.change(screen.getByTestId("dash-add-name"), {
+        target: { value: "bela" },
+      });
+      fireEvent.change(screen.getByTestId("dash-add-familyName"), {
+        target: { value: "bela" },
+      });
+      fireEvent.change(screen.getByTestId("dash-add-cardId"), {
+        target: { value: "bela" },
+      });
+      fireEvent.change(screen.getByTestId("dash-add-telNumber"), {
+        target: { value: "bela" },
+      });
+      fireEvent.change(screen.getByTestId("dash-add-initValue"), {
+        target: { value: "bela" },
+      });
+    });
 
-    fireEvent.change(screen.getByTestId("dash-add-name"), {
-      target: { value: "bela" },
-    });
-    fireEvent.change(screen.getByTestId("dash-add-familyName"), {
-      target: { value: "bela" },
-    });
-    fireEvent.change(screen.getByTestId("dash-add-cardId"), {
-      target: { value: "bela" },
-    });
-    fireEvent.change(screen.getByTestId("dash-add-telNumber"), {
-      target: { value: "bela" },
-    });
-    fireEvent.change(screen.getByTestId("dash-add-initValue"), {
-      target: { value: "bela" },
-    });
-    fireEvent.click(screen.getByTestId("dash-add-submit"));
-    expect(screen.getByTestId("wait-message")).toBeInTheDocument();
-    waitFor(() =>
-      expect(screen.getByTestId("success-message")).toBeInTheDocument()
-    );
-  });
+    it("if inputs are filled when press submit inputs locked", () => {
+      mockRegister.mockReturnValue(
+        new Promise((res) => res({ status: true, msg: "ok" }))
+      );
 
-  it("if server return false show error message", () => {
-    mockRegister.mockReturnValue(
-      new Promise((res) => res({ status: false, msg: "ok" }))
-    );
+      fireEvent.click(screen.getByTestId("dash-add-submit"));
+      expect(screen.getByTestId("wait-message")).toBeInTheDocument();
+      waitFor(() =>
+        expect(screen.getByTestId("success-message")).toBeInTheDocument()
+      );
+    });
 
-    render(
-      <MemoryRouter initialEntries={["/dash/addCustomer"]}>
-        <App />
-      </MemoryRouter>
-    );
+    it("if server return false show error message", () => {
+      mockRegister.mockReturnValue(
+        new Promise((res) => res({ status: false, msg: "ok" }))
+      );
 
-    fireEvent.change(screen.getByTestId("dash-add-name"), {
-      target: { value: "bela" },
+      fireEvent.click(screen.getByTestId("dash-add-submit"));
+      expect(screen.getByTestId("wait-message")).toBeInTheDocument();
+      waitFor(() =>
+        expect(screen.getByTestId("error-message")).toBeInTheDocument()
+      );
     });
-    fireEvent.change(screen.getByTestId("dash-add-familyName"), {
-      target: { value: "bela" },
-    });
-    fireEvent.change(screen.getByTestId("dash-add-cardId"), {
-      target: { value: "bela" },
-    });
-    fireEvent.change(screen.getByTestId("dash-add-telNumber"), {
-      target: { value: "bela" },
-    });
-    fireEvent.change(screen.getByTestId("dash-add-initValue"), {
-      target: { value: "bela" },
-    });
-    fireEvent.click(screen.getByTestId("dash-add-submit"));
-    expect(screen.getByTestId("wait-message")).toBeInTheDocument();
-    waitFor(() =>
-      expect(screen.getByTestId("error-message")).toBeInTheDocument()
-    );
-  });
 
-  it("in addCustomer we dont have access select input", () => {
-    render(
-      <MemoryRouter initialEntries={["/dash/addCustomer"]}>
-        <App />
-      </MemoryRouter>
-    );
-    let select;
-    try {
-      select = screen.getByTestId("dash-add-select");
-    } catch (err) {}
-    expect(select).toBeUndefined();
-    expect(screen.getByTestId("dash-add-initValue")).toBeInTheDocument();
+    it("in addCustomer we dont have access select input", () => {
+      let select;
+      try {
+        select = screen.getByTestId("dash-add-select");
+      } catch (err) {}
+      expect(select).toBeUndefined();
+      expect(screen.getByTestId("dash-add-initValue")).toBeInTheDocument();
+    });
   });
 
   it("in addManager we dont have initValue input", () => {
