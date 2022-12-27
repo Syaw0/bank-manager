@@ -2,6 +2,7 @@ import React from "react";
 import { MessageType } from "../../types/messageType";
 import ErrorMessage from "./errorMessage";
 import SuccessMessage from "./successMessage";
+import WaitMessage from "./waitMessage";
 import WarnMessage from "./warnMessage";
 
 const Message = ({ type, msg }: MessageType) => {
@@ -10,6 +11,7 @@ const Message = ({ type, msg }: MessageType) => {
       {type === "warn" && <WarnMessage msg={msg} />}
       {type === "success" && <SuccessMessage msg={msg} />}
       {type === "error" && <ErrorMessage msg={msg} />}
+      {type === "waiting" && <WaitMessage msg={msg} />}
     </>
   );
 };

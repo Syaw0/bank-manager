@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { employeeAccess, managerAccess } from "../../fakedata";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
@@ -34,6 +34,8 @@ const AddNewUser = ({ type }: addNewUser) => {
     accessibility: [],
   });
 
+  const inpHolder = useRef<any>(null);
+
   const [msgState, setMsgState] = useState<MessageType>({
     type: "idle",
     msg: "",
@@ -57,6 +59,10 @@ const AddNewUser = ({ type }: addNewUser) => {
   };
 
   const hireOrRegister = async () => {
+    if (!checkInput()) {
+      setMsgState({ type: "error", msg: "please fill all inputs" });
+      return;
+    }
     setMsgState({ type: "waiting", msg: "wait until process end" });
     const result = await register(type, formData);
     if (result.status) {
@@ -64,6 +70,23 @@ const AddNewUser = ({ type }: addNewUser) => {
       return;
     }
     setMsgState({ type: "error", msg: result.msg });
+  };
+
+  const checkInput = () => {
+    const inputs = inpHolder.current.getElementsByTagName("input");
+    const select = inpHolder.current.getElementsByTagName("select");
+
+    for (let i = 0; i != inputs.length; i++) {
+      if (inputs[i].value.trim() == "") {
+        return false;
+      }
+    }
+    if (select.length != 0) {
+      if (formData.accessibility.length == 0) {
+        return false;
+      }
+    }
+    return true;
   };
 
   return (
@@ -89,6 +112,7 @@ const AddNewUser = ({ type }: addNewUser) => {
       </Flex>
 
       <Flex
+        ref={inpHolder}
         dir="column"
         css={{
           width: "50%",
@@ -164,7 +188,12 @@ const AddNewUser = ({ type }: addNewUser) => {
             >
               Accessibility
             </Text>
-            <select onChange={setSelections} multiple size={4}>
+            <select
+              data-testid="dash-add-select"
+              onChange={setSelections}
+              multiple
+              size={4}
+            >
               {(type.search("Employee") == -1
                 ? managerAccess
                 : employeeAccess
