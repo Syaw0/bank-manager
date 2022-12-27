@@ -9,6 +9,7 @@ interface TextInputType {
   css?: CustomStitches;
   disabled?: boolean;
   dataTestid?: string;
+  name?: string;
 }
 
 export { TextInputType };

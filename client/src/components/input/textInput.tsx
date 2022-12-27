@@ -13,6 +13,7 @@ const TextInput = ({
   css,
   disabled,
   dataTestid,
+  name,
 }: TextInputType) => {
   return (
     <Flex dir={"column"} css={css}>
@@ -34,6 +35,7 @@ const TextInput = ({
         onChange={onChange}
         value={value}
         placeholder={placeholder}
+        name={name != null ? name : ""}
       />
     </Flex>
   );
