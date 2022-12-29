@@ -1,9 +1,7 @@
-
-
 {
   "name": "bank-manager",
   "version": "0.0.1",
-    "description": "Simple api for employees of bank to interact with DB",
+  "description": "Simple api for employees of bank to interact with DB",
   "scripts": {
     "dev": " vite",
     "build": " tsc && vite build",
@@ -14,7 +12,7 @@
     "build:client": "vite build --outDir dist/client",
     "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx"
   },
-    "repository": {
+  "repository": {
     "type": "git",
     "url": "git@syaw0.github.com:Syaw0/bank-manager.git"
   },
@@ -24,6 +22,7 @@
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "express": "^4.18.2",
+    "mariadb": "^3.0.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.6.1",
@@ -50,11 +49,11 @@
     "typescript": "^4.9.4",
     "vite": "^3.2.3"
   },
-    "keywords": [
+  "keywords": [
     "bank",
     "manage",
     "bank manager"
   ],
-    "author": "Syaw",
+  "author": "Syaw",
   "license": "ISC"
 }
