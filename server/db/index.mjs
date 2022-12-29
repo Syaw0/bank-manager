@@ -43,7 +43,7 @@ class GetUser extends DB {
       if (data) {
         return data;
       } else {
-        throw new Error();
+        throw new Error(); //TODO fix this to return fixed scheme {status:boolean,msg:string}
       }
     } catch (err) {
       throw new Error("Error happen during query to server");
@@ -183,4 +183,69 @@ class AddUser extends DB {
   }
 }
 
-export { GetUser, GetUserList, AddUser };
+class MakeTransaction extends DB {
+  constructor() {
+    super();
+  }
+
+  async performTransaction(data) {
+    let con;
+    try {
+      let auth = await this.authenticateAccounts(data);
+      console.log(auth.status);
+      if (auth.status === false) {
+        return auth;
+      }
+      con = await this.connectToDb();
+      let [originCache, destinationCache] = auth;
+      await con.query(
+        `UPDATE customers SET amount = ${originCache - data.amount} WHERE id=${
+          data.originAccount
+        }`
+      );
+      await con.query(
+        `UPDATE customers SET amount = ${
+          destinationCache + data.amount
+        } WHERE id=${data.destinationAccount}`
+      );
+      return { status: true, msg: "Transaction successfully performed" };
+    } catch (err) {
+      console.log(err);
+      return { status: false, msg: "internal Error during perform operation" };
+    } finally {
+      if (con) {
+        con.end();
+      }
+    }
+  }
+
+  async authenticateAccounts(data) {
+    try {
+      let getUser = new GetUser();
+      let origin = await getUser.getUser(data.originAccount, "customer");
+      let distinction = await getUser.getUser(
+        data.destinationAccount,
+        "customer"
+      );
+      if (origin.length === 0) {
+        return { status: false, msg: "origin account is not exists" };
+      }
+      if (distinction.length === 0) {
+        return { status: false, msg: "destination account is not exists" };
+      }
+
+      if (origin[0].amount < data.amount) {
+        return { status: false, msg: "origin has not have enough money" };
+      }
+
+      return [origin[0].amount, distinction[0].amount];
+    } catch (err) {
+      return {
+        status: false,
+        msg: "error during authenticate users for perform operation",
+      };
+    }
+  }
+}
+
+export { GetUser, GetUserList, AddUser, MakeTransaction };
