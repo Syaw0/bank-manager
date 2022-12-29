@@ -1,2 +1,5 @@
 todo.md
 node_modules
+dist
+coverage
+public

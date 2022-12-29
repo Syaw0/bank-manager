@@ -1,17 +1,60 @@
+
+
 {
   "name": "bank-manager",
   "version": "0.0.1",
-  "description": "Simple api for employees of bank to interact with DB",
-  "scripts": {},
-  "repository": {
+    "description": "Simple api for employees of bank to interact with DB",
+  "scripts": {
+    "dev": " vite",
+    "build": " tsc && vite build",
+    "preview": "vite preview",
+    "test": "jest --watchAll",
+    "server:start": "NODE_ENV=production node ./server/index.mjs",
+    "server:dev": " nodemon ./server/index.mjs",
+    "build:client": "vite build --outDir dist/client",
+    "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx"
+  },
+    "repository": {
     "type": "git",
     "url": "git@syaw0.github.com:Syaw0/bank-manager.git"
   },
-  "keywords": [
+  "dependencies": {
+    "@stitches/react": "^1.2.8",
+    "body-parser": "^1.20.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.6.1",
+    "ts-node": "^10.9.1",
+    "zustand": "^4.1.5"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@types/body-parser": "^1.19.2",
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.15",
+    "@types/jest": "^29.2.3",
+    "@types/react": "^18.0.24",
+    "@types/react-dom": "^18.0.8",
+    "@vitejs/plugin-react": "^2.2.0",
+    "compression": "^1.7.4",
+    "jest": "^29.3.1",
+    "jest-environment-jsdom": "^29.3.1",
+    "jest-transform-css": "^6.0.0",
+    "nodemon": "^2.0.20",
+    "serve-static": "^1.15.0",
+    "ts-jest": "^29.0.3",
+    "typescript": "^4.9.4",
+    "vite": "^3.2.3"
+  },
+    "keywords": [
     "bank",
     "manage",
     "bank manager"
   ],
-  "author": "",
+    "author": "Syaw",
   "license": "ISC"
 }
