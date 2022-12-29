@@ -46,4 +46,28 @@ class GetUser extends DB {
   }
 }
 
-export default GetUser;
+class GetUserList extends DB {
+  constructor() {
+    super();
+  }
+
+  async getUserList(type) {
+    const con = await this.connectToDb();
+    let data;
+    try {
+      data = await con.query(`SELECT * FROM ${type}`);
+      if (data) {
+        return data;
+      } else {
+        throw new Error();
+      }
+    } catch (err) {
+      throw new Error("Error happen during query to server");
+    } finally {
+      if (con) {
+        con.end();
+      }
+    }
+  }
+}
+export { GetUser, GetUserList };
