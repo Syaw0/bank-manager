@@ -259,4 +259,33 @@ class MakeTransaction extends DB {
   }
 }
 
-export { GetUser, GetUserList, AddUser, MakeTransaction };
+class BlockAccount extends DB {
+  constructor() {
+    super();
+  }
+
+  async blockAccount(type, id, isBlocked) {
+    //? this method do block or unblock ! because functionality is same but
+    //? difference is that block set 1 and unblock set 0 to DB
+    const con = await this.connectToDb();
+    try {
+      const query = `UPDATE ${type}s SET block = ${
+        isBlocked ? 0 : 1
+      } WHERE id=${id}`;
+
+      const data = await con.query(query);
+      return {
+        status: true,
+        msg: `successfully ${isBlocked ? "unBlocked" : "blocked"} this account`,
+      };
+    } catch (err) {
+      return { status: false, msg: "error during perform action (block)" };
+    } finally {
+      if (con) {
+        con.end();
+      }
+    }
+  }
+}
+
+export { GetUser, GetUserList, AddUser, MakeTransaction, BlockAccount };
