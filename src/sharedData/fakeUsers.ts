@@ -17,7 +17,12 @@ const randomEmployee = {
   tel: "441232131",
   id: "551231231",
   block: false,
-  accessibility: ["Add Customer", "Block Customer", "Make Transaction"],
+  accessibility: [
+    "Add Customer",
+    "Block Customer",
+    "Make Transaction",
+    "ReadCustomerData",
+  ],
 };
 
 const randomManager = {
@@ -38,6 +43,9 @@ const randomManager = {
     "Block Manager",
     "Block Employee",
     "Delete Employee",
+    "ReadCustomerData",
+    "ReadManagerData",
+    "ReadEmployeeData",
   ],
 };
 

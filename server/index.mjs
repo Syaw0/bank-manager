@@ -7,6 +7,9 @@ import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import checkSession from "./util/checkSession.mjs";
+import { GetUser } from "./db/index.mjs";
+import { allEmployeeAccess, allManagerAccess } from "./db/metadata.mjs";
+import { urlAccess } from "./util/urlAccess.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -76,7 +79,7 @@ export async function createServer(
     );
   }
 
-  app.use("/", (req, res, next) => {
+  app.use("/", async (req, res, next) => {
     // TODO:implement the session storage for those that want to do not use cookies
     //! if user agent does not support cookies this has huge bug for application
     //! for this we must check cookie support in client and then if not
@@ -96,6 +99,25 @@ export async function createServer(
     } else {
       const result = checkSession(cookie.session);
       if (result.status) {
+        const { type, id } = result.data;
+        let getUserFromDb = new GetUser();
+        // * here i want to use proxy to use cache data
+        // * and trigger a event to update cache when some methods calls
+        // * like block or unblock
+        let data = await getUserFromDb.getUser(id, type);
+        // const allAccess =
+        //   type == "manager" ? allManagerAccess : allEmployeeAccess;
+        Object.keys(urlAccess).forEach((ua) => {
+          if (req.originalUrl.search(ua) != -1) {
+            console.log(
+              "this is url",
+              ua,
+              "this is accessibility for url",
+              urlAccess[ua]
+            );
+          }
+        });
+
         // ? implement methods that user have permission to access this url?
 
         if (req.originalUrl == "/whoami") {

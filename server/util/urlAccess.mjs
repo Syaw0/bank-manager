@@ -1,0 +1,30 @@
+// ? this is url / access pair object that define a accessibility for a url
+export const urlAccess = {
+  "/addUser/manager/": "AddManager",
+  "/addUser/customer/": "AddCustomer",
+  "/addUser/employee/": "AddEmployee",
+  "/changeAccess": "ChangeAccess",
+  "/block/customer/": "BlockCustomer",
+  "/block/manager/": "BlockManager",
+  "/block/employee": "BlockEmployee",
+  "/makeTransaction": "MakeTransaction",
+  "/getUser/manager/": "ReadManagerData",
+  "/getUser/employee/": "ReadEmployeeData",
+  "/getUser/customer/": "ReadCustomerData",
+  "/getUserList/managers": "ReadManagerData",
+  "/getUserList/employees": "ReadEmployeeData",
+  "/getUserList/customers": "ReadCustomerData",
+
+  "/dash/managers": "ReadManagerData",
+  "/dash/customers": "ReadCustomerData",
+  "/dash/employees": "ReadEmployeeData",
+  "/dash/makeTransaction": "MakeTransaction",
+  "/dash/managers/": "ReadManagerData",
+  "/dash/customers/": "ReadCustomerData",
+  "/dash/employees/": "ReadEmployeeData",
+  "/dash/addManager": "AddManager",
+  "/dash/addCustomer": "AddCustomer",
+  "/dash/addEmployee": "AddEmployee",
+
+  // "/getUser/customer/":"",
+};

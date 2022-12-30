@@ -8,10 +8,14 @@ export const allManagerAccess = {
   BlockCustomer: "",
   AddCustomer: "",
   ChangeAccess: "",
+  ReadCustomerData: "",
+  ReadManagerData: "",
+  ReadEmployeeData: "",
 };
 
 export const allEmployeeAccess = {
   MakeTransaction: "",
   BlockCustomer: "",
   AddCustomer: "",
+  ReadCustomerData: "",
 };
