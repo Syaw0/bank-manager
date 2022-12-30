@@ -1,6 +1,7 @@
 import express from "express";
 import addUserRoute from "./addUser.mjs";
 import blockRoute from "./blockAccount.mjs";
+import changeAccessibilityRoute from "./changeAccessibility.mjs";
 import getUserRoute from "./getUser.mjs";
 import getUserListRoute from "./getUserList.mjs";
 import jsRoute from "./js.mjs";
@@ -13,5 +14,6 @@ router.use("/getUserList", getUserListRoute);
 router.use("/addUser", addUserRoute);
 router.use("/makeTransaction", makeTransactionRoute);
 router.use("/block", blockRoute);
+router.use("/changeAccess", changeAccessibilityRoute);
 
 export default router;

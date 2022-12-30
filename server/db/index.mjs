@@ -1,5 +1,6 @@
 import { createPool } from "mariadb";
 import crypto from "crypto";
+import { allEmployeeAccess, allManagerAccess } from "./metadata.mjs";
 const pool = createPool({
   host: "localhost", // get these from  env vars
   user: "root",
@@ -295,4 +296,51 @@ class BlockAccount extends DB {
   }
 }
 
-export { GetUser, GetUserList, AddUser, MakeTransaction, BlockAccount };
+class ChangeAccess extends DB {
+  constructor() {
+    super();
+  }
+
+  async changeAcc(type, id, changeAccessData) {
+    const con = await this.connectToDb();
+    try {
+      const query = this.makeQuery(type, id, changeAccessData);
+      if (query.status != null) {
+        return query;
+      }
+      const data = await con.query(query);
+      return { status: true, msg: "successfully changed accessibility" };
+    } catch (err) {
+      console.log(err);
+      return { status: false, msg: "error during perform action (change acc)" };
+    }
+  }
+
+  makeQuery(type, id, data) {
+    try {
+      const acc = type == "manager" ? allManagerAccess : allEmployeeAccess;
+      let newAccQuery = "";
+      Object.keys(acc).forEach((acc, i) => {
+        if (acc in data.accessibility) {
+          console.log("in it ", acc);
+          newAccQuery += `${i == 0 ? "" : ","} ${acc}=1 `;
+        } else {
+          newAccQuery += `${i == 0 ? "" : ","} ${acc}=0 `;
+        }
+      });
+      const query = `UPDATE ${type}s SET ${newAccQuery} WHERE id=${id}`;
+      return query;
+    } catch (err) {
+      return { status: false, msg: "error during pars and create query" };
+    }
+  }
+}
+
+export {
+  GetUser,
+  GetUserList,
+  AddUser,
+  MakeTransaction,
+  BlockAccount,
+  ChangeAccess,
+};
