@@ -18,7 +18,7 @@ import mainStore from "../../store/mainStore";
 
 const Navbar = () => {
   const data = mainStore.getState().mainAccount;
-
+  console.log(data);
   return (
     <Flex
       dir={"column"}

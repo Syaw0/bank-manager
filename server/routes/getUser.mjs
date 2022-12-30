@@ -4,7 +4,7 @@ import { GetUser } from "../db/index.mjs";
 const getUserRoute = express.Router();
 const validTypes = { customer: "", employee: "", manager: "" };
 
-getUserRoute.use("/:type/:id", async (req, res) => {
+getUserRoute.get("/:type/:id", async (req, res) => {
   const { id, type } = req.params;
   if (!(type in validTypes)) {
     res.send({ status: false, msg: "no such type exist" });

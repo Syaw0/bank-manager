@@ -7,14 +7,12 @@ import useFetch from "../hook/useFetch";
 
 const getSpecificUser = async (id: string, type: string): Promise<any> => {
   try {
-    const result: any = useFetch("", {
-      method: "POST",
-
+    const result: any = await useFetch(`/getUser/${type}/${id}`, {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ s: "" }),
     });
+    console.log(result);
     return result;
   } catch (err) {
     return {

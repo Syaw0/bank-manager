@@ -7,13 +7,12 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const jsRoute = express.Router();
 
-jsRoute.get("/", (req, res) => {
+jsRoute.get("/:js", (req, res) => {
+  const { js } = req.params;
   res.set("X-Content-Type-Options", "nosniff");
   res.set("Content-Type", "text/javascript");
-  const js = readFileSync(
-    __dirname + "/../../dist/client/assets/index.bd99d903.js"
-  );
-  res.send(js);
+  const path = readFileSync(__dirname + `/../../dist/client/assets/${js}`);
+  res.send(path);
 });
 
 export default jsRoute;

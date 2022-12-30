@@ -21,25 +21,15 @@ interface MainStore {
 
 const mainStore = create<MainStore>()((set) => ({
   mainAccount: {
-    name: "siavash",
-    familyName: "mohebbi",
-    id: "#1",
-    type: "manager",
-    cardId: "23123214",
-    tel: "0002313",
+    name: "",
+    familyName: "",
+    id: "",
+    type: "",
+    cardId: "",
+    tel: "",
     block: false,
-    balance: "100$",
-    accessibility: [
-      "Add Customer",
-      "Block Customer",
-      "Make Transaction",
-      "Add Employee",
-      "Change Accessibility",
-      "Add Manager",
-      "Block Manager",
-      "Block Employee",
-      "Delete Employee",
-    ],
+    balance: "",
+    accessibility: [],
   },
   setMainAccount: (data: any) => {
     set((s) => ({ ...s, mainAccount: { ...s.mainAccount, ...data } }));

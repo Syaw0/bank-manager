@@ -1,6 +1,12 @@
 import { createPool } from "mariadb";
 import crypto from "crypto";
 import { allEmployeeAccess, allManagerAccess } from "./metadata.mjs";
+import session from "./sessions.json" assert { type: "json" };
+import { writeFileSync } from "fs";
+import { fileURLToPath } from "url";
+import path from "path";
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
 const pool = createPool({
   host: "localhost", // get these from  env vars
   user: "root",
@@ -355,6 +361,11 @@ class Login extends DB {
       if (data && data.length == 0) {
         return { status: false, msg: "password is incorrect" };
       }
+      const userCardID = isUserExist.data[0].cardID;
+      const userId = isUserExist.data[0].id;
+      const hashedCardId = hash.md5(`${userCardID}`);
+      session.sessions[hashedCardId] = { id: userId, type: type };
+      writeFileSync(__dirname + "/sessions.json", JSON.stringify(session));
       return { status: true, msg: "user authentication is successfully " };
     } catch (err) {
       return { status: false, msg: "error during perform authenticate" };

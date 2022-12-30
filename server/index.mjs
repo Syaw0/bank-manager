@@ -6,6 +6,7 @@ import router from "./routes/index.mjs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+import checkSession from "./util/checkSession.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -18,7 +19,6 @@ export async function createServer(
   isProd = process.env.NODE_ENV === "production",
   hmrPort
 ) {
-  console.log(process.env.NODE_ENV, isProd);
   const resolve = (p) => path.resolve(__dirname, p);
   const indexProd = isProd
     ? fs.readFileSync(
@@ -76,12 +76,51 @@ export async function createServer(
     );
   }
 
+  app.use("/", (req, res, next) => {
+    if (req.originalUrl.search("/assets/") != -1) {
+      next();
+      return;
+    }
+    console.log(req.originalUrl);
+    const cookie = req.cookies;
+    if (!cookie.session) {
+      if (req.originalUrl != "/login") {
+        res.redirect("/login");
+        console.log("redirect?");
+        return;
+      }
+    } else {
+      const result = checkSession(cookie.session);
+      if (result.status) {
+        // ? implement methods that user have permission to access this url?
+
+        if (req.originalUrl == "/whoami") {
+          res.send(result);
+          return;
+        }
+        console.log("its ok");
+        if (req.originalUrl != "/dash" && req.originalUrl == "/login") {
+          res.redirect("/dash");
+          console.log("redirect to dash");
+          return;
+        }
+      } else {
+        if (req.originalUrl != "/login") {
+          res.redirect("/login");
+          console.log("redirect to login");
+          return;
+        }
+      }
+    }
+
+    next();
+  });
+
   app.use("/", router);
 
   app.use("*", async (req, res) => {
     try {
       const url = req.originalUrl;
-      console.log(url);
       let template, render;
       if (!isProd) {
         // always read fresh template in dev
@@ -101,7 +140,7 @@ export async function createServer(
       }
 
       const context = {};
-      const appHtml = render(url, context);
+      const appHtml = render(url);
 
       if (context.url) {
         // Somewhere a `<Redirect>` was rendered
