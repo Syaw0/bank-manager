@@ -77,6 +77,10 @@ export async function createServer(
   }
 
   app.use("/", (req, res, next) => {
+    // TODO:implement the session storage for those that want to do not use cookies
+    //! if user agent does not support cookies this has huge bug for application
+    //! for this we must check cookie support in client and then if not
+    //! we must implement the session storage For that
     if (req.originalUrl.search("/assets/") != -1) {
       next();
       return;
