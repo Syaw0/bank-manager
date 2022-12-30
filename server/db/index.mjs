@@ -14,7 +14,7 @@ class Hash {
 }
 const hash = new Hash();
 
-//‌ TODO in future i hash password (sign up) in the client...
+// TODO in future i hash password (sign up) in the client...
 
 class DB {
   constructor() {
@@ -40,13 +40,12 @@ class GetUser extends DB {
     let data;
     try {
       data = await con.query(`SELECT * FROM ${type}s WHERE id=${id}`);
-      if (data) {
-        return data;
-      } else {
-        throw new Error(); //TODO fix this to return fixed scheme {status:boolean,msg:string}
+      if (data && data.length === 0) {
+        return { status: false, msg: "such user is not exist " };
       }
+      return { status: true, msg: "successfully find that user", data: data };
     } catch (err) {
-      throw new Error("Error happen during query to server");
+      return { status: false, msg: "error during query to Db" };
     } finally {
       if (con) {
         con.end();
@@ -59,13 +58,12 @@ class GetUser extends DB {
     let data;
     try {
       data = await con.query(`SELECT * FROM ${type}s WHERE cardId=${cardId}`);
-      if (data) {
-        return data;
-      } else {
-        throw new Error();
+      if (data && data.length === 0) {
+        return { status: false, msg: "such user is not exist " };
       }
+      return { status: true, msg: "successfully find that user", data: data };
     } catch (err) {
-      throw new Error("Error happen during query to server");
+      return { status: false, msg: "error during query to Db", error: true };
     } finally {
       if (con) {
         con.end();
@@ -84,13 +82,15 @@ class GetUserList extends DB {
     let data;
     try {
       data = await con.query(`SELECT * FROM ${type}`);
-      if (data) {
-        return data;
-      } else {
-        throw new Error();
+      if (data && data.length === 0) {
+        return { status: false, msg: "cant found anything" };
       }
+      return { status: true, msg: "founded", data: data };
     } catch (err) {
-      throw new Error("Error happen during query to server");
+      return {
+        status: false,
+        msg: "error during perform action (getUserList)",
+      };
     } finally {
       if (con) {
         con.end();
@@ -105,20 +105,24 @@ class AddUser extends DB {
   }
 
   async addUser(type, data) {
-    const [query, values] = this.chooseQueryType(type, data);
+    const customQuery = this.chooseQueryType(type, data);
+    let query, values;
+    if (customQuery.status == null) {
+      [query, values] = customQuery;
+    } else {
+      return customQuery;
+    }
+
     const con = await this.connectToDb();
     try {
-      console.log("lets query", query, values);
       let data = await con.query(query, values);
-      console.log(data);
-      if (data) {
-        return data;
-      } else {
-        throw new Error();
-      }
+      return { status: true, msg: "successfully insert new user to DB" };
     } catch (err) {
       console.log(err);
-      throw new Error("Error happen during query to server");
+      return {
+        status: false,
+        msg: "error during performing action (adding new user)  ",
+      };
     } finally {
       if (con) {
         con.end();
@@ -128,15 +132,13 @@ class AddUser extends DB {
 
   chooseQueryType(type, data) {
     if (type === "manager" || type === "employee") {
-      return this.makeQueryForBankers(data);
+      return this.makeQueryForBankers(type, data);
     } else if (type === "customer") {
       return this.makeQueryForCustomer(data);
-    } else {
-      throw new Error();
     }
   }
 
-  makeQueryForBankers(data) {
+  makeQueryForBankers(type, data) {
     try {
       const hashedPassword = hash.md5(data.password);
       let keyAccess = "";
@@ -161,7 +163,11 @@ class AddUser extends DB {
 
       return [query, values];
     } catch (err) {
-      throw new Error();
+      console.log(err);
+      return {
+        status: false,
+        msg: "error during pars data (addUser-manager/employee)",
+      };
     }
   }
 
@@ -178,7 +184,11 @@ class AddUser extends DB {
 
       return [query, values];
     } catch (err) {
-      throw new Error();
+      console.log(err);
+      return {
+        status: false,
+        msg: "error during pars data (addUser-customer)",
+      };
     }
   }
 }
@@ -192,7 +202,6 @@ class MakeTransaction extends DB {
     let con;
     try {
       let auth = await this.authenticateAccounts(data);
-      console.log(auth.status);
       if (auth.status === false) {
         return auth;
       }
@@ -227,19 +236,21 @@ class MakeTransaction extends DB {
         data.destinationAccount,
         "customer"
       );
-      if (origin.length === 0) {
-        return { status: false, msg: "origin account is not exists" };
+
+      if (!origin.status) {
+        return origin;
       }
-      if (distinction.length === 0) {
-        return { status: false, msg: "destination account is not exists" };
+      if (!distinction.status) {
+        return distinction;
       }
 
-      if (origin[0].amount < data.amount) {
+      if (origin.data[0].amount < data.amount) {
         return { status: false, msg: "origin has not have enough money" };
       }
 
-      return [origin[0].amount, distinction[0].amount];
+      return [origin.data[0].amount, distinction.data[0].amount];
     } catch (err) {
+      console.log(err);
       return {
         status: false,
         msg: "error during authenticate users for perform operation",

@@ -16,17 +16,19 @@ addUserRoute.post("/:type", async (req, res) => {
     // first let go and see if we have any other user with same info?
     let getUser = new GetUser();
     const isUserExist = await getUser.getUserByCardId(addingData.cardId, type);
-    if (isUserExist.length !== 0) {
+    if (isUserExist.status) {
       res.send({ status: false, msg: "user with same cardId Exist..." });
       return;
+    }
+    if (isUserExist.error) {
+      throw new Error();
     }
 
     let addUserToDb = new AddUser();
     const data = await addUserToDb.addUser(type, addingData);
-    res.send({ status: true, msg: "user successfully added" });
+    res.send(data);
   } catch (err) {
-    console.log(err);
-    res.send({ status: false, msg: "error during get data" });
+    res.send({ status: false, msg: "error during perform action(addUser)" });
   }
 });
 

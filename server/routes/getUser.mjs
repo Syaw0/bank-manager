@@ -15,16 +15,12 @@ getUserRoute.use("/:type/:id", async (req, res) => {
   let data;
   try {
     data = await getUserFromDb.getUser(id, type);
-    if (data.length == 0) {
-      throw new Error("no such user in db");
-    }
-    if (data) {
-      res.send({ status: true, msg: "successfully find user", data: data });
-    } else {
-      throw new Error();
-    }
+    res.send(data);
   } catch (err) {
-    res.send({ status: false, msg: "cant find such user in db" });
+    res.send({
+      status: false,
+      msg: "error during perform operation(find user)",
+    });
     return;
   }
 });
