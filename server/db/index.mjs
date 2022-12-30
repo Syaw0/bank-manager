@@ -336,6 +336,32 @@ class ChangeAccess extends DB {
   }
 }
 
+class Login extends DB {
+  constructor() {
+    super();
+  }
+
+  async authenticate(type, cardId, password) {
+    try {
+      const hashedPassword = hash.md5(password);
+      let getUserByCardId = new GetUser();
+      const isUserExist = await getUserByCardId.getUserByCardId(cardId, type);
+      if (!isUserExist.status) {
+        return { status: false, msg: "this cardId is not exist in DB" };
+      }
+      const query = `SELECT * FROM ${type}s WHERE (id = ${isUserExist.data[0].id}  and  password = '${hashedPassword}')`;
+      const con = await this.connectToDb();
+      const data = await con.query(query);
+      if (data && data.length == 0) {
+        return { status: false, msg: "password is incorrect" };
+      }
+      return { status: true, msg: "user authentication is successfully " };
+    } catch (err) {
+      return { status: false, msg: "error during perform authenticate" };
+    }
+  }
+}
+
 export {
   GetUser,
   GetUserList,
@@ -343,4 +369,5 @@ export {
   MakeTransaction,
   BlockAccount,
   ChangeAccess,
+  Login,
 };
