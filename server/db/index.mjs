@@ -243,6 +243,13 @@ class MakeTransaction extends DB {
       if (!distinction.status) {
         return distinction;
       }
+      if (origin.data[0].block) {
+        return { status: false, msg: "origin account is blocked!" };
+      }
+
+      if (distinction.data[0].block) {
+        return { status: false, msg: "destination account is blocked!" };
+      }
 
       if (origin.data[0].amount < data.amount) {
         return { status: false, msg: "origin has not have enough money" };

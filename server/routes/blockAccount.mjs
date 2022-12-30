@@ -8,7 +8,6 @@ blockRoute.post("/:type/:id", async (req, res) => {
   const { isBlocked } = req.body;
 
   try {
-    //TODO REMEMBER to check account block when we want to make Transaction
     const blockUsers = new BlockAccount();
     const data = await blockUsers.blockAccount(type, id, isBlocked);
     res.send(data);
