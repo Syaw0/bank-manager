@@ -1,7 +1,6 @@
 import { allAccessibilityInObj } from "../../sharedData/allAccessibility";
 
 const transformUserData = (data: any) => {
-  console.log(data);
   const newObj = { ...data };
   newObj["accessibility"] = [];
   Object.keys(data).forEach((acc) => {

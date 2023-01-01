@@ -83,6 +83,9 @@ export async function createServer(
       next();
       return;
     }
+
+    //TODO when send some important information dont forget to set cache settings of responses
+
     // TODO:implement the session storage for those that want to do not use cookies
     //! if user agent does not support cookies this has huge bug for application
     //! for this we must check cookie support in client and then if not
@@ -93,7 +96,6 @@ export async function createServer(
     }
     const cookie = req.cookies;
     if (!cookie.session) {
-      console.log(req.originalUrl);
       if (req.originalUrl != "/login" && req.originalUrl != "/auth") {
         res.redirect("/login");
         return;
@@ -106,9 +108,7 @@ export async function createServer(
         // * here i want to use proxy to use cache data
         // * and trigger a event to update cache when some methods calls
         // * like block or unblock
-        console.log(id, type);
         let data = await getUserFromDb.getUser(id, type);
-        console.log("here?");
         if (req.originalUrl == "/whoami") {
           data.data[0]["type"] = type;
           res.send(data);
@@ -117,13 +117,21 @@ export async function createServer(
         let hasUserAccess = true;
         Object.keys(urlAccess).forEach((ua) => {
           if (req.originalUrl.search(ua) != -1) {
-            console.log(urlAccess[ua], ua);
             if (data.data[0][urlAccess[ua]] == 0) {
               hasUserAccess = false;
             }
           }
         });
-        console.log(hasUserAccess, req.originalUrl);
+
+        if (
+          data.data[0].block === 1 &&
+          req.originalUrl != "/auth" &&
+          req.originalUrl != "/login" &&
+          req.originalUrl.search("/logout/") == -1 &&
+          req.originalUrl != "/dash"
+        ) {
+          hasUserAccess = false;
+        }
         if (!hasUserAccess) {
           const validUrls = {
             [`/getUser/${type}/${id}`]: "",
@@ -134,19 +142,19 @@ export async function createServer(
             return;
           }
 
-          res.redirect("/dash");
-          return;
+          if (req.originalUrl != "/dash") {
+            res.redirect("/dash");
+            return;
+          }
         }
 
         if (req.originalUrl != "/dash" && req.originalUrl == "/login") {
           res.redirect("/dash");
-          console.log("redirect to dash");
           return;
         }
       } else {
         if (req.originalUrl != "/login" && req.originalUrl != "/auth") {
           res.redirect("/login");
-          console.log("redirect to login");
           return;
         }
       }

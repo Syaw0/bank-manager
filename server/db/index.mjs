@@ -1,11 +1,11 @@
 import { createPool } from "mariadb";
 import crypto from "crypto";
 import { allEmployeeAccess, allManagerAccess } from "./metadata.mjs";
-import session from "./sessions.json" assert { type: "json" };
 import { writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import path from "path";
 import dotenv from "dotenv";
+import readSession from "./readSession.mjs";
 
 dotenv.config();
 
@@ -369,10 +369,12 @@ class Login extends DB {
       const userCardID = isUserExist.data[0].cardID;
       const userId = isUserExist.data[0].id;
       const hashedCardId = hash.md5(`${userCardID}`);
-      session.sessions[hashedCardId] = { id: userId, type: type };
-      writeFileSync(__dirname + "/sessions.json", JSON.stringify(session));
+      const sessions = JSON.parse(readSession());
+      sessions.sessions[hashedCardId] = { id: userId, type: type };
+      writeFileSync(__dirname + "/sessions.json", JSON.stringify(sessions));
       return { status: true, msg: "user authentication is successfully " };
     } catch (err) {
+      console.log(err);
       return { status: false, msg: "error during perform authenticate" };
     }
   }
@@ -383,14 +385,15 @@ class Logout {
     try {
       console.log(cardId);
       const hashedCardId = cardId;
-      if (session.sessions[hashedCardId] == null) {
+      const sessions = JSON.parse(readSession());
+      if (sessions.sessions[hashedCardId] == null) {
         return {
           status: false,
           msg: "there is no such session in session storage",
         };
       }
-      delete session.sessions[hashedCardId];
-      writeFileSync(__dirname + "/sessions.json", JSON.stringify(session));
+      delete sessions.sessions[hashedCardId];
+      writeFileSync(__dirname + "/sessions.json", JSON.stringify(sessions));
       return { status: true, msg: "session successfully deleted" };
     } catch (err) {
       console.log(err);

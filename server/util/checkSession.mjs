@@ -1,6 +1,9 @@
+import readSession from "../db/readSession.mjs";
 import sessions from "../db/sessions.json" assert { type: "json" };
 
 const checkSession = (sessionCookie) => {
+  const sessions = JSON.parse(readSession());
+  console.log("theeeeeeeeeeeeeeeeeeeeeeeeeees is session", sessions);
   if (sessionCookie in sessions.sessions) {
     console.log("its exist");
     return {

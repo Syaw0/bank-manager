@@ -6,7 +6,6 @@ const changeAccessibility = async (
   data: any,
   type: string
 ): Promise<any> => {
-  console.log(changedAccess, data, type);
   try {
     const result: any = useFetch(`/changeAccess/${type}/${data.id}`, {
       method: "POST",

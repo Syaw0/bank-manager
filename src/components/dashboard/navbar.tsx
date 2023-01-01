@@ -36,9 +36,17 @@ const Navbar = () => {
         padding: "$3 $2",
         "& a": {
           width: "100%",
+          height: "fit-content",
+          // backgroundColor: "pink",
           textDecoration: "none",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          borderRadius: "8px",
           "& button": {
             justifyContent: "start",
+            width: "100%",
+            height: "100%",
             color: "$onPrimary800",
             padding: "3px",
             borderRadius: "5px",
@@ -224,13 +232,15 @@ const Navbar = () => {
         </Flex>
       </Flex>
 
-      <Button
-        placeholder="Logout"
-        type="shadow"
-        dataTestid="dash-logout-button"
-        StartIcon={<IcoLogout width={20} height={20} />}
-        onClick={handlingLogOut}
-      />
+      <Link to={""}>
+        <Button
+          placeholder="Logout"
+          type="shadow"
+          dataTestid="dash-logout-button"
+          StartIcon={<IcoLogout width={20} height={20} />}
+          onClick={handlingLogOut}
+        />
+      </Link>
     </Flex>
   );
 };

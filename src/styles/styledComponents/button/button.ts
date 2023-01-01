@@ -24,6 +24,7 @@ const StyledButton = styled("button", {
     backgroundColor: "$gray400",
     cursor: "wait",
     color: "$onBg600",
+
     "&:hover": {
       color: "$onBg600",
       backgroundColor: "$gray400",

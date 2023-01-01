@@ -30,10 +30,8 @@ const getCustomerList = async () => {
       },
     });
 
-    console.log(result);
     return result;
   } catch (err) {
-    console.log(err);
     return {
       status: false,
       msg: "error during send request!",
@@ -52,10 +50,8 @@ const getEmployeeList = async () => {
     result.data = result.data.map((d: any) => {
       return transformUserData(d);
     });
-    console.log(result);
     return result;
   } catch (err) {
-    console.log(err);
     return {
       status: false,
       msg: "error during send request!",
@@ -74,10 +70,8 @@ const getManagerList = async () => {
     result.data = result.data.map((d: any) => {
       return transformUserData(d);
     });
-    console.log(result);
     return result;
   } catch (err) {
-    console.log(err);
     return {
       status: false,
       msg: "error during send request!",

@@ -22,9 +22,10 @@ const AccountDetail = ({ data, type }: any) => {
 
   const blocking = async () => {
     setMsgState({ type: "waiting", msg: "waitUntil server respond" });
-    const result = await blockAccount(data);
+    const result = await blockAccount(data, type);
     if (result.status) {
       setMsgState({ type: "success", msg: result.msg });
+      location.reload();
     } else {
       setMsgState({ type: "error", msg: result.msg });
     }
@@ -32,12 +33,13 @@ const AccountDetail = ({ data, type }: any) => {
 
   const unBlocking = async () => {
     setMsgState({ type: "waiting", msg: "waitUntil server respond" });
-    const result = await unBlockAccount(data);
+    const result = await unBlockAccount(data, type);
     if (result.status) {
       setMsgState({
         type: "success",
         msg: "Successfully unBlock this account",
       });
+      location.reload();
     } else {
       setMsgState({ type: "error", msg: result.msg });
     }

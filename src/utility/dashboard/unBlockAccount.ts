@@ -1,14 +1,14 @@
 import useFetch from "../hook/useFetch";
 
-const unBlockAccount = async (id: any): Promise<any> => {
+const unBlockAccount = async (data: any, type: any): Promise<any> => {
   try {
-    const result: any = useFetch("", {
+    const result: any = useFetch(`/block/${type}/${data.id}`, {
       method: "POST",
 
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ s: "" }),
+      body: JSON.stringify({ isBlocked: true }),
     });
     return result;
   } catch (err) {
