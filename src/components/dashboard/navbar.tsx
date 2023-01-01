@@ -103,7 +103,10 @@ const Navbar = () => {
               Manager
             </Text>
 
-            <Link to={`/dash/managers/${data.id}`}>
+            <Link
+              to={`/dash/managers/${data.id}`}
+              data-testid="dash-myAccount-manager-link"
+            >
               <Button
                 placeholder="My Account"
                 type="shadow"

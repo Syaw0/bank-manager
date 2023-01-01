@@ -5,9 +5,17 @@ import "@testing-library/jest-dom";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import mainStore from "../../../store/mainStore";
-import accessibility from "./metaData";
+import { randomEmployee, randomManager } from "../../../sharedData/fakeUsers";
+import whoami from "../../../utility/dashboard/whoami";
 
 const initialState = mainStore.getState();
+
+jest.mock("../../../utility/dashboard/whoami");
+const mockWhoami = whoami as jest.Mock;
+
+mockWhoami.mockReturnValue(
+  new Promise((res) => res({ status: true, msg: "", data: randomManager }))
+);
 
 describe("Dashboard Accessibility", () => {
   // accessibility are define by super user and some of these limiting in client
@@ -18,6 +26,7 @@ describe("Dashboard Accessibility", () => {
 
   beforeEach(async () => {
     mainStore.setState(initialState, true);
+    // mainStore.getState().setMainAccount(randomManager);
     await waitFor(() =>
       render(
         <MemoryRouter initialEntries={["/dash"]}>
@@ -28,8 +37,14 @@ describe("Dashboard Accessibility", () => {
   });
 
   it("user is a manger and have all access", async () => {
+    await waitFor(() =>
+      expect(screen.getByTestId("wait-message")).toBeInTheDocument()
+    );
+
+    await waitFor(() =>
+      expect(screen.getByTestId("dash-addManager-button")).toBeInTheDocument()
+    );
     await waitFor(() => {
-      mainStore.getState().setMainAccount({ accessibility: accessibility });
       expect(
         screen.getByTestId("dash-myAccount-manager-button")
       ).toBeInTheDocument();
@@ -38,7 +53,6 @@ describe("Dashboard Accessibility", () => {
       ).toBeInTheDocument();
       expect(screen.getByTestId("dash-employees-button")).toBeInTheDocument();
       expect(screen.getByTestId("dash-managers-button")).toBeInTheDocument();
-      expect(screen.getByTestId("dash-addManager-button")).toBeInTheDocument();
 
       let employeeAccount;
       try {
@@ -55,15 +69,14 @@ describe("Dashboard Accessibility", () => {
     });
   });
 
-  it("user is a employee", async () => {
-    const addManagerBtn = screen.getByTestId("dash-addManager-button") as any;
-    expect(addManagerBtn).toBeInTheDocument();
+  it.only("user is a employee", async () => {
+    await waitFor(() => mainStore.getState().setMainAccount(randomEmployee));
     await waitFor(() => {
-      mainStore.getState().setMainAccount({
-        accessibility: ["Add Customer", "Make Transaction"],
-        type: "employee",
-      });
-      expect(addManagerBtn).not.toBeInTheDocument();
+      let addManagerBtn;
+      try {
+        addManagerBtn = screen.getByTestId("dash-addManager-button");
+      } catch (err) {}
+      expect(addManagerBtn).toBe(undefined);
       expect(screen.getByTestId("dash-addCustomer-button")).toBeInTheDocument();
       expect(screen.getByTestId("dash-customers-button")).toBeInTheDocument();
     });

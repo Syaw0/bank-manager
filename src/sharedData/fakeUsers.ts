@@ -18,9 +18,9 @@ const randomEmployee = {
   id: "551231231",
   block: false,
   accessibility: [
-    "Add Customer",
-    "Block Customer",
-    "Make Transaction",
+    "AddCustomer",
+    "BlockCustomer",
+    "MakeTransaction",
     "ReadCustomerData",
   ],
 };
@@ -34,15 +34,15 @@ const randomManager = {
   id: "41",
   block: false,
   accessibility: [
-    "Add Customer",
-    "Block Customer",
-    "Make Transaction",
-    "Add Employee",
-    "Change Accessibility",
-    "Add Manager",
-    "Block Manager",
-    "Block Employee",
-    "Delete Employee",
+    "AddCustomer",
+    "BlockCustomer",
+    "MakeTransaction",
+    "AddEmployee",
+    "ChangeAccessibility",
+    "AddManager",
+    "BlockManager",
+    "BlockEmployee",
+    "DeleteEmployee",
     "ReadCustomerData",
     "ReadManagerData",
     "ReadEmployeeData",
@@ -58,7 +58,12 @@ const employeeList = [
     tel: "441232131",
     id: "551231231",
     block: false,
-    accessibility: ["Add Customer", "Block Customer", "Make Transaction"],
+    accessibility: [
+      "AddCustomer",
+      "BlockCustomer",
+      "MakeTransaction",
+      "ReadCustomerData",
+    ],
   },
   {
     name: "habito",
@@ -68,7 +73,7 @@ const employeeList = [
     tel: "1441232131",
     id: "4551231231",
     block: false,
-    accessibility: ["Block Customer", "Make Transaction"],
+    accessibility: ["BlockCustomer", "MakeTransaction", "ReadCustomerData"],
   },
   {
     name: "posita",
@@ -78,7 +83,12 @@ const employeeList = [
     tel: "455",
     id: "55",
     block: false,
-    accessibility: ["Add Customer", "Block Customer", "Make Transaction"],
+    accessibility: [
+      "AddCustomer",
+      "BlockCustomer",
+      "MakeTransaction",
+      "ReadCustomerData",
+    ],
   },
 ];
 
@@ -91,7 +101,7 @@ const customerList = [
     tel: "1232131",
     id: "331231231",
     block: false,
-    balance: "200$",
+    amount: "200$",
   },
   {
     name: "arigato",
@@ -101,7 +111,7 @@ const customerList = [
     tel: "724",
     id: "146",
     block: false,
-    balance: "200$",
+    amount: "200$",
   },
   {
     name: "narutu",
@@ -111,7 +121,7 @@ const customerList = [
     tel: "4444",
     id: "3312312111131",
     block: false,
-    balance: "200$",
+    amount: "200$",
   },
 ];
 

@@ -5,13 +5,24 @@ import { MemoryRouter } from "react-router-dom";
 import App from "../../App";
 import getSpecificUser from "../../utility/dashboard/getSpecificUser";
 import getUserListData from "../../utility/dashboard/getUserListData";
-import { customerList, randomCustomer } from "../../sharedData/fakeUsers";
+import {
+  customerList,
+  randomCustomer,
+  randomManager,
+} from "../../sharedData/fakeUsers";
+import whoami from "../../utility/dashboard/whoami";
 
+jest.mock("../../utility/dashboard/whoami");
 jest.mock("../../utility/dashboard/getUserListData");
 jest.mock("../../utility/dashboard/getSpecificUser");
 
+const mockWhoami = whoami as jest.Mock;
 const mockGetSpecificUser = getSpecificUser as jest.Mock;
 const mockGetUserListData = getUserListData as jest.Mock;
+
+mockWhoami.mockReturnValue(
+  new Promise((res) => res({ status: true, msg: "", data: randomManager }))
+);
 
 mockGetSpecificUser.mockReturnValue(
   new Promise((res) => {
@@ -35,13 +46,17 @@ describe("app route test...", () => {
     expect(screen.getByTestId("login-route")).toBeInTheDocument();
   });
 
-  it("navigate to dashboard route", () => {
-    render(
-      <MemoryRouter initialEntries={["/dash"]}>
-        <App />
-      </MemoryRouter>
+  it("navigate to dashboard route", async () => {
+    await waitFor(() =>
+      render(
+        <MemoryRouter initialEntries={["/dash"]}>
+          <App />
+        </MemoryRouter>
+      )
     );
-    expect(screen.getByTestId("dashboard-route")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId("dashboard-route")).toBeInTheDocument()
+    );
   });
 
   it("navigate to managers  route", async () => {
@@ -110,39 +125,47 @@ describe("app route test...", () => {
     );
   });
 
-  it("navigate to makeTransaction  route", () => {
+  it("navigate to makeTransaction  route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/makeTransaction"]}>
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("makeTransaction-route")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId("makeTransaction-route")).toBeInTheDocument()
+    );
   });
 
-  it("navigate to addCustomer  route", () => {
+  it("navigate to addCustomer  route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/addCustomer"]}>
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("addCustomer-route")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId("addCustomer-route")).toBeInTheDocument()
+    );
   });
 
-  it("navigate to addManager route", () => {
+  it("navigate to addManager route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/addManager"]}>
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("addManager-route")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId("addManager-route")).toBeInTheDocument()
+    );
   });
 
-  it("navigate to addEmployee route", () => {
+  it("navigate to addEmployee route", async () => {
     render(
       <MemoryRouter initialEntries={["/dash/addEmployee"]}>
         <App />
       </MemoryRouter>
     );
-    expect(screen.getByTestId("addEmployee-route")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId("addEmployee-route")).toBeInTheDocument()
+    );
   });
 });

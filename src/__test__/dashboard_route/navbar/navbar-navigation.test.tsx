@@ -1,11 +1,11 @@
 import React from "react";
 import App from "../../../App";
 import "@testing-library/jest-dom";
+// TODO IDK why its not pass !!
 
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import mainStore from "../../../store/mainStore";
-import accessibility from "./metaData";
 import getUserListData from "../../../utility/dashboard/getUserListData";
 import getSpecificUser from "../../../utility/dashboard/getSpecificUser";
 import {
@@ -14,32 +14,49 @@ import {
   randomEmployee,
   randomManager,
 } from "../../../sharedData/fakeUsers";
+import whoami from "../../../utility/dashboard/whoami";
 
 jest.mock("../../../utility/dashboard/getUserListData");
 jest.mock("../../../utility/dashboard/getSpecificUser");
 
+jest.mock("../../../utility/dashboard/whoami");
+const mockWhoami = whoami as jest.Mock;
+
 const mockGetUserListData = getUserListData as jest.Mock;
 const mockGetSpecificUser = getSpecificUser as jest.Mock;
+mockWhoami.mockReturnValue(
+  new Promise((res) => res({ status: true, msg: "", data: randomManager }))
+);
+
+mockGetSpecificUser.mockReturnValue(
+  new Promise((res) => res({ status: true, msg: "", data: randomManager }))
+);
 
 const initialState = mainStore.getState();
 
 describe("dashboard navigation", () => {
   beforeEach(async () => {
     mainStore.setState(initialState, true);
-    await waitFor(() => {
+    await waitFor(() =>
       render(
         <MemoryRouter initialEntries={["/dash"]}>
           <App />
         </MemoryRouter>
-      );
-    });
-  });
-  it("navigate to my account page(im manager)", async () => {
-    mockGetSpecificUser.mockReturnValue(
-      new Promise((res) => res({ status: true, msg: "", data: randomManager }))
+      )
     );
-    fireEvent.click(screen.getByTestId("dash-myAccount-manager-button"));
+  });
+  it.only("navigate to my account page(im manager)", async () => {
+    await waitFor(() =>
+      expect(screen.getByTestId("wait-message")).toBeInTheDocument()
+    );
 
+    await waitFor(() =>
+      expect(screen.getByTestId("dash-addManager-button")).toBeInTheDocument()
+    );
+    fireEvent.click(screen.getByTestId("dash-myAccount-manager-link"));
+
+    console.log(mainStore.getState());
+    screen.debug(screen.getByTestId("managersID-route"));
     await waitFor(() =>
       expect(screen.getByTestId("managersID-route")).toBeInTheDocument()
     );

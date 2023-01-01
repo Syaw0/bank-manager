@@ -21,7 +21,6 @@ const Dashboard = () => {
   });
 
   const getMainAccountData = async () => {
-    // TODO mock this function for test suits.
     setMsgState({ type: "waiting", msg: "wait until data come from server" });
     const result = await whoami();
     if (result.status) {
