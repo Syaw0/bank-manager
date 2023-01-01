@@ -95,21 +95,21 @@ const Navbar = () => {
               Manager
             </Text>
 
-            <Link to={"/dash/managers/1"}>
+            <Link to={`/dash/managers/${data.id}`}>
               <Button
                 placeholder="My Account"
                 type="shadow"
-                disabled={data.block}
+                disabled={data.block === 1}
                 dataTestid="dash-myAccount-manager-button"
                 StartIcon={<IconManager width={20} height={20} />}
                 onClick={() => {}}
               />
             </Link>
 
-            {data.accessibility.find((n) => n === "Add Employee") && (
+            {data.accessibility.find((n) => n === "AddEmployee") && (
               <Link to={"/dash/addEmployee"}>
                 <Button
-                  disabled={data.block}
+                  disabled={data.block === 1}
                   placeholder="Hire Employee"
                   type="shadow"
                   dataTestid="dash-hireEmployee-button"
@@ -118,19 +118,21 @@ const Navbar = () => {
               </Link>
             )}
 
-            <Link to={"/dash/employees"}>
-              <Button
-                disabled={data.block}
-                placeholder="Employees"
-                type="shadow"
-                dataTestid="dash-employees-button"
-                StartIcon={<IconAccounts width={20} height={20} />}
-              />
-            </Link>
-            {data.accessibility.find((n) => n === "Add Manager") && (
+            {data.accessibility.find((n) => n === "ReadEmployeeData") && (
+              <Link to={"/dash/employees"}>
+                <Button
+                  disabled={data.block === 1}
+                  placeholder="Employees"
+                  type="shadow"
+                  dataTestid="dash-employees-button"
+                  StartIcon={<IconAccounts width={20} height={20} />}
+                />
+              </Link>
+            )}
+            {data.accessibility.find((n) => n === "AddManager") && (
               <Link to={"/dash/addManager"}>
                 <Button
-                  disabled={data.block}
+                  disabled={data.block === 1}
                   placeholder="Add Manager"
                   type="shadow"
                   dataTestid="dash-addManager-button"
@@ -138,15 +140,17 @@ const Navbar = () => {
                 />
               </Link>
             )}
-            <Link to={"/dash/managers"}>
-              <Button
-                disabled={data.block}
-                placeholder="Managers"
-                type="shadow"
-                dataTestid="dash-managers-button"
-                StartIcon={<IconAccounts width={20} height={20} />}
-              />
-            </Link>
+            {data.accessibility.find((n) => n === "ReadManagerData") && (
+              <Link to={"/dash/managers"}>
+                <Button
+                  disabled={data.block === 1}
+                  placeholder="Managers"
+                  type="shadow"
+                  dataTestid="dash-managers-button"
+                  StartIcon={<IconAccounts width={20} height={20} />}
+                />
+              </Link>
+            )}
           </Flex>
         )}
 
@@ -171,9 +175,9 @@ const Navbar = () => {
           </Text>
 
           {data.type !== "manager" && (
-            <Link to={"/dash/employees/1"}>
+            <Link to={`/dash/employees/${data.id}`}>
               <Button
-                disabled={data.block}
+                disabled={data.block === 1}
                 placeholder="My Account"
                 type="shadow"
                 dataTestid="dash-myAccount-employee-button"
@@ -182,10 +186,10 @@ const Navbar = () => {
               />
             </Link>
           )}
-          {data.accessibility.find((n) => n === "Add Customer") && (
+          {data.accessibility.find((n) => n === "AddCustomer") && (
             <Link to={"/dash/addCustomer"}>
               <Button
-                disabled={data.block}
+                disabled={data.block === 1}
                 placeholder="Add Customer"
                 type="shadow"
                 dataTestid="dash-addCustomer-button"
@@ -194,20 +198,22 @@ const Navbar = () => {
             </Link>
           )}
 
-          <Link to={"/dash/customers"}>
-            <Button
-              disabled={data.block}
-              placeholder="Customers"
-              type="shadow"
-              dataTestid="dash-customers-button"
-              StartIcon={<IconAccounts width={20} height={20} />}
-            />
-          </Link>
+          {data.accessibility.find((n) => n === "ReadCustomerData") && (
+            <Link to={"/dash/customers"}>
+              <Button
+                disabled={data.block === 1}
+                placeholder="Customers"
+                type="shadow"
+                dataTestid="dash-customers-button"
+                StartIcon={<IconAccounts width={20} height={20} />}
+              />
+            </Link>
+          )}
 
-          {data.accessibility.find((n) => n === "Make Transaction") && (
+          {data.accessibility.find((n) => n === "MakeTransaction") && (
             <Link to={"/dash/makeTransaction"}>
               <Button
-                disabled={data.block}
+                disabled={data.block === 1}
                 placeholder="Make Transaction"
                 type="shadow"
                 dataTestid="dash-makeTransaction-button"

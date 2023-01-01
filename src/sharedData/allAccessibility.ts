@@ -1,23 +1,42 @@
 const allAccessibility = [
-  "Add Customer",
-  "Block Customer",
-  "Make Transaction",
-  "Add Employee",
-  "Change Accessibility",
-  "Add Manager",
-  "Block Manager",
-  "Block Employee",
-  "Delete Employee",
+  "AddCustomer",
+  "BlockCustomer",
+  "MakeTransaction",
+  "AddEmployee",
+  "ChangeAccessibility",
+  "AddManager",
+  "BlockManager",
+  "BlockEmployee",
+  "DeleteEmployee",
   "ReadCustomerData",
   "ReadManagerData",
   "ReadEmployeeData",
 ];
 
-const employeeAccessibility = [
-  "Add Customer",
-  "Block Customer",
-  "Make Transaction",
-  "ReadCustomerData",
-];
+const allAccessibilityInObj = {
+  AddCustomer: "Add Customer",
+  BlockCustomer: "Block Customer",
+  MakeTransaction: "Make Transaction",
+  AddEmployee: "Add Employee",
+  ChangeAccess: "Change Access",
+  AddManager: "Add Manager",
+  BlockManager: "Block Manager",
+  BlockEmployee: "Block Employee",
+  DeleteEmployee: "Delete Employee",
+  ReadCustomerData: "Read CustomerData",
+  ReadManagerData: "Read ManagerData",
+  ReadEmployeeData: "Read EmployeeData",
+};
 
-export { allAccessibility as default, employeeAccessibility };
+const employeeAccessibility = {
+  AddCustomer: "Add Customer",
+  BlockCustomer: "Block Customer",
+  MakeTransaction: "Make Transaction",
+  ReadCustomerData: "Read CustomerData",
+};
+
+export {
+  allAccessibility as default,
+  employeeAccessibility,
+  allAccessibilityInObj,
+};

@@ -23,14 +23,13 @@ class Hash {
     return crypto.createHash("md5").update(data).digest("hex");
   }
 }
-const hash = new Hash();
+export const hash = new Hash();
 
 // TODO in future i hash password (sign up) in the client...
 
 class DB {
   constructor() {
     this.pool = pool;
-    this.connectToDb();
   }
   async connectToDb() {
     try {
@@ -59,7 +58,7 @@ class GetUser extends DB {
       return { status: false, msg: "error during query to Db" };
     } finally {
       if (con) {
-        con.end();
+        await con.end();
       }
     }
   }
@@ -77,7 +76,7 @@ class GetUser extends DB {
       return { status: false, msg: "error during query to Db", error: true };
     } finally {
       if (con) {
-        con.end();
+        await con.end();
       }
     }
   }
@@ -104,7 +103,7 @@ class GetUserList extends DB {
       };
     } finally {
       if (con) {
-        con.end();
+        await con.end();
       }
     }
   }
@@ -136,7 +135,7 @@ class AddUser extends DB {
       };
     } finally {
       if (con) {
-        con.end();
+        await con.end();
       }
     }
   }
@@ -234,7 +233,7 @@ class MakeTransaction extends DB {
       return { status: false, msg: "internal Error during perform operation" };
     } finally {
       if (con) {
-        con.end();
+        await con.end();
       }
     }
   }
@@ -300,7 +299,7 @@ class BlockAccount extends DB {
       return { status: false, msg: "error during perform action (block)" };
     } finally {
       if (con) {
-        con.end();
+        await con.end();
       }
     }
   }
@@ -328,10 +327,11 @@ class ChangeAccess extends DB {
 
   makeQuery(type, id, data) {
     try {
+      console.log(type, id, data);
       const acc = type == "manager" ? allManagerAccess : allEmployeeAccess;
       let newAccQuery = "";
       Object.keys(acc).forEach((acc, i) => {
-        if (acc in data.accessibility) {
+        if (acc in data) {
           console.log("in it ", acc);
           newAccQuery += `${i == 0 ? "" : ","} ${acc}=1 `;
         } else {
@@ -341,6 +341,7 @@ class ChangeAccess extends DB {
       const query = `UPDATE ${type}s SET ${newAccQuery} WHERE id=${id}`;
       return query;
     } catch (err) {
+      console.log(err);
       return { status: false, msg: "error during pars and create query" };
     }
   }

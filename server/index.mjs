@@ -94,7 +94,8 @@ export async function createServer(
     }
     const cookie = req.cookies;
     if (!cookie.session) {
-      if (req.originalUrl != "/login") {
+      console.log(req.originalUrl);
+      if (req.originalUrl != "/login" && req.originalUrl != "/auth") {
         res.redirect("/login");
         return;
       }
@@ -106,8 +107,11 @@ export async function createServer(
         // * here i want to use proxy to use cache data
         // * and trigger a event to update cache when some methods calls
         // * like block or unblock
+        console.log(id, type);
         let data = await getUserFromDb.getUser(id, type);
+        console.log("here?");
         if (req.originalUrl == "/whoami") {
+          data.data[0]["type"] = type;
           res.send(data);
           return;
         }
@@ -120,7 +124,7 @@ export async function createServer(
             }
           }
         });
-
+        console.log(hasUserAccess, req.originalUrl);
         if (!hasUserAccess) {
           const validUrls = {
             [`/getUser/${type}/${id}`]: "",
@@ -141,7 +145,7 @@ export async function createServer(
           return;
         }
       } else {
-        if (req.originalUrl != "/login") {
+        if (req.originalUrl != "/login" && req.originalUrl != "/auth") {
           res.redirect("/login");
           console.log("redirect to login");
           return;
@@ -149,6 +153,11 @@ export async function createServer(
       }
     }
 
+    next();
+  });
+
+  app.use("/", (req, res, next) => {
+    console.log("go to router and ... ", req.originalUrl);
     next();
   });
 

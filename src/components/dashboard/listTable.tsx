@@ -6,6 +6,7 @@ import Flex from "../../styles/styledComponents/flex";
 const ListTable = ({ data, type }: { data: any[]; type: string }) => {
   const navigate = useNavigate();
   const openUser = (userData: any) => {
+    console.log(userData);
     mainStore.getState().setCurrentAccountDetail(userData);
     navigate(`/dash/${type.toLowerCase()}s/${userData.id}`, { replace: true });
   };
@@ -74,8 +75,8 @@ const ListTable = ({ data, type }: { data: any[]; type: string }) => {
                 <td>{d["name"]}</td>
                 <td>{d["familyName"]}</td>
                 <td>{d["id"]}</td>
-                <td>{d["cardId"]}</td>
-                {type == "Customer" && <td>{d["balance"]}</td>}
+                <td>{d["cardID"]}</td>
+                {type == "Customer" && <td>{d["amount"]}</td>}
                 {type != "Customer" && (
                   <td>
                     <ul>

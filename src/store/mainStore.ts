@@ -10,7 +10,7 @@ interface MainStore {
     type: string;
     cardId: string;
     tel: string;
-    block: boolean;
+    block: boolean | 0 | 1;
     accessibility: string[];
   };
   listUserData: any[];

@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import Flex from "../../../styles/styledComponents/flex";
 import allAccessibility, {
+  allAccessibilityInObj,
   employeeAccessibility,
 } from "../../../sharedData/allAccessibility";
 import Button from "../../button/button";
@@ -23,10 +24,18 @@ const AccessibilitySelect = ({
   accessibility,
   data,
 }: accessibilitySelect) => {
-  const accessibilities =
-    type === "manager" ? allAccessibility : employeeAccessibility;
+  const accessibilities: any =
+    type === "manager" ? allAccessibilityInObj : employeeAccessibility;
+  let accObjView: any = {};
   let accObj: any = {};
-  accessibilities.forEach((acc) => {
+
+  Object.keys(accessibilities).forEach((acc) => {
+    // accessibility.forEach((a) => {
+    //   if (a === acc) {
+    //     console.log(accessibilities[acc]);
+    //     accObjView[acc] = accessibilities[acc];
+    //   }
+    // }) != null;
     accObj[acc] = accessibility.find((a) => a === acc) != null;
   });
 
@@ -34,13 +43,15 @@ const AccessibilitySelect = ({
 
   const saveChanges = async () => {
     setMsgState({ type: "waiting", msg: "wait for server response" });
-    const result = await changeAccessibility(cheaps, data);
+    const result = await changeAccessibility(cheaps, data, type);
 
     if (result.status) {
       setMsgState({
         type: "success",
         msg: result.msg,
       });
+      location.reload(); //TODO may we use an state to reload just part of page?
+      setSelectingDisplay(false);
     } else {
       setMsgState({ type: "error", msg: result.msg });
     }
@@ -58,14 +69,14 @@ const AccessibilitySelect = ({
         flexWrap: "wrap",
       }}
     >
-      {Object.keys(accObj).map((acc) => {
+      {Object.keys(accessibilities).map((acc) => {
         const itemValue = cheaps[acc];
         return (
           <Button
             disabled={msgState.type === "waiting"}
             dataTestid={`dash-account-select-${acc}`}
             key={acc}
-            placeholder={acc}
+            placeholder={accessibilities[acc]}
             type={cheaps[acc] ? "primary" : "outline"}
             onClick={() => {
               setCheaps((s: any) => ({ ...s, [acc]: !itemValue }));

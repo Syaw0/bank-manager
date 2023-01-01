@@ -1,38 +1,43 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/dashboard/navbar";
+import Loader from "../../components/loader";
 import mainStore from "../../store/mainStore";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
+import { MessageType } from "../../types/messageType";
+import whoami from "../../utility/dashboard/whoami";
 import capitalizeFirstLetter from "../../utility/global/capitalizeFirstLetter";
 
 const Dashboard = () => {
   useEffect(() => {
-    console.log("hello");
-    whoami();
+    getMainAccountData();
   }, []);
 
-  // * this method find out who are log in !
-  const whoami = async () => {
-    // TODO mock this function for test suits.
-    // fetch for mainAccount
-    const resp = await fetch("/whoami");
-    const result = await resp.json();
+  const [msgState, setMsgState] = useState<MessageType>({
+    type: "idle",
+    msg: "",
+  });
 
+  const getMainAccountData = async () => {
+    // TODO mock this function for test suits.
+    setMsgState({ type: "waiting", msg: "wait until data come from server" });
+    const result = await whoami();
     if (result.status) {
-      console.log(result);
-      const resp = await fetch(
-        `/getUser/${result.data.type}/${result.data.id}`
-      );
-      const userData = await resp.json();
-      const mainData = { ...userData };
-      setMainAccount(userData.data[0]);
-      console.log(userData);
+      setMainAccount(result.data);
+      setMsgState({
+        type: "success",
+        msg: "data come from server successfully",
+      });
+      return;
     }
+    setMsgState({ type: "error", msg: "error with get data from server" });
   };
   const setMainAccount = mainStore((state) => state.setMainAccount);
   const data = mainStore((state) => state.mainAccount);
-  return (
+  return msgState.type == "waiting" ? (
+    <Loader />
+  ) : (
     <Flex css={{ height: "100%" }} data-testid="dashboard-route">
       <Navbar />
       <Flex

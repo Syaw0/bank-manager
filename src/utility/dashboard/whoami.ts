@@ -1,23 +1,16 @@
-import {
-  randomCustomer,
-  randomEmployee,
-  randomManager,
-} from "../../sharedData/fakeUsers";
 import useFetch from "../hook/useFetch";
 import transformUserData from "./transformUserData";
 
-const getSpecificUser = async (id: string, type: string): Promise<any> => {
+const whoami = async (): Promise<any> => {
   try {
-    const result: any = await useFetch(`/getUser/${type}/${id}`, {
+    const result: any = await useFetch(`/whoami`, {
       headers: {
         "Content-Type": "application/json",
       },
     });
-
     result.data = transformUserData(result.data[0]);
     return result;
   } catch (err) {
-    console.log(err);
     return {
       status: false,
       msg: "error during send request!",
@@ -25,4 +18,4 @@ const getSpecificUser = async (id: string, type: string): Promise<any> => {
   }
 };
 
-export default getSpecificUser;
+export default whoami;

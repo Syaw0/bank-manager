@@ -12,8 +12,9 @@ import AccessibilitySelect from "./accountDetail/accessibilitySelect";
 
 // TODO type definition for data
 
-const AccountDetail = ({ data }: any) => {
+const AccountDetail = ({ data, type }: any) => {
   const mainAccount = mainStore((state) => state.mainAccount);
+  console.log("SOS", mainAccount);
   const [isSelecting, setIsSelecting] = useState(false);
   const [msgState, setMsgState] = useState<MessageType>({
     type: "idle",
@@ -77,7 +78,7 @@ const AccountDetail = ({ data }: any) => {
           weight="400"
           css={{ justifyContent: "start", color: "$onBg800" }}
         >
-          type:{capitalizeFirstLetter(data.type)}
+          type:{capitalizeFirstLetter(type)}
         </Text>
       </Flex>
 
@@ -128,7 +129,7 @@ const AccountDetail = ({ data }: any) => {
 
         <Flex id="item-holder">
           <Text>Card ID</Text>
-          <Text>{data.cardId}</Text>
+          <Text>{data.cardID}</Text>
         </Flex>
 
         <Flex id="item-holder">
@@ -138,7 +139,7 @@ const AccountDetail = ({ data }: any) => {
 
         <Flex id="item-holder">
           <Text>Type</Text>
-          <Text>{capitalizeFirstLetter(data.type)}</Text>
+          <Text>{capitalizeFirstLetter(type)}</Text>
         </Flex>
 
         <Flex id="item-holder">
@@ -146,7 +147,7 @@ const AccountDetail = ({ data }: any) => {
           <Text>{data.id}</Text>
         </Flex>
 
-        {data.type === "customer" && (
+        {type === "customer" && (
           <Flex data-testid="dash-account-items-balance" id="item-holder">
             <Text>Balance</Text>
             <Text>{data.balance}</Text>
@@ -160,7 +161,7 @@ const AccountDetail = ({ data }: any) => {
           </Text>
         </Flex>
 
-        {data.type !== "customer" && (
+        {type !== "customer" && (
           <Flex id="item-holder">
             <Text
               css={{
@@ -169,9 +170,9 @@ const AccountDetail = ({ data }: any) => {
             >
               Accessibility
               {mainAccount.accessibility.find(
-                (acc: string) => acc == "Change Accessibility"
+                (acc: string) => acc == "ChangeAccess"
               ) != null &&
-                data.id !== mainAccount.id && (
+                (data.id !== mainAccount.id || type !== mainAccount.type) && (
                   <Button
                     dataTestid="dash-account-changeAccess-button"
                     onClick={changeAccessibility}
@@ -190,7 +191,7 @@ const AccountDetail = ({ data }: any) => {
                 setMsgState={setMsgState}
                 msgState={msgState}
                 setSelectingDisplay={setIsSelecting}
-                type={data.type}
+                type={type}
                 accessibility={data.accessibility}
                 data={data}
               />
@@ -210,16 +211,16 @@ const AccountDetail = ({ data }: any) => {
 
         {/* //TODO maybe i can write these statement in a better way */}
 
-        {((data.type == "customer" &&
-          mainAccount.accessibility.find((ac) => ac === "Block Customer") !=
+        {((type == "customer" &&
+          mainAccount.accessibility.find((ac) => ac === "BlockCustomer") !=
             null) ||
-          (data.type == "employee" &&
-            mainAccount.accessibility.find((ac) => ac === "Block Employee") !=
+          (type == "employee" &&
+            mainAccount.accessibility.find((ac) => ac === "BlockEmployee") !=
               null) ||
-          (data.type == "manager" &&
-            mainAccount.accessibility.find((ac) => ac === "Block Manager") !=
+          (type == "manager" &&
+            mainAccount.accessibility.find((ac) => ac === "BlockManager") !=
               null)) &&
-          data.id !== mainAccount.id && (
+          (data.id !== mainAccount.id || type !== mainAccount.type) && (
             <Button
               disabled={msgState.type === "waiting"}
               placeholder={data.block ? "Unblock Account" : "Block Account"}

@@ -12,10 +12,16 @@ logoutRoute.get("/:id", (req, res) => {
       return;
     }
     let logout = new Logout();
-
     let result = logout.loggingOut(cookies.session, id);
+    res.cookie("session", cookies.session, {
+      sameSite: "strict",
+      secure: true,
+      httpOnly: true,
+      maxAge: 0,
+    });
     res.send(result);
   } catch (err) {
+    console.log(err);
     res.send({ status: false, msg: "error during perform method(logout)" });
   }
 });

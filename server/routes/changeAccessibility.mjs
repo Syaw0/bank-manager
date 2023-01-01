@@ -7,6 +7,7 @@ const changeAccessibilityRoute = express.Router();
 changeAccessibilityRoute.post("/:type/:id", async (req, res) => {
   const { id, type } = req.params;
   const changeAccValue = req.body;
+  console.log(changeAccValue);
   if (!(type in validTypes)) {
     res.send({ status: false, msg: "the type of user is not valid" });
   }

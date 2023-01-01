@@ -4,6 +4,7 @@ import {
   managerList,
 } from "../../sharedData/fakeUsers";
 import useFetch from "../hook/useFetch";
+import transformUserData from "./transformUserData";
 
 const getUserListData = async (type: string): Promise<any> => {
   let result;
@@ -26,18 +27,22 @@ const getUserListData = async (type: string): Promise<any> => {
   }
 };
 
-const getCustomerList = () => {
+const getCustomerList = async () => {
   try {
-    const result: any = useFetch("", {
-      method: "POST",
-
+    const result: any = await useFetch("/getUserList/customers", {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ s: "" }),
     });
+
+    // result.data = result.data.map((d: any) => {
+    //   return transformUserData(d);
+    // });
+    // console.log(result);
+    console.log(result);
     return result;
   } catch (err) {
+    console.log(err);
     return {
       status: false,
       msg: "error during send request!",
@@ -45,18 +50,21 @@ const getCustomerList = () => {
   }
 };
 
-const getEmployeeList = () => {
+const getEmployeeList = async () => {
   try {
-    const result: any = useFetch("", {
-      method: "POST",
-
+    const result: any = await useFetch("/getUserList/employees", {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ s: "" }),
     });
+
+    result.data = result.data.map((d: any) => {
+      return transformUserData(d);
+    });
+    console.log(result);
     return result;
   } catch (err) {
+    console.log(err);
     return {
       status: false,
       msg: "error during send request!",
@@ -64,18 +72,21 @@ const getEmployeeList = () => {
   }
 };
 
-const getManagerList = () => {
+const getManagerList = async () => {
   try {
-    const result: any = useFetch("", {
-      method: "POST",
-
+    const result: any = await useFetch("/getUserList/managers", {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ s: "" }),
     });
+
+    result.data = result.data.map((d: any) => {
+      return transformUserData(d);
+    });
+    console.log(result);
     return result;
   } catch (err) {
+    console.log(err);
     return {
       status: false,
       msg: "error during send request!",

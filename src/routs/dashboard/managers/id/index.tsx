@@ -15,7 +15,7 @@ const ManagersID = () => {
   useEffect(() => {
     getUser();
   }, []);
-
+  // TODO What if i just return mainAccount ? if user want see his account
   const getUser = async () => {
     setMsgState({ type: "waiting", msg: "please wait until server respond" });
     const result = await getSpecificUser(params.id, "manager");
@@ -35,7 +35,7 @@ const ManagersID = () => {
 
   return (
     <Flex data-testid="managersID-route" dir="column">
-      {isReady && <AccountDetail data={data} />}
+      {isReady && <AccountDetail data={data} type="manager" />}
       {!isReady && msgState.type !== "error" && <Loader />}
       <Message type={msgState.type} msg={msgState.msg} />
     </Flex>
