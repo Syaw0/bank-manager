@@ -92,12 +92,10 @@ export async function createServer(
       next();
       return;
     }
-    console.log(req.originalUrl);
     const cookie = req.cookies;
     if (!cookie.session) {
       if (req.originalUrl != "/login") {
         res.redirect("/login");
-        console.log("redirect?");
         return;
       }
     } else {
@@ -109,26 +107,34 @@ export async function createServer(
         // * and trigger a event to update cache when some methods calls
         // * like block or unblock
         let data = await getUserFromDb.getUser(id, type);
-        // const allAccess =
-        //   type == "manager" ? allManagerAccess : allEmployeeAccess;
+        if (req.originalUrl == "/whoami") {
+          res.send(data);
+          return;
+        }
+        let hasUserAccess = true;
         Object.keys(urlAccess).forEach((ua) => {
           if (req.originalUrl.search(ua) != -1) {
-            console.log(
-              "this is url",
-              ua,
-              "this is accessibility for url",
-              urlAccess[ua]
-            );
+            console.log(urlAccess[ua], ua);
+            if (data.data[0][urlAccess[ua]] == 0) {
+              hasUserAccess = false;
+            }
           }
         });
 
-        // ? implement methods that user have permission to access this url?
+        if (!hasUserAccess) {
+          const validUrls = {
+            [`/getUser/${type}/${id}`]: "",
+            [`/dash/${type}s/${id}`]: "",
+          };
+          if (req.originalUrl in validUrls) {
+            next();
+            return;
+          }
 
-        if (req.originalUrl == "/whoami") {
-          res.send(result);
+          res.redirect("/dash");
           return;
         }
-        console.log("its ok");
+
         if (req.originalUrl != "/dash" && req.originalUrl == "/login") {
           res.redirect("/dash");
           console.log("redirect to dash");
