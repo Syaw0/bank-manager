@@ -377,6 +377,27 @@ class Login extends DB {
   }
 }
 
+class Logout {
+  loggingOut(cardId, id) {
+    try {
+      console.log(cardId);
+      const hashedCardId = cardId;
+      if (session.sessions[hashedCardId] == null) {
+        return {
+          status: false,
+          msg: "there is no such session in session storage",
+        };
+      }
+      delete session.sessions[hashedCardId];
+      writeFileSync(__dirname + "/sessions.json", JSON.stringify(session));
+      return { status: true, msg: "session successfully deleted" };
+    } catch (err) {
+      console.log(err);
+      return { status: false, msg: "error during perform action(logout)" };
+    }
+  }
+}
+
 export {
   GetUser,
   GetUserList,
@@ -385,4 +406,5 @@ export {
   BlockAccount,
   ChangeAccess,
   Login,
+  Logout,
 };

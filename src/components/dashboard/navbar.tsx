@@ -12,13 +12,16 @@ import { Link } from "react-router-dom";
 import IconManager from "../../assest/icons/IconManager";
 import IconAddManager from "../../assest/icons/IconAddManager";
 import mainStore from "../../store/mainStore";
+import logout from "../../utility/dashboard/logout";
 
 // ? We are do not render whose item not access by user but i want
 // TODO  to disable and show lock icon on it
 
 const Navbar = () => {
-  const data = mainStore.getState().mainAccount;
-  console.log(data);
+  const data = mainStore((state) => state.mainAccount);
+  const handlingLogOut = async () => {
+    const result = await logout(data.id);
+  };
   return (
     <Flex
       dir={"column"}
@@ -215,14 +218,13 @@ const Navbar = () => {
         </Flex>
       </Flex>
 
-      <Link to={"/login"}>
-        <Button
-          placeholder="Logout"
-          type="shadow"
-          dataTestid="dash-logout-button"
-          StartIcon={<IcoLogout width={20} height={20} />}
-        />
-      </Link>
+      <Button
+        placeholder="Logout"
+        type="shadow"
+        dataTestid="dash-logout-button"
+        StartIcon={<IcoLogout width={20} height={20} />}
+        onClick={handlingLogOut}
+      />
     </Flex>
   );
 };

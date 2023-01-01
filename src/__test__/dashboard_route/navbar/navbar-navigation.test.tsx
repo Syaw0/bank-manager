@@ -102,8 +102,12 @@ describe("dashboard navigation", () => {
     expect(screen.getByTestId("makeTransaction-route")).toBeInTheDocument();
   });
 
-  it("navigate to login with log out", () => {
-    fireEvent.click(screen.getByTestId("dash-logout-button"));
-    expect(screen.getByTestId("login-route")).toBeInTheDocument();
-  });
+  // ? this commonly handle by server as in this case request for wip
+  // ? session key send by client and if session removed successfully
+  // ? server respond with redirect !
+
+  // it("navigate to login with log out", () => {
+  //   fireEvent.click(screen.getByTestId("dash-logout-button"));
+  //   expect(screen.getByTestId("login-route")).toBeInTheDocument();
+  // });
 });

@@ -14,6 +14,7 @@ const Dashboard = () => {
 
   // * this method find out who are log in !
   const whoami = async () => {
+    // TODO mock this function for test suits.
     // fetch for mainAccount
     const resp = await fetch("/whoami");
     const result = await resp.json();
