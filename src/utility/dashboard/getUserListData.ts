@@ -1,8 +1,3 @@
-import {
-  customerList,
-  employeeList,
-  managerList,
-} from "../../sharedData/fakeUsers";
 import useFetch from "../hook/useFetch";
 import transformUserData from "./transformUserData";
 
@@ -35,10 +30,6 @@ const getCustomerList = async () => {
       },
     });
 
-    // result.data = result.data.map((d: any) => {
-    //   return transformUserData(d);
-    // });
-    // console.log(result);
     console.log(result);
     return result;
   } catch (err) {

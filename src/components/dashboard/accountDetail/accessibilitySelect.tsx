@@ -1,6 +1,6 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import Flex from "../../../styles/styledComponents/flex";
-import allAccessibility, {
+import {
   allAccessibilityInObj,
   employeeAccessibility,
 } from "../../../sharedData/allAccessibility";
@@ -26,16 +26,10 @@ const AccessibilitySelect = ({
 }: accessibilitySelect) => {
   const accessibilities: any =
     type === "manager" ? allAccessibilityInObj : employeeAccessibility;
-  let accObjView: any = {};
+
   let accObj: any = {};
 
   Object.keys(accessibilities).forEach((acc) => {
-    // accessibility.forEach((a) => {
-    //   if (a === acc) {
-    //     console.log(accessibilities[acc]);
-    //     accObjView[acc] = accessibilities[acc];
-    //   }
-    // }) != null;
     accObj[acc] = accessibility.find((a) => a === acc) != null;
   });
 
@@ -50,8 +44,7 @@ const AccessibilitySelect = ({
         type: "success",
         msg: result.msg,
       });
-      location.reload(); //TODO may we use an state to reload just part of page?
-      setSelectingDisplay(false);
+      location.reload();
     } else {
       setMsgState({ type: "error", msg: result.msg });
     }

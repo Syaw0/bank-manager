@@ -8,7 +8,6 @@ import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import checkSession from "./util/checkSession.mjs";
 import { GetUser } from "./db/index.mjs";
-import { allEmployeeAccess, allManagerAccess } from "./db/metadata.mjs";
 import { urlAccess } from "./util/urlAccess.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));

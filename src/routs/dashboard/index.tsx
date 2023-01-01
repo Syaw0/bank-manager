@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Outlet } from "react-router-dom";
 import Navbar from "../../components/dashboard/navbar";
 import Loader from "../../components/loader";
+import Message from "../../components/message/message";
 import mainStore from "../../store/mainStore";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
@@ -35,8 +36,13 @@ const Dashboard = () => {
   };
   const setMainAccount = mainStore((state) => state.setMainAccount);
   const data = mainStore((state) => state.mainAccount);
-  return msgState.type == "waiting" ? (
-    <Loader />
+  return msgState.type == "waiting" || msgState.type == "error" ? (
+    <>
+      <Flex dir="column">
+        <Loader />
+        <Message type={msgState.type} msg={msgState.msg} />
+      </Flex>
+    </>
   ) : (
     <Flex css={{ height: "100%" }} data-testid="dashboard-route">
       <Navbar />

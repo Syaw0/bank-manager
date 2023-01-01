@@ -14,12 +14,12 @@ import AccessibilitySelect from "./accountDetail/accessibilitySelect";
 
 const AccountDetail = ({ data, type }: any) => {
   const mainAccount = mainStore((state) => state.mainAccount);
-  console.log("SOS", mainAccount);
   const [isSelecting, setIsSelecting] = useState(false);
   const [msgState, setMsgState] = useState<MessageType>({
     type: "idle",
     msg: "",
   });
+
   const blocking = async () => {
     setMsgState({ type: "waiting", msg: "waitUntil server respond" });
     const result = await blockAccount(data);

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import AccountDetail from "../../../../components/dashboard/accountDetail";
 import Loader from "../../../../components/loader";
 import Message from "../../../../components/message/message";
-import { randomCustomer } from "../../../../sharedData/fakeUsers";
 import mainStore from "../../../../store/mainStore";
 import Flex from "../../../../styles/styledComponents/flex";
 import { MessageType } from "../../../../types/messageType";

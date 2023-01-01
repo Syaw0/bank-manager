@@ -1,8 +1,3 @@
-import {
-  randomCustomer,
-  randomEmployee,
-  randomManager,
-} from "../../sharedData/fakeUsers";
 import useFetch from "../hook/useFetch";
 import transformUserData from "./transformUserData";
 
