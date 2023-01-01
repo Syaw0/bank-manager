@@ -5,12 +5,16 @@ import session from "./sessions.json" assert { type: "json" };
 import { writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import path from "path";
+import dotenv from "dotenv";
+
+dotenv.config();
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const pool = createPool({
-  host: "localhost", // get these from  env vars
-  user: "root",
-  password: "123qaz",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
   database: "bankDb",
 });
 

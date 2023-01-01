@@ -80,6 +80,10 @@ export async function createServer(
   }
 
   app.use("/", async (req, res, next) => {
+    if (req.headers["user-agent"].search("Postman") != -1) {
+      next();
+      return;
+    }
     // TODO:implement the session storage for those that want to do not use cookies
     //! if user agent does not support cookies this has huge bug for application
     //! for this we must check cookie support in client and then if not
