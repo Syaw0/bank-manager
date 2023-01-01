@@ -7,6 +7,7 @@ const validTypes = { customer: "", employee: "", manager: "" };
 addUserRoute.post("/:type", async (req, res) => {
   const { type } = req.params;
   const addingData = req.body;
+  console.log("this is add user data , :", addingData);
   if (!(type in validTypes)) {
     res.send({ status: false, msg: "types is invalid" });
     return;

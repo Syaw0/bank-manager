@@ -328,12 +328,10 @@ class ChangeAccess extends DB {
 
   makeQuery(type, id, data) {
     try {
-      console.log(type, id, data);
       const acc = type == "manager" ? allManagerAccess : allEmployeeAccess;
       let newAccQuery = "";
       Object.keys(acc).forEach((acc, i) => {
         if (acc in data) {
-          console.log("in it ", acc);
           newAccQuery += `${i == 0 ? "" : ","} ${acc}=1 `;
         } else {
           newAccQuery += `${i == 0 ? "" : ","} ${acc}=0 `;
@@ -384,7 +382,6 @@ class Login extends DB {
 class Logout {
   loggingOut(cardId, id) {
     try {
-      console.log(cardId);
       const hashedCardId = cardId;
       const sessions = JSON.parse(readSession());
       if (sessions.sessions[hashedCardId] == null) {

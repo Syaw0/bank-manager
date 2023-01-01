@@ -1,5 +1,7 @@
 import React, { useRef, useState } from "react";
-import { employeeAccess, managerAccess } from "../../fakedata";
+import allAccessibility, {
+  employeeAccessibility,
+} from "../../sharedData/allAccessibility";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
 import { MessageType } from "../../types/messageType";
@@ -18,9 +20,12 @@ const initForm = {
   cardId: "",
   id: "",
   tel: "",
-  initValue: "",
+  amount: "",
+  password: "",
   accessibility: [""],
 };
+
+// TODO Restrict to inputs type!!
 
 const AddNewUser = ({ type }: addNewUser) => {
   const [formData, setFormData] = useState(initForm);
@@ -80,6 +85,9 @@ const AddNewUser = ({ type }: addNewUser) => {
     }
     return true;
   };
+
+  const accessibility: any =
+    type.search("Employee") == -1 ? allAccessibility : employeeAccessibility;
 
   return (
     <Flex
@@ -155,16 +163,27 @@ const AddNewUser = ({ type }: addNewUser) => {
           name="tel"
         />
 
+        <TextInput
+          disabled={false}
+          label="Password"
+          placeholder="enter password of account"
+          dataTestid="dash-add-password"
+          value={formData.password}
+          type="password"
+          onChange={handleForm}
+          name="password"
+        />
+
         {type === "Customer" && (
           <TextInput
             disabled={false}
             label="Initial Value"
             placeholder="enter value ..."
             dataTestid="dash-add-initValue"
-            value={formData.initValue}
+            value={formData.amount}
             type="text"
             onChange={handleForm}
-            name="initValue"
+            name="amount"
           />
         )}
 
@@ -186,13 +205,10 @@ const AddNewUser = ({ type }: addNewUser) => {
               multiple
               size={4}
             >
-              {(type.search("Employee") == -1
-                ? managerAccess
-                : employeeAccess
-              ).map((acc) => {
+              {Object.keys(accessibility).map((acc) => {
                 return (
                   <option key={acc} value={acc}>
-                    {acc}
+                    {accessibility[acc]}
                   </option>
                 );
               })}

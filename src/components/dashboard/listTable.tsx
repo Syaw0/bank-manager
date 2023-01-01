@@ -7,7 +7,6 @@ const ListTable = ({ data, type }: { data: any[]; type: string }) => {
   console.log("list ", data);
   const navigate = useNavigate();
   const openUser = (userData: any) => {
-    console.log(userData);
     mainStore.getState().setCurrentAccountDetail(userData);
     navigate(`/dash/${type.toLowerCase()}s/${userData.id}`, { replace: true });
   };
