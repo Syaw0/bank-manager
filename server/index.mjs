@@ -117,7 +117,11 @@ export async function createServer(
         let hasUserAccess = true;
         Object.keys(urlAccess).forEach((ua) => {
           if (req.originalUrl.search(ua) != -1) {
-            if (data.data[0][urlAccess[ua]] == 0) {
+            console.log(ua, urlAccess[ua], data.data[0]);
+            if (
+              data.data[0][urlAccess[ua]] == 0 ||
+              data.data[0][urlAccess[ua]] == null
+            ) {
               hasUserAccess = false;
             }
           }
@@ -132,6 +136,7 @@ export async function createServer(
         ) {
           hasUserAccess = false;
         }
+        console.log(hasUserAccess);
         if (!hasUserAccess) {
           const validUrls = {
             [`/getUser/${type}/${id}`]: "",
