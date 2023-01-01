@@ -35,12 +35,17 @@ const MakeTransaction = () => {
         return false;
       }
     }
+
     return true;
   };
 
   const performAction = async () => {
     if (!checkInput()) {
       setMsgState({ type: "error", msg: "fill all inputs" });
+      return;
+    }
+    if (formData.destinationAccount === formData.originAccount) {
+      setMsgState({ type: "error", msg: "origin and destination is same" });
       return;
     }
     setMsgState({ type: "waiting", msg: "please wait to server response" });

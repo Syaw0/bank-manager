@@ -54,7 +54,7 @@ const AccountDetail = ({ data, type }: any) => {
   return (
     <Flex
       dir="column"
-      justify="center"
+      justify="start"
       align="center"
       css={{
         padding: "$4 0",
@@ -64,7 +64,7 @@ const AccountDetail = ({ data, type }: any) => {
       <Flex
         dir="column"
         css={{
-          marginTop: "$4",
+          marginTop: "$1",
         }}
       >
         <Text

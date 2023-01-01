@@ -24,4 +24,12 @@ export const transformAccessibilityToChange = (data: any) => {
   return newObj;
 };
 
+export const transformTransactionInformationToNumber = (data: any) => {
+  const newObj: any = {};
+  for (let i in data) {
+    newObj[i] = Number(data[i]);
+  }
+  return newObj;
+};
+
 export default transformUserData;
