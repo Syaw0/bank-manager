@@ -152,7 +152,7 @@ const AccountDetail = ({ data, type }: any) => {
         {type === "customer" && (
           <Flex data-testid="dash-account-items-balance" id="item-holder">
             <Text>Balance</Text>
-            <Text>{data.balance}</Text>
+            <Text>{data.amount}</Text>
           </Flex>
         )}
 

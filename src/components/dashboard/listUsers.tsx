@@ -30,7 +30,7 @@ const ListUser = ({ userList, type }: { userList: any; type: string }) => {
       setMsgState({ type: "waiting", msg: "wait until search finished" });
       setIsReady(false);
       setSearchInp("");
-      const result = await search(searchInp);
+      const result = await search(searchInp, type);
       if (result.status) {
         setMsgState({ type: "idle", msg: result.msg });
         mainStore.getState().setListUser(result.data);
@@ -88,7 +88,7 @@ const ListUser = ({ userList, type }: { userList: any; type: string }) => {
           onKeyDown={startSearch}
           dataTestid="dash-list-search"
           disabled={false}
-          placeholder="search for user"
+          placeholder="Search by card ID"
           css={{
             width: "fit-content",
           }}

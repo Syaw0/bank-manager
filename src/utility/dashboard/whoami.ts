@@ -8,6 +8,9 @@ const whoami = async (): Promise<any> => {
         "Content-Type": "application/json",
       },
     });
+    if (!result.data) {
+      return result;
+    }
     result.data = transformUserData(result.data[0]);
     return result;
   } catch (err) {

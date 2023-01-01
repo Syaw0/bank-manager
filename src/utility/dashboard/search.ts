@@ -1,15 +1,21 @@
-import { searchResult } from "../../sharedData/fakeUsers";
 import useFetch from "../hook/useFetch";
+import transformUserData from "./transformUserData";
 
-const search = async (query: string): Promise<any> => {
+const search = async (query: string, type: string): Promise<any> => {
   try {
-    const result: any = useFetch("", {
-      method: "POST",
-
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ s: "" }),
+    const result: any = await useFetch(
+      `/getUserList/${type.toLocaleLowerCase()}s?sort=${query}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      }
+    );
+    if (!result.data) {
+      return result;
+    }
+    result.data = result.data.map((d: any) => {
+      return transformUserData(d);
     });
     return result;
   } catch (err) {

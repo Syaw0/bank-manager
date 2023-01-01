@@ -87,11 +87,12 @@ class GetUserList extends DB {
     super();
   }
 
-  async getUserList(type) {
+  async getUserList(type, sort) {
     const con = await this.connectToDb();
     let data;
     try {
-      data = await con.query(`SELECT * FROM ${type}`);
+      const sortQuery = sort != null ? `WHERE cardId = ${sort} ` : "";
+      data = await con.query(`SELECT * FROM ${type} ${sortQuery}`);
       if (data && data.length === 0) {
         return { status: false, msg: "cant found anything" };
       }

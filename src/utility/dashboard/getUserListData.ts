@@ -66,7 +66,9 @@ const getManagerList = async () => {
         "Content-Type": "application/json",
       },
     });
-
+    if (!result.data) {
+      return result;
+    }
     result.data = result.data.map((d: any) => {
       return transformUserData(d);
     });

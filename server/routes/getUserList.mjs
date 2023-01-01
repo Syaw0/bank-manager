@@ -5,6 +5,7 @@ const getUserListRoute = express.Router();
 const validTypes = { customers: "", employees: "", managers: "" };
 
 getUserListRoute.get("/:type/", async (req, res) => {
+  const { sort } = req.query;
   const { type } = req.params;
   if (!(type in validTypes)) {
     res.send({ status: false, msg: "selected type is not valid" });
@@ -14,7 +15,7 @@ getUserListRoute.get("/:type/", async (req, res) => {
   let getUserListFromDb = new GetUserList();
   let data;
   try {
-    data = await getUserListFromDb.getUserList(type);
+    data = await getUserListFromDb.getUserList(type, sort);
     res.send(data);
   } catch (err) {
     res.send({
