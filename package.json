@@ -6,11 +6,12 @@
     "dev": " vite",
     "build": " tsc && vite build",
     "preview": "vite preview",
-    "test": "jest --watchAll",
+    "test": "jest ",
     "server:start": "NODE_ENV=production node ./server/index.mjs",
     "server:dev": " nodemon ./server/index.mjs",
-    "build:client": "vite build --outDir dist/client",
-    "build:server": "vite build --outDir dist/server --ssr src/entry-server.tsx"
+    "build:client": "vite build --outDir ./dist/client",
+    "build:server": "vite build --outDir ./dist/server --ssr src/entry-server.tsx",
+    "start": "npm run build:server && npm run build:client && npm run server:start"
   },
   "repository": {
     "type": "git",

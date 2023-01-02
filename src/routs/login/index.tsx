@@ -7,12 +7,14 @@ import Text from "../../styles/styledComponents/text";
 import Button from "../../components/button/button";
 import Message from "../../components/message/message";
 import loginPhase from "../../utility/login/loginPhase";
+import { useNavigate } from "react-router-dom";
 
 type LoginState = {
   type: "idle" | "waiting" | "success" | "error";
   msg: string;
 };
 const Login = () => {
+  const navigate = useNavigate();
   const [loginData, setLoginData] = useState<LoginDataType>({
     username: "",
     password: "",
@@ -36,6 +38,7 @@ const Login = () => {
     const result = await loginPhase(loginData);
     if (result.status) {
       setLoginState({ type: "success", msg: result.msg });
+      navigate(0);
     } else {
       setLoginState({ type: "error", msg: result.msg });
     }

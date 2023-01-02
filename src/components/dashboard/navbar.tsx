@@ -8,7 +8,7 @@ import IconAccount from "../../assest/icons/IconAccount";
 import IconAddAccount from "../../assest/icons/IconAddAccount";
 import IconAccounts from "../../assest/icons/IconAccounts";
 import IconTransaction from "../../assest/icons/IconTransaction";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import IconManager from "../../assest/icons/IconManager";
 import IconAddManager from "../../assest/icons/IconAddManager";
 import mainStore from "../../store/mainStore";
@@ -18,9 +18,13 @@ import logout from "../../utility/dashboard/logout";
 // TODO  to disable and show lock icon on it
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const data = mainStore((state) => state.mainAccount);
   const handlingLogOut = async () => {
     const result = await logout(data.id);
+    if (result.status) {
+      navigate(0);
+    }
   };
   return (
     <Flex

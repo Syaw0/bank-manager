@@ -9,7 +9,6 @@ const useFetch = async (
     const data = await resp.json();
     return data;
   } catch (err: any) {
-    console.log(err);
     return { status: false, msg: "internal error" };
   }
 };

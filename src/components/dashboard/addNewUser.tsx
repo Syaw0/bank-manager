@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
-import allAccessibility, {
+import {
+  allAccessibilityInObj,
   employeeAccessibility,
 } from "../../sharedData/allAccessibility";
 import Flex from "../../styles/styledComponents/flex";
@@ -87,7 +88,9 @@ const AddNewUser = ({ type }: addNewUser) => {
   };
 
   const accessibility: any =
-    type.search("Employee") == -1 ? allAccessibility : employeeAccessibility;
+    type.search("Employee") == -1
+      ? allAccessibilityInObj
+      : employeeAccessibility;
 
   return (
     <Flex

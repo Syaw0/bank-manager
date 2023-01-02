@@ -83,7 +83,6 @@ export async function createServer(
       next();
       return;
     }
-
     //TODO when send some important information dont forget to set cache settings of responses
 
     // TODO:implement the session storage for those that want to do not use cookies
@@ -117,7 +116,6 @@ export async function createServer(
         let hasUserAccess = true;
         Object.keys(urlAccess).forEach((ua) => {
           if (req.originalUrl.search(ua) != -1) {
-            console.log(ua, urlAccess[ua], data.data[0]);
             if (
               data.data[0][urlAccess[ua]] == 0 ||
               data.data[0][urlAccess[ua]] == null
@@ -136,7 +134,6 @@ export async function createServer(
         ) {
           hasUserAccess = false;
         }
-        console.log(hasUserAccess);
         if (!hasUserAccess) {
           const validUrls = {
             [`/getUser/${type}/${id}`]: "",
@@ -165,11 +162,6 @@ export async function createServer(
       }
     }
 
-    next();
-  });
-
-  app.use("/", (req, res, next) => {
-    console.log("go to router and ... ", req.originalUrl);
     next();
   });
 
