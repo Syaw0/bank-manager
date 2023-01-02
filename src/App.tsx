@@ -15,7 +15,6 @@ import Login from "./routs/login";
 import mainStore from "./store/mainStore";
 import globalStyles from "./styles/global";
 import Flex from "./styles/styledComponents/flex";
-import getSpecificUser from "./utility/dashboard/getSpecificUser";
 
 function App() {
   globalStyles();

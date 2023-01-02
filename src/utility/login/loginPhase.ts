@@ -1,5 +1,4 @@
 import { LoginDataType } from "../../types/loginType";
-import baseUrl from "../baseUrl";
 import useFetch from "../hook/useFetch";
 
 export type loginRequestResponse = {
@@ -13,7 +12,7 @@ export default async ({
   isManager,
 }: LoginDataType): Promise<loginRequestResponse> => {
   try {
-    const result: any = await useFetch(baseUrl + "/auth", {
+    const result: any = await useFetch("/auth", {
       method: "POST",
 
       headers: {
