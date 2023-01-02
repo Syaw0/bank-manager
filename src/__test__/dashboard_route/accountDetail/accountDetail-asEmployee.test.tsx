@@ -6,11 +6,17 @@ import App from "../../../App";
 import mainStore from "../../../store/mainStore";
 import { randomCustomer, randomEmployee } from "../../../sharedData/fakeUsers";
 import getSpecificUser from "../../../utility/dashboard/getSpecificUser";
+import whoami from "../../../utility/dashboard/whoami";
 
+jest.mock("../../../utility/dashboard/whoami");
 jest.mock("../../../utility/dashboard/getSpecificUser");
 
 const mockGetSpecificUser = getSpecificUser as jest.Mock;
+const mockWhoami = whoami as jest.Mock;
 
+mockWhoami.mockReturnValue(
+  new Promise((res) => res({ status: true, msg: "", data: randomEmployee }))
+);
 mockGetSpecificUser.mockReturnValue(
   new Promise((res) => {
     return res({ status: true, msg: "", data: randomEmployee });

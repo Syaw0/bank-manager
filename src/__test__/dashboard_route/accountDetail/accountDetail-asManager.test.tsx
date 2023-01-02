@@ -7,11 +7,17 @@ import mainStore from "../../../store/mainStore";
 import { randomEmployee, randomManager } from "../../../sharedData/fakeUsers";
 
 import getSpecificUser from "../../../utility/dashboard/getSpecificUser";
+import whoami from "../../../utility/dashboard/whoami";
 
+jest.mock("../../../utility/dashboard/whoami");
 jest.mock("../../../utility/dashboard/getSpecificUser");
 
 const mockGetSpecificUser = getSpecificUser as jest.Mock;
+const mockWhoami = whoami as jest.Mock;
 
+mockWhoami.mockReturnValue(
+  new Promise((res) => res({ status: true, msg: "", data: randomManager }))
+);
 mockGetSpecificUser.mockReturnValue(
   new Promise((res) => {
     return res({ status: true, msg: "", data: randomManager });
@@ -26,13 +32,15 @@ describe("login as manager and See Account Detail", () => {
   });
 
   it("if user see own account ", async () => {
-    await waitFor(() => {
-      mainStore.getState().setMainAccount(randomManager);
+    await waitFor(() =>
       render(
         <MemoryRouter initialEntries={["/dash/managers/1"]}>
           <App />
         </MemoryRouter>
-      );
+      )
+    );
+    await waitFor(() => {
+      // mainStore.getState().setMainAccount(randomManager);
       let blockBtn: any, changAccessBtn: any, balance: any;
       try {
         blockBtn = screen.getByTestId("dash-account-block-button");
@@ -52,27 +60,32 @@ describe("login as manager and See Account Detail", () => {
       })
     );
 
-    await waitFor(() => {
-      mainStore.getState().setMainAccount(randomManager);
+    await waitFor(() =>
       render(
         <MemoryRouter initialEntries={["/dash/employees/1"]}>
           <App />
         </MemoryRouter>
-      );
-      let blockBtn: any, changAccessBtn: any, balance: any;
+      )
+    );
+
+    await waitFor(() => {
+      let balance: any;
       try {
-        blockBtn = screen.getByTestId("dash-account-block-button");
-        changAccessBtn = screen.getByTestId("dash-account-changeAccess-button");
         balance = screen.getByTestId("dash-account-items-balance");
       } catch (err) {}
-      expect(blockBtn).toBeInTheDocument();
-      expect(changAccessBtn).toBeInTheDocument();
+
       expect(balance).toBeUndefined();
       expect(
-        screen.getByTestId("dash-account-li-Add Customer")
+        screen.getByTestId("dash-account-block-button")
       ).toBeInTheDocument();
       expect(
-        screen.getByTestId("dash-account-li-Make Transaction")
+        screen.getByTestId("dash-account-changeAccess-button")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId("dash-account-li-AddCustomer")
+      ).toBeInTheDocument();
+      expect(
+        screen.getByTestId("dash-account-li-MakeTransaction")
       ).toBeInTheDocument();
     });
   });

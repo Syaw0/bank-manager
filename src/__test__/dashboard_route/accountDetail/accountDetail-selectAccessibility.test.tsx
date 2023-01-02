@@ -6,14 +6,19 @@ import App from "../../../App";
 import mainStore from "../../../store/mainStore";
 import changeAccessibility from "../../../utility/dashboard/changeAccessibility";
 import getSpecificUser from "../../../utility/dashboard/getSpecificUser";
-import { randomEmployee } from "../../../sharedData/fakeUsers";
-
+import { randomEmployee, randomManager } from "../../../sharedData/fakeUsers";
+import whoami from "../../../utility/dashboard/whoami";
+jest.mock("../../../utility/dashboard/whoami");
 jest.mock("../../../utility/dashboard/getSpecificUser");
 jest.mock("../../../utility/dashboard/changeAccessibility");
 
 const mockGetSpecificUser = getSpecificUser as jest.Mock;
 const mockChangeAccessibility = changeAccessibility as jest.Mock;
+const mockWhoami = whoami as jest.Mock;
 
+mockWhoami.mockReturnValue(
+  new Promise((res) => res({ status: true, msg: "", data: randomManager }))
+);
 mockGetSpecificUser.mockReturnValue(
   new Promise((res) => {
     return res({ status: true, msg: "", data: randomEmployee });
@@ -55,6 +60,17 @@ describe("Select Accessibility Component", () => {
   });
 
   it("save and get true result ", async () => {
+    global.window = Object.create(window);
+    const url = "http://dummy.com";
+    Object.defineProperty(window, "location", {
+      value: {
+        href: url,
+        reload() {
+          return "reload";
+        },
+      },
+    });
+
     mockChangeAccessibility.mockReturnValue(
       new Promise((res) => res({ status: true, msg: "" }))
     );

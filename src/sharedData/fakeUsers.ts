@@ -38,7 +38,7 @@ const randomManager = {
     "BlockCustomer",
     "MakeTransaction",
     "AddEmployee",
-    "ChangeAccessibility",
+    "ChangeAccess",
     "AddManager",
     "BlockManager",
     "BlockEmployee",

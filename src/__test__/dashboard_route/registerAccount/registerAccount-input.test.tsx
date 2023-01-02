@@ -6,11 +6,20 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import mainStore from "../../../store/mainStore";
 import register from "../../../utility/dashboard/hireOrRegister";
+import whoami from "../../../utility/dashboard/whoami";
+import { randomManager } from "../../../sharedData/fakeUsers";
 
+jest.mock("../../../utility/dashboard/whoami");
 jest.mock("../../../utility/dashboard/hireOrRegister");
 
+const mockWhoami = whoami as jest.Mock;
 const mockRegister = register as jest.Mock;
 
+mockWhoami.mockReturnValue(
+  new Promise((res) => {
+    return res({ status: true, msg: "", data: randomManager });
+  })
+);
 const initState = mainStore.getState();
 
 describe("Register Account inputs Tests", () => {
@@ -18,27 +27,33 @@ describe("Register Account inputs Tests", () => {
     mainStore.setState(initState, true);
   });
 
-  it("if any inputs are empty error msg show up", () => {
-    render(
-      <MemoryRouter initialEntries={["/dash/addCustomer"]}>
-        <App />
-      </MemoryRouter>
-    );
-    fireEvent.click(screen.getByTestId("dash-add-submit"));
-    expect(screen.getByTestId("error-message")).toBeInTheDocument();
-  });
-
-  describe("when you are in add Customer", () => {
-    beforeEach(() => {
+  it("if any inputs are empty error msg show up", async () => {
+    await waitFor(() =>
       render(
         <MemoryRouter initialEntries={["/dash/addCustomer"]}>
           <App />
         </MemoryRouter>
+      )
+    );
+    await waitFor(() => fireEvent.click(screen.getByTestId("dash-add-submit")));
+    expect(screen.getByTestId("error-message")).toBeInTheDocument();
+  });
+
+  describe("when you are in add Customer", () => {
+    beforeEach(async () => {
+      await waitFor(() =>
+        render(
+          <MemoryRouter initialEntries={["/dash/addCustomer"]}>
+            <App />
+          </MemoryRouter>
+        )
       );
 
-      fireEvent.change(screen.getByTestId("dash-add-name"), {
-        target: { value: "bela" },
-      });
+      await waitFor(() =>
+        fireEvent.change(screen.getByTestId("dash-add-name"), {
+          target: { value: "bela" },
+        })
+      );
       fireEvent.change(screen.getByTestId("dash-add-familyName"), {
         target: { value: "bela" },
       });
@@ -48,6 +63,7 @@ describe("Register Account inputs Tests", () => {
       fireEvent.change(screen.getByTestId("dash-add-telNumber"), {
         target: { value: "bela" },
       });
+
       fireEvent.change(screen.getByTestId("dash-add-initValue"), {
         target: { value: "bela" },
       });
@@ -59,7 +75,9 @@ describe("Register Account inputs Tests", () => {
       );
 
       fireEvent.click(screen.getByTestId("dash-add-submit"));
-      expect(screen.getByTestId("wait-message")).toBeInTheDocument();
+      await waitFor(() =>
+        expect(screen.getByTestId("wait-message")).toBeInTheDocument()
+      );
       await waitFor(() =>
         expect(screen.getByTestId("success-message")).toBeInTheDocument()
       );
@@ -109,31 +127,39 @@ describe("Register Account inputs Tests", () => {
     });
   });
 
-  it("in addManager we dont have initValue input", () => {
-    render(
-      <MemoryRouter initialEntries={["/dash/addManager"]}>
-        <App />
-      </MemoryRouter>
+  it("in addManager we don't have initValue input", async () => {
+    await waitFor(() =>
+      render(
+        <MemoryRouter initialEntries={["/dash/addManager"]}>
+          <App />
+        </MemoryRouter>
+      )
     );
     let initValue;
     try {
       initValue = screen.getByTestId("dash-add-initValue");
     } catch (err) {}
     expect(initValue).toBeUndefined();
-    expect(screen.getByTestId("dash-add-select")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId("dash-add-select")).toBeInTheDocument()
+    );
   });
 
-  it("in addEmployee we dont have initValue input", () => {
-    render(
-      <MemoryRouter initialEntries={["/dash/addEmployee"]}>
-        <App />
-      </MemoryRouter>
+  it("in addEmployee we don't have initValue input", async () => {
+    await waitFor(() =>
+      render(
+        <MemoryRouter initialEntries={["/dash/addEmployee"]}>
+          <App />
+        </MemoryRouter>
+      )
     );
     let initValue;
     try {
       initValue = screen.getByTestId("dash-add-initValue");
     } catch (err) {}
     expect(initValue).toBeUndefined();
-    expect(screen.getByTestId("dash-add-select")).toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.getByTestId("dash-add-select")).toBeInTheDocument()
+    );
   });
 });

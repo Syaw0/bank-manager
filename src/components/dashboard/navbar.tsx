@@ -113,7 +113,6 @@ const Navbar = () => {
                 disabled={data.block === 1}
                 dataTestid="dash-myAccount-manager-button"
                 StartIcon={<IconManager width={20} height={20} />}
-                onClick={() => {}}
               />
             </Link>
 
@@ -193,7 +192,6 @@ const Navbar = () => {
                 type="shadow"
                 dataTestid="dash-myAccount-employee-button"
                 StartIcon={<IconAccount width={16} height={16} />}
-                onClick={() => {}}
               />
             </Link>
           )}

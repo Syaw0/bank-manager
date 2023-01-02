@@ -163,16 +163,18 @@ const AddNewUser = ({ type }: addNewUser) => {
           name="tel"
         />
 
-        <TextInput
-          disabled={false}
-          label="Password"
-          placeholder="enter password of account"
-          dataTestid="dash-add-password"
-          value={formData.password}
-          type="password"
-          onChange={handleForm}
-          name="password"
-        />
+        {type !== "Customer" && (
+          <TextInput
+            disabled={false}
+            label="Password"
+            placeholder="enter password of account"
+            dataTestid="dash-add-password"
+            value={formData.password}
+            type="password"
+            onChange={handleForm}
+            name="password"
+          />
+        )}
 
         {type === "Customer" && (
           <TextInput

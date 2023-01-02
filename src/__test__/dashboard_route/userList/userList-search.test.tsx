@@ -4,15 +4,22 @@ import "@testing-library/jest-dom";
 import { MemoryRouter } from "react-router-dom";
 import App from "../../../App";
 import mainStore from "../../../store/mainStore";
-import { employeeList, randomEmployee } from "../../../sharedData/fakeUsers";
+import {
+  employeeList,
+  randomEmployee,
+  randomManager,
+} from "../../../sharedData/fakeUsers";
 import getUserListData from "../../../utility/dashboard/getUserListData";
 import search from "../../../utility/dashboard/search";
+import whoami from "../../../utility/dashboard/whoami";
 
+jest.mock("../../../utility/dashboard/whoami");
 jest.mock("../../../utility/dashboard/search");
 jest.mock("../../../utility/dashboard/getUserListData");
 
 const mockGetUserListData = getUserListData as jest.Mock;
 const mockSearch = search as jest.Mock;
+const mockWhoami = whoami as jest.Mock;
 
 mockGetUserListData.mockReturnValue(
   new Promise((res) => {
@@ -20,12 +27,26 @@ mockGetUserListData.mockReturnValue(
   })
 );
 
+mockWhoami.mockReturnValue(
+  new Promise((res) => {
+    return res({ status: true, msg: "", data: randomManager });
+  })
+);
+mockSearch.mockResolvedValue(
+  new Promise((res) =>
+    res({
+      status: true,
+      msg: "",
+      data: [randomEmployee, randomEmployee, randomEmployee, randomEmployee],
+    })
+  )
+);
 const initValue = mainStore.getState();
 
 describe("user List Search Input test", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     mainStore.setState(initValue, true);
-    waitFor(() =>
+    await waitFor(() =>
       render(
         <MemoryRouter initialEntries={["/dash/employees"]}>
           <App />
@@ -35,23 +56,11 @@ describe("user List Search Input test", () => {
   });
 
   it("write on search and press Enter", async () => {
-    mockSearch.mockResolvedValue(
-      new Promise((res) =>
-        res({
-          status: true,
-          msg: "",
-          data: [
-            randomEmployee,
-            randomEmployee,
-            randomEmployee,
-            randomEmployee,
-          ],
-        })
-      )
+    await waitFor(() =>
+      fireEvent.change(screen.getByTestId("dash-list-search"), {
+        target: { value: "bela bela" },
+      })
     );
-    fireEvent.change(screen.getByTestId("dash-list-search"), {
-      target: { value: "bela bela" },
-    });
     fireEvent.keyDown(screen.getByTestId("dash-list-search"), {
       key: "Enter",
       code: "Enter",
@@ -72,9 +81,11 @@ describe("user List Search Input test", () => {
         })
       )
     );
-    fireEvent.change(screen.getByTestId("dash-list-search"), {
-      target: { value: "bela bela" },
-    });
+    await waitFor(() =>
+      fireEvent.change(screen.getByTestId("dash-list-search"), {
+        target: { value: "bela bela" },
+      })
+    );
     fireEvent.keyDown(screen.getByTestId("dash-list-search"), {
       key: "Enter",
       code: "Enter",

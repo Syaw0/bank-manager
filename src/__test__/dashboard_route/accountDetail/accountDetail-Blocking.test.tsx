@@ -6,10 +6,10 @@ import App from "../../../App";
 import mainStore from "../../../store/mainStore";
 import blockAccount from "../../../utility/dashboard/blockAccount";
 import unBlockAccount from "../../../utility/dashboard/unBlockAccount";
-
+import whoami from "../../../utility/dashboard/whoami";
 import getSpecificUser from "../../../utility/dashboard/getSpecificUser";
-import { randomEmployee } from "../../../sharedData/fakeUsers";
-
+import { randomEmployee, randomManager } from "../../../sharedData/fakeUsers";
+jest.mock("../../../utility/dashboard/whoami");
 jest.mock("../../../utility/dashboard/getSpecificUser");
 jest.mock("../../../utility/dashboard/blockAccount");
 jest.mock("../../../utility/dashboard/unBlockAccount");
@@ -17,7 +17,11 @@ jest.mock("../../../utility/dashboard/unBlockAccount");
 const mockBlockAccount = blockAccount as jest.Mock;
 const mockUnBlockAccount = unBlockAccount as jest.Mock;
 const mockGetSpecificUser = getSpecificUser as jest.Mock;
+const mockWhoami = whoami as jest.Mock;
 
+mockWhoami.mockReturnValue(
+  new Promise((res) => res({ status: true, msg: "", data: randomManager }))
+);
 mockGetSpecificUser.mockReturnValue(
   new Promise((res) => {
     return res({ status: true, msg: "", data: randomEmployee });
@@ -66,6 +70,16 @@ describe("blocking process", () => {
   // });
 
   it("blocking or unBlocking will successfully with message ", async () => {
+    global.window = Object.create(window);
+    const url = "http://dummy.com";
+    Object.defineProperty(window, "location", {
+      value: {
+        href: url,
+        reload() {
+          return "reload";
+        },
+      },
+    });
     mockBlockAccount.mockReturnValue(
       new Promise((res) => res({ status: true, msg: "" }))
     );

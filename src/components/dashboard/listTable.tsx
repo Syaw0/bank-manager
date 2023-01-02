@@ -4,7 +4,6 @@ import mainStore from "../../store/mainStore";
 import Flex from "../../styles/styledComponents/flex";
 
 const ListTable = ({ data, type }: { data: any[]; type: string }) => {
-  console.log("list ", data);
   const navigate = useNavigate();
   const openUser = (userData: any) => {
     mainStore.getState().setCurrentAccountDetail(userData);
