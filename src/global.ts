@@ -38,13 +38,22 @@ declare global {
 
   interface ButtonType {
     placeholder: string;
-    type: typeof StyledButton[$$StyledComponentProps]["type"];
+    type: (typeof StyledButton)[$$StyledComponentProps]["type"];
     StartIcon?: any;
     EndIcon?: any;
     css?: CustomStitches;
     disabled?: boolean;
     onClick?<T>(...params: T[]): any;
     dataTestid?: string;
-    color?: typeof StyledButton[$$StyledComponentProps]["color"];
+    color?: (typeof StyledButton)[$$StyledComponentProps]["color"];
   }
+
+  interface Manager {}
+
+  interface Employee {}
+  interface Customer {}
+
+  type Users = Customer | Employee | Manager;
+
+  type BankWorkers = Employee | Manager;
 }

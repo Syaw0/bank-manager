@@ -81,7 +81,10 @@ export async function createServer(
 
   app.use("/", async (req, res, next) => {
     // if we use postman for test end points just let it go...
-    if (req.headers["user-agent"].search("Postman") != -1) {
+    if (
+      req.headers["user-agent"] &&
+      req.headers["user-agent"].search("Postman") != -1
+    ) {
       next();
       return;
     }
@@ -91,10 +94,7 @@ export async function createServer(
     //! if user agent does not support cookies this has huge bug for application
     //! for this we must check cookie support in client and then if not
     //! we must implement the session storage For that
-    if (req.originalUrl.search("/assets/") != -1) {
-      next();
-      return;
-    }
+
     const cookie = req.cookies;
     if (!cookie.session) {
       if (req.originalUrl != "/login" && req.originalUrl != "/auth") {
@@ -190,10 +190,10 @@ export async function createServer(
           .render;
       }
 
-      const context = {};
+      const context = { url: "" };
       const appHtml = render(url);
 
-      if (context.url) {
+      if (context.url != "") {
         // Somewhere a `<Redirect>` was rendered
         return res.redirect(301, context.url);
       }

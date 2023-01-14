@@ -5,6 +5,8 @@ export type loginRequestResponse = {
   msg: string;
 };
 
+// Todo Fix this type and move it to the global
+
 export default async ({
   username,
   password,

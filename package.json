@@ -8,6 +8,7 @@
     "build": " tsc && vite build",
     "preview": "vite preview",
     "test": "jest ",
+    "prettier": "npx prettier . -c -w ",
     "server:tsNode": "ts-node --esm -T --project tsconfig.server.json server/index.ts",
     "server:start": "NODE_ENV=production npm run server:tsNode",
     "server:dev": " nodemon",
