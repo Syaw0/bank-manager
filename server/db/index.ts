@@ -1,4 +1,4 @@
-import { createPool } from "mariadb";
+import { createPool, Pool } from "mariadb";
 import crypto from "crypto";
 import { allEmployeeAccess, allManagerAccess } from "./metadata.js";
 import { writeFileSync } from "fs";
@@ -6,10 +6,47 @@ import { fileURLToPath } from "url";
 import path from "path";
 import dotenv from "dotenv";
 import readSession from "./readSession.js";
+import redis from "redis";
 
 dotenv.config();
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const redisInformation = {
+  port: process.env.REDIS_PORT,
+  host: process.env.REDIS_HOST,
+  password: process.env.REDIS_PASSWORD,
+};
+
+const redisClient = redis.createClient({
+  socket: {
+    port: redisInformation.port,
+    host: redisInformation.host,
+  },
+  password: redisInformation.password,
+});
+await redisClient.connect();
+
+export class RedisSingleton {
+  private static instance: RedisSingleton | null = null;
+  private redisClient: typeof redisClient;
+  private constructor() {}
+  static getInstance() {
+    if (RedisSingleton.instance == null) {
+      RedisSingleton.instance = new RedisSingleton();
+    }
+    return RedisSingleton.instance;
+  }
+  setRedisClient(c: any) {
+    console.log(c);
+    this.redisClient = c;
+  }
+  getRedisClient() {
+    return this.redisClient;
+  }
+}
+
+const redisObj = RedisSingleton.getInstance();
+redisObj?.setRedisClient(redisClient);
 
 const pool = createPool({
   host: process.env.DB_HOST,
@@ -28,6 +65,7 @@ export const hash = new Hash();
 // TODO in future i hash password (sign up) in the client...
 
 class DB {
+  pool: Pool;
   constructor() {
     this.pool = pool;
   }
