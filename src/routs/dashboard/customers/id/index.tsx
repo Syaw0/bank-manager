@@ -5,7 +5,6 @@ import Loader from "../../../../components/loader";
 import Message from "../../../../components/message/message";
 import mainStore from "../../../../store/mainStore";
 import Flex from "../../../../styles/styledComponents/flex";
-import { MessageType } from "../../../../types/messageType";
 import getSpecificUser from "../../../../utility/dashboard/getSpecificUser";
 
 const CustomersID = () => {

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import mainStore from "../../store/mainStore";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
-import { MessageType } from "../../types/messageType";
 import getUserListData from "../../utility/dashboard/getUserListData";
 import search from "../../utility/dashboard/search";
 import SearchInput from "../input/searchInput";

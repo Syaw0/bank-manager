@@ -2,8 +2,6 @@ import React from "react";
 import IconSearch from "../../assest/icons/IconSearch";
 import Flex from "../../styles/styledComponents/flex";
 import StyledTextInput from "../../styles/styledComponents/input/styledTextInput";
-import Text from "../../styles/styledComponents/text";
-import { TextInputType } from "../../types/inputType";
 
 const SearchInput = ({
   type,

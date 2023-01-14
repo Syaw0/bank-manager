@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Flex from "../../styles/styledComponents/flex";
 import TextInput from "../../components/input/textInput";
-import { LoginDataType } from "../../types/loginType";
 import IconBank from "../../assest/icons/IconBank";
 import Text from "../../styles/styledComponents/text";
 import Button from "../../components/button/button";

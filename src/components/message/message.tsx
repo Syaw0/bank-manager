@@ -1,5 +1,4 @@
 import React from "react";
-import { MessageType } from "../../types/messageType";
 import ErrorMessage from "./errorMessage";
 import SuccessMessage from "./successMessage";
 import WaitMessage from "./waitMessage";

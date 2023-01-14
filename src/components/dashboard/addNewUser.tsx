@@ -5,7 +5,6 @@ import {
 } from "../../sharedData/allAccessibility";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
-import { MessageType } from "../../types/messageType";
 import register from "../../utility/dashboard/hireOrRegister";
 import Button from "../button/button";
 import TextInput from "../input/textInput";

@@ -6,7 +6,6 @@ import Message from "../../components/message/message";
 import mainStore from "../../store/mainStore";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
-import { MessageType } from "../../types/messageType";
 import whoami from "../../utility/dashboard/whoami";
 import capitalizeFirstLetter from "../../utility/global/capitalizeFirstLetter";
 

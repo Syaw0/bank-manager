@@ -4,7 +4,6 @@ import TextInput from "../../../components/input/textInput";
 import Message from "../../../components/message/message";
 import Flex from "../../../styles/styledComponents/flex";
 import Text from "../../../styles/styledComponents/text";
-import { MessageType } from "../../../types/messageType";
 import performTransaction from "../../../utility/dashboard/performTransaction";
 
 const initState = {

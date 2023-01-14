@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import mainStore from "../../store/mainStore";
 import Flex from "../../styles/styledComponents/flex";
 import Text from "../../styles/styledComponents/text";
-import { MessageType } from "../../types/messageType";
 import blockAccount from "../../utility/dashboard/blockAccount";
 import unBlockAccount from "../../utility/dashboard/unBlockAccount";
 import capitalizeFirstLetter from "../../utility/global/capitalizeFirstLetter";
