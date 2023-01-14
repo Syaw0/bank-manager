@@ -1,11 +1,11 @@
 import { createPool } from "mariadb";
 import crypto from "crypto";
-import { allEmployeeAccess, allManagerAccess } from "./metadata.mjs";
+import { allEmployeeAccess, allManagerAccess } from "./metadata.js";
 import { writeFileSync } from "fs";
 import { fileURLToPath } from "url";
 import path from "path";
 import dotenv from "dotenv";
-import readSession from "./readSession.mjs";
+import readSession from "./readSession.js";
 
 dotenv.config();
 

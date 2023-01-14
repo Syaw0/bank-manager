@@ -1,5 +1,5 @@
 import express from "express";
-import { MakeTransaction } from "../db/index.mjs";
+import { MakeTransaction } from "../db/index.js";
 
 const makeTransactionRoute = express.Router();
 

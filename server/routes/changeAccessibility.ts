@@ -1,5 +1,5 @@
 import express from "express";
-import { ChangeAccess } from "../db/index.mjs";
+import { ChangeAccess } from "../db/index.js";
 const validTypes = { manager: "", employee: "" };
 
 const changeAccessibilityRoute = express.Router();

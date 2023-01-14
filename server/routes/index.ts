@@ -1,13 +1,13 @@
 import express from "express";
-import addUserRoute from "./addUser.mjs";
-import blockRoute from "./blockAccount.mjs";
-import changeAccessibilityRoute from "./changeAccessibility.mjs";
-import getUserRoute from "./getUser.mjs";
-import getUserListRoute from "./getUserList.mjs";
-import jsRoute from "./js.mjs";
-import loginRoute from "./login.mjs";
-import logoutRoute from "./logout.mjs";
-import makeTransactionRoute from "./makeTransaction.mjs";
+import addUserRoute from "./addUser.js";
+import blockRoute from "./blockAccount.js";
+import changeAccessibilityRoute from "./changeAccessibility.js";
+import getUserRoute from "./getUser.js";
+import getUserListRoute from "./getUserList.js";
+import jsRoute from "./js.js";
+import loginRoute from "./login.js";
+import logoutRoute from "./logout.js";
+import makeTransactionRoute from "./makeTransaction.js";
 const router = express.Router();
 
 router.use("/assets", jsRoute);
@@ -19,4 +19,5 @@ router.use("/block", blockRoute);
 router.use("/changeAccess", changeAccessibilityRoute);
 router.use("/auth", loginRoute);
 router.use("/logout", logoutRoute);
+
 export default router;

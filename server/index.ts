@@ -2,13 +2,13 @@ import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import express from "express";
-import router from "./routes/index.mjs";
 import cors from "cors";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import checkSession from "./util/checkSession.mjs";
-import { GetUser } from "./db/index.mjs";
-import { urlAccess } from "./util/urlAccess.mjs";
+import checkSession from "./util/checkSession.js";
+import { GetUser } from "./db/index.js";
+import { urlAccess } from "./util/urlAccess.js";
+import router from "./routes/index.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -184,7 +184,7 @@ export async function createServer(
       } else {
         template = indexProd;
         // @ts-ignore
-        render = (await import(__dirname + "/../dist/server/entry-server.mjs"))
+        render = (await import(__dirname + "/../dist/server/entry-server.js"))
           .render;
       }
 

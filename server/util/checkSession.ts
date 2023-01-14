@@ -1,4 +1,4 @@
-import readSession from "../db/readSession.mjs";
+import readSession from "../db/readSession.js";
 import sessions from "../db/sessions.json" assert { type: "json" };
 
 const checkSession = (sessionCookie) => {

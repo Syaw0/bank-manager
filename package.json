@@ -1,14 +1,16 @@
 {
   "name": "bank-manager",
   "version": "0.0.1",
+  "type": "module",
   "description": "Simple api for employees of bank to interact with DB",
   "scripts": {
     "dev": " vite",
     "build": " tsc && vite build",
     "preview": "vite preview",
     "test": "jest ",
-    "server:start": "NODE_ENV=production node ./server/index.mjs",
-    "server:dev": " nodemon ./server/index.mjs",
+    "server:tsNode": "ts-node --esm -T --project tsconfig.server.json server/index.ts",
+    "server:start": "NODE_ENV=production npm run server:tsNode",
+    "server:dev": " nodemon",
     "build:client": "vite build --outDir ./dist/client",
     "build:server": "vite build --outDir ./dist/server --ssr src/entry-server.tsx",
     "start": "npm run build:server && npm run build:client && npm run server:start"
@@ -57,5 +59,12 @@
     "bank manager"
   ],
   "author": "Syaw",
-  "license": "ISC"
+  "license": "ISC",
+  "nodemonConfig": {
+    "watch": [
+      "server/**/*"
+    ],
+    "ext": "*.ts",
+    "exec": "npm run server:tsNode"
+  }
 }

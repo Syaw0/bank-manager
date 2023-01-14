@@ -1,5 +1,5 @@
 import express from "express";
-import { GetUser } from "../db/index.mjs";
+import { GetUser } from "../db/index.js";
 
 const getUserRoute = express.Router();
 const validTypes = { customer: "", employee: "", manager: "" };

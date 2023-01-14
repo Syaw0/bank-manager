@@ -1,5 +1,5 @@
 import express from "express";
-import { hash, Login } from "../db/index.mjs";
+import { hash, Login } from "../db/index.js";
 const loginRoute = express.Router();
 
 loginRoute.post("/", async (req, res) => {

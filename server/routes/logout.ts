@@ -1,5 +1,5 @@
 import express from "express";
-import { Logout } from "../db/index.mjs";
+import { Logout } from "../db/index.js";
 
 const logoutRoute = express.Router();
 

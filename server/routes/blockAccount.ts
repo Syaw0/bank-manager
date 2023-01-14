@@ -1,5 +1,5 @@
 import express from "express";
-import { BlockAccount } from "../db/index.mjs";
+import { BlockAccount } from "../db/index.js";
 
 const blockRoute = express.Router();
 
