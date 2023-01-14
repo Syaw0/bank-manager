@@ -1,4 +1,3 @@
-import { LoginDataType } from "../../types/loginType";
 import useFetch from "../hook/useFetch";
 
 export type loginRequestResponse = {

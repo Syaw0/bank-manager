@@ -1,5 +1,4 @@
 import React from "react";
-import IconType from "../../types/iconType";
 
 const IconManager = ({ height, width }: IconType) => {
   return (

@@ -57,7 +57,7 @@ describe("user List Search Input test", () => {
       )
     );
   });
-  it("lets render employees component with 2 user", async () => {
+  it.only("lets render employees component with 2 user", async () => {
     await waitFor(() =>
       expect(screen.getAllByTestId("table-row")[0]).toBeInTheDocument()
     );

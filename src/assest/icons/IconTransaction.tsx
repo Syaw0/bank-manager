@@ -1,5 +1,4 @@
 import React from "react";
-import IconType from "../../types/iconType";
 
 const IconTransaction = ({ height, width }: IconType) => {
   return (

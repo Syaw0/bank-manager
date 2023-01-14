@@ -1,5 +1,4 @@
 import React from "react";
-import IconType from "../../types/iconType";
 
 const IconBank = ({ height, width }: IconType) => {
   return (
