@@ -30,6 +30,7 @@ export async function createServer(
     : "";
 
   const app = express();
+  app.use(express.static("dist/client"));
   app.use(
     cors({
       allowedHeaders: "*",
@@ -79,6 +80,7 @@ export async function createServer(
   }
 
   app.use("/", async (req, res, next) => {
+    // if we use postman for test end points just let it go...
     if (req.headers["user-agent"].search("Postman") != -1) {
       next();
       return;
