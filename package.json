@@ -14,7 +14,8 @@
     "server:dev": " nodemon",
     "build:client": "vite build --outDir ./dist/client",
     "build:server": "vite build --outDir ./dist/server --ssr src/entry-server.tsx",
-    "start": "npm run build:server && npm run build:client && npm run server:start"
+    "start": "npm run build:server && npm run build:client && npm run server:start",
+    "compose": "docker compose up"
   },
   "repository": {
     "type": "git",
